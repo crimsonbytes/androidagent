@@ -14,7 +14,7 @@
   <img src="docs/images/redesign-terminal.png" width="190" alt="Embedded terminal running Python and Node.js with ANSI colours" />
 </p>
 
-An independent community fork of [Buddy](https://github.com/ghorbelhamdi/buddy-android). It is not an official OpenAI or Anthropic application. The application UI is in Polish; project documentation is in English. See the [screenshot gallery](docs/SCREENSHOTS.md).
+An independent community fork of [Buddy](https://github.com/ghorbelhamdi/buddy-android). It is not an official OpenAI or Anthropic application. This `english` branch has the application UI translated to English (upstream it is in Polish); project documentation is in English. A few Docker VM boot messages are still in Polish. See the [screenshot gallery](docs/SCREENSHOTS.md).
 
 ## Install
 

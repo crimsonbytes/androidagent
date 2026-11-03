@@ -76,6 +76,17 @@ jobs:
           echo "ANDROIDAGENT_EMBEDDED_INSTRUMENTATION_COMMIT=$GITHUB_SHA" >> "$GITHUB_ENV"
           sudo chmod 666 /dev/kvm
           bash tools/ci-android-sdk.sh 'platforms;android-36' 'build-tools;35.0.0' 'platform-tools' 'ndk;29.0.14206865' 'emulator' 'system-images;android-${{ matrix.api }};google_apis;x86_64'
+      # Termux deletes old package versions from packages.termux.dev, so pinned downloads
+      # start returning 404 within days. Keep every pinned download (verified by SHA256
+      # in the scripts) for as long as its lock is unchanged.
+      - name: Restore pinned runtime downloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            build-runtime/terminal/*/*.deb
+            build-runtime/terminal/*/bootstrap.zip
+            build-runtime/qemu/*/*.deb
+          key: runtime-pins-${{ hashFiles('terminal/runtime-lock.json', 'docker/qemu-lock.json') }}
       - name: Prepare embedded terminal and Docker runtimes
         run: |
           sudo apt-get update

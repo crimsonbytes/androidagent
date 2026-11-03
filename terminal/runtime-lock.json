@@ -2,7 +2,7 @@
   "version": 1,
   "prefix": "/data/data/com.termux/files/usr",
   "bootstrap_release": "bootstrap-2026.11.01-r1+apt.android-7",
-  "recipes_commit": "9960bff8500e0be59b11a6364d257180c3171696",
+  "recipes_commit": "78dd249cf22c2e283696c902dcb9c3d7783f5862",
   "requested_packages": [
     "bash",
     "coreutils",
@@ -491,9 +491,9 @@
           ]
         },
         "python-pip": {
-          "version": "26.2.2-2",
-          "filename": "pool/main/p/python-pip/python-pip_26.2.2-2_all.deb",
-          "sha256": "23ed8ac9de43feaf0e2171451a3e6cc3cccedc32e90c01c894489babe078e6a2",
+          "version": "26.3",
+          "filename": "pool/main/p/python-pip/python-pip_26.3_all.deb",
+          "sha256": "6a2f99ae2e57c636f4e92426884b7c4e074e60d5784c7e74dcf9782b8dca2492",
           "depends": [
             "ca-certificates",
             "python"
@@ -639,7 +639,7 @@
           ]
         }
       },
-      "package_index_sha256": "77217ba294101d7cb483336f4fc20417d1551cba4b31cc8aeb243227c07baf4f",
+      "package_index_sha256": "7c3b129287e10b4a30efcd55b6108346a7d146dcdbc2e2f7a4b69dfa6527de77",
       "musl": {
         "musl": {
           "version": "1.2.5-r24",
@@ -1134,9 +1134,9 @@
           ]
         },
         "python-pip": {
-          "version": "26.2.2-2",
-          "filename": "pool/main/p/python-pip/python-pip_26.2.2-2_all.deb",
-          "sha256": "23ed8ac9de43feaf0e2171451a3e6cc3cccedc32e90c01c894489babe078e6a2",
+          "version": "26.3",
+          "filename": "pool/main/p/python-pip/python-pip_26.3_all.deb",
+          "sha256": "6a2f99ae2e57c636f4e92426884b7c4e074e60d5784c7e74dcf9782b8dca2492",
           "depends": [
             "ca-certificates",
             "python"
@@ -1282,7 +1282,7 @@
           ]
         }
       },
-      "package_index_sha256": "b471ba5a545b29d7803f17d59bc1e4a9c415bdb80014d0cb21f1cf5a2c3f4aba",
+      "package_index_sha256": "fa546947dd3e2d23824ee6edd46490ca3c3a75a67e586464dd3725f5ecf6896b",
       "musl": {
         "musl": {
           "version": "1.2.5-r24",

@@ -1,0 +1,5 @@
+OK runtime
+OK home
+OK chat
+OK services
+OK terminal

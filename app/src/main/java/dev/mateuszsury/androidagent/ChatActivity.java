@@ -101,17 +101,17 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         // header: back, title with the model chip under it, remote control and read-aloud
         ImageButton rc = null;
         if ("claude".equals(ses.backend)) {
-            rc = iconButton(this, R.drawable.ic_remote, "Kontynuuj w aplikacji Claude", MUTED);
+            rc = iconButton(this, R.drawable.ic_remote, "Continue in the Claude app", MUTED);
             rc.setLayoutParams(new LinearLayout.LayoutParams(dp(this, 44), dp(this, 44)));
             rc.setOnClickListener(v -> handoff());
         }
-        speaker = iconButton(this, R.drawable.ms_volume_off, "Czytaj odpowiedzi", MUTED);
+        speaker = iconButton(this, R.drawable.ms_volume_off, "Read replies aloud", MUTED);
         speaker.setLayoutParams(new LinearLayout.LayoutParams(dp(this, 44), dp(this, 44)));
         speaker.setOnClickListener(v -> {
             Prefs.setSpeakReplies(this, !Prefs.speakReplies(this));
             if (!Prefs.speakReplies(this)) Voice.stopSpeaking();
-            Toast.makeText(this, Prefs.speakReplies(this) ? "Odpowiedzi będą czytane na głos"
-                    : "Odpowiedzi nie będą czytane na głos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, Prefs.speakReplies(this) ? "Replies will be read aloud"
+                    : "Replies will not be read aloud", Toast.LENGTH_SHORT).show();
             refresh();
         });
         LinearLayout top = topBar(this, displayTitle(), null, rc, speaker);
@@ -119,7 +119,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         title.setTextSize(17);
         LinearLayout chip = chip(this, "");
         chipText = (TextView) chip.getChildAt(0);
-        chip.setContentDescription("Wybierz model");
+        chip.setContentDescription("Choose model");
         chip.setOnClickListener(v -> chooseModel());
         Motion.press(chip);
         LinearLayout.LayoutParams cp = wrap();
@@ -168,7 +168,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         stopLabel.setTypeface(mono(this, 600));
         stopLabel.setPadding(dp(this, 4), 0, 0, 0);
         stop.addView(stopLabel);
-        stop.setContentDescription("Zatrzymaj");
+        stop.setContentDescription("Stop");
         stop.setClickable(true);
         stop.setFocusable(true);
         stop.setOnClickListener(v -> hub.stop(ses));
@@ -180,7 +180,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         root.addView(working, full());
 
         // composer
-        importStatus = monoText(this, "Importowanie załączników…", 12, FAINT);
+        importStatus = monoText(this, "Importing attachments…", 12, FAINT);
         importStatus.setPadding(dp(this, 18), dp(this, 6), dp(this, 18), dp(this, 2));
         importStatus.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);
         root.addView(importStatus, full());
@@ -222,18 +222,18 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         input.setImeOptions(android.view.inputmethod.EditorInfo.IME_FLAG_NO_FULLSCREEN
                 | android.view.inputmethod.EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         composer.addView(input, weight1());
-        ImageButton attach = iconButton(this, R.drawable.ms_attach_file, "Dodaj zdjęcie lub plik", MUTED);
+        ImageButton attach = iconButton(this, R.drawable.ms_attach_file, "Add photo or file", MUTED);
         attach.setOnClickListener(v -> attachSheet());
         composer.addView(attach, bottomAligned(40, 40, 0, 3));
         mic = button(this, "", false);
-        mic.setContentDescription("Dyktuj");
+        mic.setContentDescription("Dictate");
         mic.setOnClickListener(v -> toggleMic());
         LinearLayout.LayoutParams mp = bottomAligned(-1, 40, 0, 3);
         composer.addView(mic, mp);
         micIdle();
         send = new ImageButton(this);
         send.setImageResource(R.drawable.ms_arrow_upward);
-        send.setContentDescription("Wyślij");
+        send.setContentDescription("Send");
         send.setScaleType(ImageView.ScaleType.CENTER);
         send.setBackground(oval(CARD2));
         send.setOnClickListener(v -> send());
@@ -263,7 +263,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         hint.setPadding(dp(this, 18), dp(this, 6), dp(this, 18), dp(this, 10));
         hintText = single(monoText(this, "", 11, FAINT));
         hint.addView(hintText, weight1());
-        devHint = single(monoText(this, "›› tryb deweloperski", 11, INFO));
+        devHint = single(monoText(this, "›› developer mode", 11, INFO));
         hint.addView(devHint);
         root.addView(hint, full());
 
@@ -283,7 +283,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
             if (retained != draftImports && restored != null) pending.addAll(restored);
             if (!state.getBoolean("scroll_at_end", true)) restoreScrollY = state.getInt("scroll_y");
             if (retained != draftImports && state.getBoolean("importing"))
-                Toast.makeText(this, "Import został przerwany. Wybierz niedodane pliki ponownie.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Import was interrupted. Select the files that were not added again.", Toast.LENGTH_LONG).show();
         }
         renderTray();
         String draft = getIntent().getStringExtra("draft");
@@ -367,15 +367,15 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
     // ------------------------------------------------------------------ labels
 
     private String displayTitle() {
-        return ses.title.isEmpty() ? "Nowa rozmowa" : ses.title;
+        return ses.title.isEmpty() ? "New chat" : ses.title;
     }
 
     private String modelLabel() {
-        return ses.model.isEmpty() ? "domyślny model" : Models.label(ses.backend, ses.model);
+        return ses.model.isEmpty() ? "default model" : Models.label(ses.backend, ses.model);
     }
 
     private String composerHint() {
-        return "Napisz do " + ses.brainName() + "…";
+        return "Message " + ses.brainName() + "…";
     }
 
     // ------------------------------------------------------------------ composer
@@ -490,12 +490,12 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
 
     /** Opens this chat in the embedded terminal with Remote Control for this session only. */
     private void handoff() {
-        confirmSheet(this, "Kontynuować w aplikacji Claude?",
-                "Otwiera tę rozmowę we wbudowanym terminalu z Remote Control dla tej sesji. "
-                        + "Możesz kontynuować ją w oficjalnej aplikacji Claude. Dostępność zależy od konta. Wpisz /exit, aby zakończyć.",
-                "Otwórz", false, () -> {
+        confirmSheet(this, "Continue in the Claude app?",
+                "Opens this chat in the built-in terminal with Remote Control for this session. "
+                        + "You can continue it in the official Claude app. Availability depends on your account. Type /exit to finish.",
+                "Open", false, () -> {
                     if (ses.running) {
-                        Toast.makeText(this, "Ta rozmowa wciąż pracuje. Najpierw ją zatrzymaj.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "This chat is still working. Stop it first.", Toast.LENGTH_LONG).show();
                         return;
                     }
                     try {
@@ -513,7 +513,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         TextView h = title(this, "Model " + ses.brainName(), 18);
         h.setAccessibilityHeading(true);
         c.addView(h);
-        TextView sub = text(this, "Wybór dla tej rozmowy. Dostępność modeli zależy od Twojego konta.", 13, MUTED);
+        TextView sub = text(this, "Applies to this chat. Model availability depends on your account.", 13, MUTED);
         sub.setPadding(0, dp(this, 4), 0, dp(this, 12));
         c.addView(sub);
         final Dialog[] d = new Dialog[1];
@@ -528,10 +528,10 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
             r.addView(radio(on));
             LinearLayout t = column(this);
             t.setPadding(dp(this, 14), 0, 0, 0);
-            TextView name = title(this, o[0].isEmpty() ? "Domyślny" : o[1], 15);
+            TextView name = title(this, o[0].isEmpty() ? "Default" : o[1], 15);
             name.setTypeface(sans(this, on ? 600 : 500));
             t.addView(name);
-            TextView id = single(monoText(this, o[0].isEmpty() ? "model domyślny agenta" : o[0], 12, on ? ACCENT_TEXT : FAINT));
+            TextView id = single(monoText(this, o[0].isEmpty() ? "agent's default model" : o[0], 12, on ? ACCENT_TEXT : FAINT));
             id.setPadding(0, dp(this, 2), 0, 0);
             t.addView(id);
             r.addView(t, weight1());
@@ -543,17 +543,17 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
             rp.bottomMargin = dp(this, 4);
             c.addView(r, rp);
         }
-        TextView label = monoText(this, "INNY MODEL", 11, FAINT);
+        TextView label = monoText(this, "OTHER MODEL", 11, FAINT);
         label.setTypeface(mono(this, 600));
         label.setLetterSpacing(0.1f);
         label.setPadding(dp(this, 2), dp(this, 14), 0, dp(this, 8));
         c.addView(label);
         LinearLayout other = row(this);
-        final EditText et = input(this, "Nazwa modelu z Twojego konta…", true);
+        final EditText et = input(this, "Model name from your account…", true);
         et.setSingleLine(true);
         if (!known) et.setText(ses.model);
         other.addView(et, weight1());
-        Button use = button(this, "Wybierz", true);
+        Button use = button(this, "Select", true);
         LinearLayout.LayoutParams up = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, dp(this, 46));
         up.leftMargin = dp(this, 8);
         other.addView(use, up);
@@ -616,14 +616,14 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         mic.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ms_mic, 0, 0, 0);
         mic.setCompoundDrawableTintList(ColorStateList.valueOf(ON_ACCENT));
         mic.setCompoundDrawablePadding(dp(this, 4));
-        mic.setText("Słucham…");
+        mic.setText("Listening…");
         mic.setTypeface(mono(this, 600));
         mic.setTextSize(12);
         mic.setTextColor(ON_ACCENT);
         mic.setPadding(dp(this, 10), 0, dp(this, 12), 0);
         mic.setBackground(rounded(this, ACCENT, 20));
         Motion.pop(mic, 0);
-        input.setHint("Mów teraz…");
+        input.setHint("Speak now…");
     }
 
     private void micIdle() {
@@ -654,7 +654,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         speaker.setImageTintList(ColorStateList.valueOf(speak ? ACCENT_TEXT : MUTED));
         setChanged(title, displayTitle());
         boolean dev = Prefs.devMode(this);
-        String chipLabel = ses.brainName() + " · " + (ses.model.isEmpty() ? "domyślny" : Models.label(ses.backend, ses.model));
+        String chipLabel = ses.brainName() + " · " + (ses.model.isEmpty() ? "default" : Models.label(ses.backend, ses.model));
         if (!(chipLabel + (dev ? " · dev" : "")).contentEquals(chipText.getText())) {
             SpannableStringBuilder sb = new SpannableStringBuilder(chipLabel);
             if (dev) {
@@ -732,7 +732,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
             removeWelcome();
             boolean follow = nearEnd();
             streamingContent = new Markdown.Content(this);
-            streamingContent.setContentDescription("Odpowiedź na żywo");
+            streamingContent.setContentDescription("Live response");
             streamingRow = new ChatRows.Gutter(this, new Dot(this, TEXT));
             streamingRow.body.addView(streamingContent, full());
             messages.addView(streamingRow, spacing(Bubble.Kind.BUDDY));
@@ -787,10 +787,10 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
      * line must not be able to grey out its own first part.
      */
     private void showApproval(String ask, boolean isCommand, int framing, final String commandId) {
-        LinearLayout card = terminalBox(this, "Wymaga zgody", WARN);
+        LinearLayout card = terminalBox(this, "Needs approval", WARN);
         LinearLayout hr = row(this);
         hr.addView(icon(this, R.drawable.ms_shield_person, WARN, 18));
-        TextView lab = title(this, isCommand ? "Komenda do uruchomienia" : "Prośba agenta", 15);
+        TextView lab = title(this, isCommand ? "Command to run" : "Agent request", 15);
         lab.setPadding(dp(this, 8), 0, 0, 0);
         hr.addView(lab, weight1());
         card.addView(hr);
@@ -817,14 +817,14 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         wp.topMargin = dp(this, 10);
         wp.bottomMargin = dp(this, 12);
         card.addView(details, wp);
-        TextView question = title(this, "Czy kontynuować?", 14);
+        TextView question = title(this, "Continue?", 14);
         question.setPadding(0, 0, 0, dp(this, 10));
         card.addView(question);
         LinearLayout btns = row(this);
-        Button deny = button(this, "Odrzuć", false);
+        Button deny = button(this, "Deny", false);
         deny.setTextColor(ERR);
         deny.setBackground(outlined(this, ERR_SOFT, 10, Theme.withAlpha(ERR, 0x40), 1));
-        Button ok = button(this, "Zatwierdź", true);
+        Button ok = button(this, "Approve", true);
         btns.addView(deny, new LinearLayout.LayoutParams(0, dp(this, 44), 1));
         LinearLayout.LayoutParams op = new LinearLayout.LayoutParams(0, dp(this, 44), 1);
         op.leftMargin = dp(this, 10);
@@ -856,15 +856,15 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
 
     private void attachSheet() {
         LinearLayout c = column(this);
-        TextView h = title(this, "Dodaj załącznik", 18);
+        TextView h = title(this, "Add attachment", 18);
         h.setAccessibilityHeading(true);
         h.setPadding(0, 0, 0, dp(this, 8));
         c.addView(h);
         final Dialog[] d = new Dialog[1];
         Object[][] opts = {
-                {R.drawable.ms_photo_camera, "Zrób zdjęcie", "Otwórz aparat"},
-                {R.drawable.ms_image, "Zdjęcia", "Wybierz z galerii"},
-                {R.drawable.ms_description, "Pliki", "Dokumenty i inne pliki do 25 MB"},
+                {R.drawable.ms_photo_camera, "Take photo", "Open camera"},
+                {R.drawable.ms_image, "Photos", "Choose from gallery"},
+                {R.drawable.ms_description, "Files", "Documents and other files up to 25 MB"},
         };
         for (int i = 0; i < opts.length; i++) {
             final int which = i;
@@ -893,7 +893,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
 
     private void pick(int which) {
         if (draftImports.importing) {
-            Toast.makeText(this, "Poczekaj na zakończenie importu załączników.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Wait for attachments to finish importing.", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
@@ -922,7 +922,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
                 startActivityForResult(i, REQ_FILES);
             }
         } catch (android.content.ActivityNotFoundException e) {
-            Toast.makeText(this, "Żadna aplikacja na tym telefonie tego nie obsługuje.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No app on this phone can handle this.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -957,7 +957,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
             x.setScaleType(ImageView.ScaleType.FIT_CENTER);
             x.setPadding(dp(this, 3), dp(this, 3), dp(this, 3), dp(this, 3));
             x.setBackground(oval(0xB3000000));
-            x.setContentDescription("Usuń załącznik");
+            x.setContentDescription("Remove attachment");
             x.setOnClickListener(v -> {
                 pending.remove(id);
                 renderTray();
@@ -1071,7 +1071,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         try {
             startActivity(i);
         } catch (Exception e) {
-            Toast.makeText(this, "Żadna aplikacja nie otworzy pliku " + Attachments.name(id) + ".", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No app can open the file " + Attachments.name(id) + ".", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1209,17 +1209,17 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         t.setPadding(dp(this, 10), 0, 0, 0);
         head.addView(t);
         box.addView(head);
-        TextView sub = text(this, "W czym mogę pomóc?", 14, MUTED);
+        TextView sub = text(this, "How can I help?", 14, MUTED);
         sub.setPadding(dp(this, 30), dp(this, 2), 0, dp(this, 14));
         box.addView(sub);
         Object[][] tips = {
-                {"/status", " — stan telefonu", (Runnable) () -> {
+                {"/status", " — phone status", (Runnable) () -> {
                     input.setText("/status");
                     input.setSelection(input.length());
                     input.requestFocus();
                 }},
-                {"", "Dołącz zdjęcie lub plik", (Runnable) this::attachSheet},
-                {"", "Agent może sterować telefonem", null},
+                {"", "Attach photo or file", (Runnable) this::attachSheet},
+                {"", "The agent can control the phone", null},
         };
         for (Object[] tip : tips) {
             SpannableStringBuilder sb = new SpannableStringBuilder((String) tip[0]);
@@ -1243,7 +1243,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
         rp.leftMargin = dp(this, 30);
         box.addView(rule, rp);
         TextView model = single(monoText(this, "model: " + modelLabel().toLowerCase(java.util.Locale.ROOT)
-                + (Prefs.devMode(this) ? " · tryb deweloperski" : ""), 11, FAINT));
+                + (Prefs.devMode(this) ? " · developer mode" : ""), 11, FAINT));
         model.setPadding(dp(this, 30), 0, 0, 0);
         box.addView(model, full());
         LinearLayout.LayoutParams bp = full();
@@ -1266,7 +1266,7 @@ public class ChatActivity extends Screen implements ChatHub.Listener {
 
     private void copy(String text) {
         getSystemService(ClipboardManager.class).setPrimaryClip(ClipData.newPlainText("androidagent", text));
-        Toast.makeText(this, "Skopiowano", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show();
     }
 
     // ------------------------------------------------------------------ scrolling

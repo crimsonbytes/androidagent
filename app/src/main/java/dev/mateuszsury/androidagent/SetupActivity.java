@@ -24,12 +24,12 @@ import static dev.mateuszsury.androidagent.Ui.*;
 
 /** Settings: embedded environment, account state and the existing appearance preferences. */
 public class SetupActivity extends Screen {
-    private static final String[][] MODES = {{"system", "Systemowy"}, {"light", "Jasny"}, {"dark", "Ciemny"}};
-    private static final String[][] SURFACES = {{"warm", "Ciepła"}, {"neutral", "Neutralna"}, {"black", "Czarna"}};
+    private static final String[][] MODES = {{"system", "System"}, {"light", "Light"}, {"dark", "Dark"}};
+    private static final String[][] SURFACES = {{"warm", "Warm"}, {"neutral", "Neutral"}, {"black", "Black"}};
     /** Polish names for {@link Theme#ACCENTS}, by hex. */
     private static final String[][] ACCENT_NAMES = {
-            {"#D97757", "Koralowy"}, {"#4F8BFF", "Oceaniczny"}, {"#3FB98A", "Miętowy"},
-            {"#9A7CFF", "Fioletowy"}, {"#E5678F", "Różany"}, {"#E0A43A", "Bursztynowy"},
+            {"#D97757", "Coral"}, {"#4F8BFF", "Ocean"}, {"#3FB98A", "Mint"},
+            {"#9A7CFF", "Violet"}, {"#E5678F", "Rose"}, {"#E0A43A", "Amber"},
     };
 
     private ScrollView scroll;
@@ -51,7 +51,7 @@ public class SetupActivity extends Screen {
         LinearLayout root = column(this);
         root.setBackgroundColor(BG);
         root.setFitsSystemWindows(true);
-        root.addView(RootHeader.build(this, "Ustawienia", "środowisko · konto · wygląd"), full());
+        root.addView(RootHeader.build(this, "Settings", "environment · account · appearance"), full());
         scroll = new ScrollView(this);
         scroll.setVerticalScrollBarEnabled(false);
         list = column(this);
@@ -139,8 +139,8 @@ public class SetupActivity extends Screen {
         int scrollY = scroll.getScrollY();
         list.removeAllViews();
 
-        TextView intro = text(this, "Codex z kontem ChatGPT lub Claude Code z kontem Claude. Oficjalni klienci działają "
-                + "we wbudowanym środowisku na tym telefonie.", 14, MUTED);
+        TextView intro = text(this, "Codex with a ChatGPT account or Claude Code with a Claude account. The official clients run "
+                + "in the built-in environment on this phone.", 14, MUTED);
         intro.setLineSpacing(dp(this, 2), 1f);
         intro.setPadding(dp(this, 20), dp(this, 14), dp(this, 20), dp(this, 2));
         list.addView(intro, full());
@@ -157,82 +157,82 @@ public class SetupActivity extends Screen {
         Step[] steps = new Step[5];
 
         String environment = runtime.ready()
-                ? "Terminal, pliki i most narzędzi są dostępne w androidagent. Nie potrzebujesz osobnej aplikacji Termux."
+                ? "Terminal, files and the tool bridge are available in androidagent. You don't need a separate Termux app."
                 : runtime.busy() ? runtime.status() + " · " + runtime.progress() + "%"
-                : "androidagent przygotowuje własne środowisko terminalowe i oficjalnych klientów. Pobieranie klientów wymaga internetu.";
+                : "androidagent sets up its own terminal environment and the official clients. Downloading the clients requires internet.";
         if (runtime.error() != null && !runtime.error().isEmpty()) environment = runtime.error();
-        steps[0] = step("Wbudowane środowisko", environment, runtime.ready(),
-                runtime.ready() ? "Otwórz środowisko" : runtime.busy() ? "Pokaż postęp" : "Przygotuj / ponów",
+        steps[0] = step("Built-in environment", environment, runtime.ready(),
+                runtime.ready() ? "Open environment" : runtime.busy() ? "Show progress" : "Set up / retry",
                 v -> EmbeddedRuntime.open(this), null, null);
 
-        String account = accountReady ? agent + " jest zainstalowany i zalogowany."
-                : !agentInstalled ? "Najpierw przygotuj klienta " + agent + " w panelu środowiska."
-                : "Klient " + agent + " jest gotowy. Zaloguj się do własnego konta przez oficjalną stronę. Instalacja środowiska nie loguje Cię automatycznie.";
-        steps[1] = step("Konto " + agent, account, accountReady,
-                accountReady ? "Sprawdź konto" : agentInstalled ? "Zaloguj się" : "Przygotuj klienta",
+        String account = accountReady ? agent + " is installed and signed in."
+                : !agentInstalled ? "First set up client " + agent + " in the environment panel."
+                : "Client " + agent + " is ready. Sign in to your own account through the official website. Installing the environment does not sign you in automatically.";
+        steps[1] = step("Account " + agent, account, accountReady,
+                accountReady ? "Check account" : agentInstalled ? "Sign in" : "Set up client",
                 v -> {
                     if (accountReady) ping();
                     else if (agentInstalled) TermuxSetup.signIn(this, backend);
                     else EmbeddedRuntime.open(this);
-                }, agentInstalled && !accountReady ? "Sprawdź ponownie" : null, v -> ping());
+                }, agentInstalled && !accountReady ? "Check again" : null, v -> ping());
 
-        String a11yText = "Pozwala odczytywać ekran, dotykać i wpisywać tekst w innych aplikacjach. Rozmowy, terminal i Docker działają bez tej zgody.";
+        String a11yText = "Lets the agent read the screen, tap and type text in other apps. Chats, the terminal and Docker work without this permission.";
         if (!a11y && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            a11yText += " Android może najpierw wymagać zezwolenia na ustawienia z ograniczeniami w informacjach o aplikacji.";
-        steps[2] = step("Sterowanie ekranem", a11yText, a11y,
-                "Przegląd uprawnień", v -> PermissionGuide.open(this), null, null);
+            a11yText += " Android may first require allowing restricted settings in App info.";
+        steps[2] = step("Screen control", a11yText, a11y,
+                "Review permissions", v -> PermissionGuide.open(this), null, null);
         steps[2].optional = true;
 
         PowerManager pm = getSystemService(PowerManager.class);
         boolean background = pm != null && pm.isIgnoringBatteryOptimizations(getPackageName());
-        steps[3] = step("Praca w tle",
-                "Wyjątek optymalizacji baterii pomaga utrzymać długie zadania. Android wymaga Twojej zgody; ustawienie dotyczy tylko androidagent.",
-                background, "Przegląd uprawnień", v -> PermissionGuide.open(this), null, null);
+        steps[3] = step("Background work",
+                "A battery optimization exemption helps keep long tasks running. Android requires your approval; the setting applies only to androidagent.",
+                background, "Review permissions", v -> PermissionGuide.open(this), null, null);
         steps[3].optional = true;
 
-        steps[4] = step("Pierwsza rozmowa", Prefs.hadReply(this)
-                        ? "Historia rozmów jest zapisana. Możesz wrócić do niej z ekranu głównego."
-                        : "Po zalogowaniu rozpocznij rozmowę. /status odczytuje stan telefonu lokalnie i działa bez modelu.",
-                Prefs.hadReply(this), "Otwórz rozmowy", v -> startActivity(new Intent(this, MainActivity.class)
+        steps[4] = step("First chat", Prefs.hadReply(this)
+                        ? "Chat history is saved. You can return to it from the home screen."
+                        : "After signing in, start a chat. /status reads phone status locally and works without a model.",
+                Prefs.hadReply(this), "Open chats", v -> startActivity(new Intent(this, MainActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)), null, null);
         steps[4].optional = true;
         setupCard(steps);
 
         // -------------------------------------------------------- notifications
-        list.addView(sectionLabel(this, "Powiadomienia"));
+        list.addView(sectionLabel(this, "Notifications"));
         boolean notify = NotificationPermission.enabled(this);
         LinearLayout notifications = card(this);
-        notifications.addView(statusTitle(notify ? "Powiadomienia aplikacji włączone" : "Powiadomienia aplikacji wyłączone",
+        notifications.addView(statusTitle(notify ? "App notifications on" : "App notifications off",
                 notify ? OK : FAINT), full());
-        TextView nb = text(this, "Pokazują pracę agentów, USB i Dockera oraz przycisk Stop. "
-                + "Zgoda jest opcjonalna — funkcje działają także bez powiadomień.", 13, MUTED);
+        TextView nb = text(this, "They show agent, USB and Docker activity plus a Stop button. "
+                + "Permission is optional — features also work without notifications.", 13, MUTED);
         nb.setPadding(dp(this, 22), 0, 0, 0);
         notifications.addView(nb, topGap(4));
-        Button notificationSettings = button(this, "Ustawienia powiadomień", false);
+        Button notificationSettings = button(this, "Notification settings", false);
         notificationSettings.setOnClickListener(v -> startActivity(NotificationPermission.settingsIntent(this)));
         notifications.addView(notificationSettings, buttonGap(12));
         addCard(notifications);
 
         // ----------------------------------------------------------- appearance
-        list.addView(sectionLabel(this, "Wygląd"));
+        list.addView(sectionLabel(this, "Appearance"));
         LinearLayout ap = card(this);
         ap.setPadding(dp(this, 16), dp(this, 14), dp(this, 16), dp(this, 16));
-        ap.addView(fieldLabel("Tryb", null));
+        ap.addView(fieldLabel("Mode", null));
         ap.addView(segmented(this, MODES, Prefs.themeMode(this), false, v -> {
             Prefs.setThemeMode(this, v);
             themeChanged();
         }), topGap(8));
         int accent = Prefs.accent(this);
         String accentName = accentName(accent);
-        ap.addView(fieldLabel("Akcent", (accentName == null ? "własny" : accentName.toLowerCase(java.util.Locale.ROOT))
+        ap.addView(fieldLabel("Accent", (accentName == null ? "custom" : accentName.toLowerCase(java.util.Locale.ROOT))
                 + " · " + Theme.hex(accent)), topGap(20));
         ap.addView(swatches(), topGap(10));
-        ap.addView(fieldLabel("Powierzchnia", null), topGap(20));
+        ap.addView(fieldLabel("Surface", null), topGap(20));
         ap.addView(segmented(this, SURFACES, Prefs.surface(this), false, v -> {
             Prefs.setSurface(this, v);
             themeChanged();
         }), topGap(8));
-        TextView sn = text(this, "Ciepła to oryginalny odcień androidagent. Czarna (true black) działa tylko w trybie ciemnym.",
+        TextView sn = text(this, "Warm is the original androidagent tone. Black (true black) works only in dark mode.",
                 13, MUTED);
         ap.addView(sn, topGap(10));
         addCard(ap);
@@ -241,29 +241,29 @@ public class SetupActivity extends Screen {
         list.addView(sectionLabel(this, "Agent"));
         LinearLayout ag = card(this);
         ag.setPadding(dp(this, 16), dp(this, 14), dp(this, 16), dp(this, 16));
-        ag.addView(title(this, "Domyślny agent", 15));
-        TextView brainInfo = text(this, "Nowe rozmowy użyją wybranego agenta. Claude Code korzysta z Twojego konta Claude, a Codex z konta ChatGPT.", 13, MUTED);
+        ag.addView(title(this, "Default agent", 15));
+        TextView brainInfo = text(this, "New chats will use the selected agent. Claude Code uses your Claude account, and Codex uses your ChatGPT account.", 13, MUTED);
         brainInfo.setPadding(0, dp(this, 4), 0, 0);
         ag.addView(brainInfo);
-        TextView clients = monoText(this, "dostępni klienci: " + (hasClaude && hasCodex ? "claude-code, codex"
-                : hasClaude ? "claude-code" : hasCodex ? "codex" : "jeszcze nieprzygotowani"), 11, FAINT);
+        TextView clients = monoText(this, "available clients: " + (hasClaude && hasCodex ? "claude-code, codex"
+                : hasClaude ? "claude-code" : hasCodex ? "codex" : "not set up yet"), 11, FAINT);
         clients.setPadding(0, dp(this, 6), 0, 0);
         ag.addView(clients);
         ag.addView(segmented(this, new String[][]{{"claude", "Claude Code"}, {"codex", "Codex"}}, backend, false, v -> {
             Prefs.setBackend(this, v);
             if (!"both".equals(Prefs.agents(this))) Prefs.setAgents(this, v);
-            Toast.makeText(this, "Nowe rozmowy użyją: " + ("codex".equals(v) ? "Codex" : "Claude Code")
-                    + ". Agenta możesz też zmienić na ekranie głównym.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "New chats will use: " + ("codex".equals(v) ? "Codex" : "Claude Code")
+                    + ". You can also change the agent on the home screen.", Toast.LENGTH_LONG).show();
             render();
         }), topGap(12));
         addCard(ag);
 
         // ----------------------------------------------------------- experience
-        list.addView(sectionLabel(this, "Doświadczenie"));
+        list.addView(sectionLabel(this, "Experience"));
         LinearLayout ex = card(this);
         ex.setPadding(0, dp(this, 2), 0, dp(this, 2));
-        ex.addView(switchRow(this, "Dymek czatu", "Unosi się nad innymi aplikacjami. Przeciągnij go na przycisk zamknięcia, "
-                + "aby go ukryć; karty zatwierdzeń nadal się pojawią, gdy agent potrzebuje Twojej zgody.",
+        ex.addView(switchRow(this, "Chat bubble", "Floats over other apps. Drag it onto the close button "
+                + "to hide it; approval cards will still appear when the agent needs your approval.",
                 Prefs.bubbleEnabled(this), on -> {
             Prefs.setBubbleEnabled(this, on);
             if (on) HiddenNotice.cancel(this);
@@ -272,16 +272,16 @@ public class SetupActivity extends Screen {
             rendered = state();
         }), full());
         ex.addView(divider(this), lineParams());
-        ex.addView(switchRow(this, "Czytaj odpowiedzi na głos", "Rozmawiaj mikrofonem w dowolnym czacie; wiadomość "
-                + "wysyła się, gdy przestaniesz mówić.", Prefs.speakReplies(this), on -> {
+        ex.addView(switchRow(this, "Read replies aloud", "Talk using the microphone in any chat; your message "
+                + "is sent when you stop speaking.", Prefs.speakReplies(this), on -> {
             Prefs.setSpeakReplies(this, on);
             if (!on) Voice.stopSpeaking();
             rendered = state();
         }), full());
         ex.addView(divider(this), lineParams());
         final boolean dev = Prefs.devMode(this);
-        ex.addView(switchRow(this, "Tryb programisty", "Codex i Claude Code mogą wykonywać komendy i zmieniać pliki dostępne dla androidagent. "
-                + "Katalog startowy: ~/.buddy/work. Dostęp obejmuje również inne pliki dostępne dla aplikacji.", dev, on -> {
+        ex.addView(switchRow(this, "Developer mode", "Codex and Claude Code can run commands and change files that androidagent can access. "
+                + "Starting directory: ~/.buddy/work. Access also covers other files available to the app.", dev, on -> {
             Prefs.setDevMode(this, on);
             render();
         }), full());
@@ -291,9 +291,9 @@ public class SetupActivity extends Screen {
             warn.setPadding(dp(this, 12), dp(this, 10), dp(this, 12), dp(this, 10));
             warn.setBackground(outlined(this, ERR_SOFT, 10, Theme.withAlpha(ERR, 0x40), 1));
             warn.addView(icon(this, R.drawable.ms_warning, ERR, 18));
-            TextView wt = text(this, "Komendy agentów we wbudowanym środowisku wykonują się bez osobnego potwierdzenia. "
-                    + "Android ogranicza je do uprawnień androidagent; nie są ograniczone do katalogu projektu. "
-                    + "Komendy narzędzia telefonu run_command wymagają zatwierdzenia dokładnej treści.", 13, ERR);
+            TextView wt = text(this, "Agent commands in the built-in environment run without separate confirmation. "
+                    + "Android limits them to androidagent's permissions; they are not confined to the project directory. "
+                    + "Commands from the run_command phone tool require approval of their exact text.", 13, ERR);
             wt.setPadding(dp(this, 10), 0, 0, 0);
             warn.addView(wt, weight1());
             LinearLayout.LayoutParams wp = full();
@@ -304,25 +304,25 @@ public class SetupActivity extends Screen {
         addCard(ex);
 
         // ------------------------------------------------------- remote control
-        list.addView(sectionLabel(this, "Zdalna kontynuacja Claude"));
+        list.addView(sectionLabel(this, "Claude remote continuation"));
         LinearLayout rc = card(this);
-        TextView rct = text(this, "Przycisk telefonu w rozmowie Claude Code otwiera tę sesję we wbudowanym terminalu "
-                + "z Remote Control. Możesz kontynuować ją w oficjalnej aplikacji Claude. Dostępność zależy od konta Claude.", 14, MUTED);
+        TextView rct = text(this, "The phone button in a Claude Code chat opens this session in the built-in terminal "
+                + "with Remote Control. You can continue it in the official Claude app. Availability depends on your Claude account.", 14, MUTED);
         rct.setLineSpacing(dp(this, 2), 1f);
         rc.addView(rct);
         addCard(rc);
 
-        list.addView(sectionLabel(this, "Narzędzia agentów"));
+        list.addView(sectionLabel(this, "Agent tools"));
         LinearLayout pt = card(this);
         pt.setPadding(dp(this, 16), dp(this, 14), dp(this, 16), dp(this, 16));
-        TextView ptt = text(this, "Most narzędzi jest konfigurowany automatycznie dla rozmów w androidagent. "
-                + "Terminal, pliki i oficjalne logowanie znajdziesz w panelu środowiska. Uprawnienia Androida pozostają pod Twoją kontrolą.", 14, MUTED);
+        TextView ptt = text(this, "The tool bridge is configured automatically for androidagent chats. "
+                + "Find the terminal, files and official sign-in in the environment panel. Android permissions stay under your control.", 14, MUTED);
         ptt.setLineSpacing(dp(this, 2), 1f);
         pt.addView(ptt);
-        Button runtimeButton = button(this, "Otwórz środowisko i klientów", false);
+        Button runtimeButton = button(this, "Open environment and clients", false);
         runtimeButton.setOnClickListener(v -> EmbeddedRuntime.open(this));
         pt.addView(runtimeButton, fullButton(14));
-        Button permissionsButton = button(this, "Przegląd uprawnień", false);
+        Button permissionsButton = button(this, "Review permissions", false);
         permissionsButton.setOnClickListener(v -> PermissionGuide.open(this));
         pt.addView(permissionsButton, fullButton(8));
         addCard(pt);
@@ -368,10 +368,10 @@ public class SetupActivity extends Screen {
         c.setPadding(dp(this, 16), dp(this, 14), dp(this, 16), dp(this, 16));
         LinearLayout head = row(this);
         LinearLayout titles = column(this);
-        TextView ht = title(this, "Przygotowanie", 16);
+        TextView ht = title(this, "Setup", 16);
         ht.setAccessibilityHeading(true);
         titles.addView(ht);
-        TextView hs = monoText(this, complete ? "wszystko gotowe" : "wymagane: " + done + " z " + required, 11, FAINT);
+        TextView hs = monoText(this, complete ? "all set" : "required: " + done + " of " + required, 11, FAINT);
         hs.setPadding(0, dp(this, 2), 0, 0);
         titles.addView(hs);
         head.addView(titles, weight1());
@@ -381,7 +381,7 @@ public class SetupActivity extends Screen {
         LinearLayout.LayoutParams chp = new LinearLayout.LayoutParams(dp(this, 22), dp(this, 22));
         chp.leftMargin = dp(this, 8);
         head.addView(chevron, chp);
-        head.setContentDescription("Przygotowanie, " + done + " z " + required + (open ? ", zwiń" : ", rozwiń"));
+        head.setContentDescription("Setup, " + done + " of " + required + (open ? ", collapse" : ", expand"));
         head.setOnClickListener(v -> {
             Motion.rotate(chevron, open ? 0 : 180);
             setupOpen = !open;
@@ -424,7 +424,7 @@ public class SetupActivity extends Screen {
             r.setPadding(0, dp(this, 12), 0, 0);
             if (complete) r.addView(toolDot(this, OK));
             else r.addView(new Spark(this).animated(false).color(ACCENT), new LinearLayout.LayoutParams(dp(this, 14), dp(this, 14)));
-            TextView s = single(text(this, complete ? "Środowisko i konto są gotowe." : "Następny krok: " + steps[next].title, 13, MUTED));
+            TextView s = single(text(this, complete ? "Environment and account are ready." : "Next step: " + steps[next].title, 13, MUTED));
             s.setPadding(dp(this, 8), 0, 0, 0);
             r.addView(s, weight1());
             c.addView(r, full());
@@ -432,7 +432,7 @@ public class SetupActivity extends Screen {
             for (int i = 0; i < steps.length; i++) c.addView(stepRow(steps[i], i, i == next), full());
         }
         if (!complete) {
-            TextView guide = monoText(this, "Otwórz przewodnik →", 13, ACCENT_TEXT);
+            TextView guide = monoText(this, "Open guide →", 13, ACCENT_TEXT);
             guide.setTypeface(mono(this, 600));
             guide.setPadding(0, dp(this, 10), dp(this, 8), dp(this, 2));
             guide.setBackgroundResource(ripple(this, false));
@@ -473,9 +473,9 @@ public class SetupActivity extends Screen {
         if (!isNext) t.setTypeface(sans(this, 500));
         tr.addView(t, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         if (isDone) {
-            tr.addView(monoText(this, "gotowe", 11, OK));
+            tr.addView(monoText(this, "ready", 11, OK));
         } else if (st.optional) {
-            tr.addView(monoText(this, "opcjonalne", 11, FAINT));
+            tr.addView(monoText(this, "optional", 11, FAINT));
         }
         col.addView(tr, full());
         boolean expanded = isNext || (st.optional && !isDone);
@@ -530,13 +530,13 @@ public class SetupActivity extends Screen {
             boolean on = col == current;
             preset |= on;
             String name = accentName(col);
-            r.addView(swatch(col, on, false, (name == null ? a[1] : name) + (on ? ", wybrany" : ""), v -> {
+            r.addView(swatch(col, on, false, (name == null ? a[1] : name) + (on ? ", selected" : ""), v -> {
                 if (on) return;
                 Prefs.setAccent(this, col);
                 themeChanged();
             }), new LinearLayout.LayoutParams(0, dp(this, 44), 1));
         }
-        r.addView(swatch(preset ? CARD2 : current, !preset, preset, "Własny kolor" + (!preset ? ", wybrany" : ""),
+        r.addView(swatch(preset ? CARD2 : current, !preset, preset, "Custom color" + (!preset ? ", selected" : ""),
                 v -> customAccent()), new LinearLayout.LayoutParams(0, dp(this, 44), 1));
         return r;
     }
@@ -569,10 +569,10 @@ public class SetupActivity extends Screen {
 
     private void customAccent() {
         LinearLayout c = column(this);
-        TextView heading = title(this, "Własny akcent", 20);
+        TextView heading = title(this, "Custom accent", 20);
         heading.setAccessibilityHeading(true);
         c.addView(heading);
-        TextView s = text(this, "Dowolny kolor jako kod hex, np. #4F8BFF.", 13, MUTED);
+        TextView s = text(this, "Any color as a hex code, e.g. #4F8BFF.", 13, MUTED);
         s.setPadding(0, dp(this, 4), 0, dp(this, 14));
         c.addView(s);
         LinearLayout r = row(this);
@@ -582,16 +582,16 @@ public class SetupActivity extends Screen {
         final EditText et = input(this, "#RRGGBB", true);
         et.setText(Theme.hex(Prefs.accent(this)));
         et.setSingleLine(true);
-        et.setContentDescription("Kod koloru hex");
+        et.setContentDescription("Hex color code");
         LinearLayout.LayoutParams ep = weight1();
         ep.leftMargin = dp(this, 12);
         r.addView(et, ep);
-        Button apply = button(this, "Zastosuj", true);
+        Button apply = button(this, "Apply", true);
         LinearLayout.LayoutParams app = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, dp(this, 46));
         app.leftMargin = dp(this, 8);
         r.addView(apply, app);
         c.addView(r, full());
-        TextView sw = monoText(this, "gotowe barwy", 11, FAINT);
+        TextView sw = monoText(this, "preset colors", 11, FAINT);
         sw.setPadding(0, dp(this, 16), 0, dp(this, 6));
         c.addView(sw);
         LinearLayout presets = row(this);

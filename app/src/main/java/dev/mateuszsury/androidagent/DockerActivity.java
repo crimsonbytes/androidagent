@@ -38,19 +38,19 @@ public class DockerActivity extends Screen {
         LinearLayout root = column(this);
         root.setBackgroundColor(BG);
         root.setFitsSystemWindows(true);
-        root.addView(topBar(this, "Docker", "~/docker · linux vm · bez roota"), full());
+        root.addView(topBar(this, "Docker", "~/docker · linux vm · no root"), full());
         ScrollView scroll = new ScrollView(this);
         LinearLayout body = ToolUi.body(this);
 
-        TextView heading = title(this, "Miejsce na Twoje pomysły", 21);
+        TextView heading = title(this, "A place for your ideas", 21);
         heading.setPadding(dp(this, 20), dp(this, 12), dp(this, 20), 0);
         body.addView(heading, full());
-        TextView intro = ToolUi.note(this, "Buduj i uruchamiaj aplikacje w osobnych środowiskach. Zachowaj wyniki i posprzątaj po zadaniu. Bez roota.", 14);
+        TextView intro = ToolUi.note(this, "Build and run apps in isolated environments. Keep the results and clean up after the task. No root.", 14);
         intro.setPadding(dp(this, 20), dp(this, 6), dp(this, 20), dp(this, 16));
         body.addView(intro, full());
 
         // ------------------------------------------------------------ hero: VM state + resources
-        LinearLayout hero = terminalBox(this, "środowisko", ACCENT);
+        LinearLayout hero = terminalBox(this, "environment", ACCENT);
         LinearLayout head = row(this);
         head.setGravity(android.view.Gravity.TOP);
         dot = toolDot(this, FAINT);
@@ -68,18 +68,18 @@ public class DockerActivity extends Screen {
         hero.addView(detail, full());
 
         ram = new Spinner(this);
-        ram.setContentDescription("Pamięć środowiska Docker");
+        ram.setContentDescription("Docker environment memory");
         ToolUi.styleSpinner(ram, new String[]{"512 MB RAM", "1 GB RAM", "2 GB RAM"});
         ram.setSelection(state == null ? 1 : state.getInt("ram", 1));
-        hero.addView(resource("Pamięć", ram), resourceParams(14));
+        hero.addView(resource("Memory", ram), resourceParams(14));
         cores = new Spinner(this);
-        cores.setContentDescription("Procesory środowiska Docker");
-        ToolUi.styleSpinner(cores, new String[]{"1 CPU · mniejsze obciążenie", "2 CPU · szybszy start"});
+        cores.setContentDescription("Docker environment CPUs");
+        ToolUi.styleSpinner(cores, new String[]{"1 CPU · lower load", "2 CPU · faster startup"});
         int defaultCores = !vm.emulatedAndroid && Runtime.getRuntime().availableProcessors() >= 4 ? 1 : 0;
         cores.setSelection(state == null ? defaultCores : state.getInt("cores", defaultCores));
-        hero.addView(resource("Procesory", cores), resourceParams(8));
+        hero.addView(resource("CPUs", cores), resourceParams(8));
 
-        start = button(this, "Uruchom środowisko", true);
+        start = button(this, "Start environment", true);
         start.setOnClickListener(v -> {
             if (vm.alive() || "preparing".equals(vm.state) || "booting".equals(vm.state)) {
                 startService(new Intent(this, DockerService.class).setAction("stop"));
@@ -93,23 +93,23 @@ public class DockerActivity extends Screen {
         body.addView(hero, cardParams(this));
 
         // ------------------------------------------------------------ tasks
-        body.addView(sectionLabel(this, "Zadania"), full());
+        body.addView(sectionLabel(this, "Tasks"), full());
         LinearLayout taskCard = ToolUi.group(this);
         tasks = column(this);
         taskCard.addView(tasks, full());
         taskCard.addView(hairline(), dividerParams());
-        ToolUi.Row create = new ToolUi.Row(this, R.drawable.ms_add, "Nowe zadanie", "pusty projekt z Dockerfile", false).accent()
+        ToolUi.Row create = new ToolUi.Row(this, R.drawable.ms_add, "New task", "empty project with a Dockerfile", false).accent()
                 .onClick(v -> create(false));
         taskCard.addView(create.view, full());
         taskCard.addView(hairline(), dividerParams());
-        ToolUi.Row demo = new ToolUi.Row(this, R.drawable.ms_build_circle, "Wypróbuj przykładową aplikację", "strona WWW · port 8080 kontenera", true)
+        ToolUi.Row demo = new ToolUi.Row(this, R.drawable.ms_build_circle, "Try the sample app", "web page · container port 8080", true)
                 .onClick(v -> create(true));
         taskCard.addView(demo.view, full());
         body.addView(taskCard, cardParams(this));
 
         // ------------------------------------------------------------ sharing published apps
         LinearLayout sharing = ToolUi.group(this);
-        sharing.addView(switchRow(this, "Podgląd w sieci Wi-Fi", "Inne urządzenia w tej sieci otworzą aplikację bez logowania",
+        sharing.addView(switchRow(this, "Preview on Wi-Fi network", "Other devices on this network can open the app without signing in",
                 DockerVm.lanExposure(this), on -> {
                     DockerVm.setLanExposure(this, on);
                     lastTasks = null; // the next heartbeat re-binds forwards and adds Wi-Fi addresses
@@ -119,29 +119,29 @@ public class DockerActivity extends Screen {
         body.addView(sharing, sp);
 
         // ------------------------------------------------------------ exports
-        body.addView(sectionLabel(this, "Zachowane pliki"), full());
+        body.addView(sectionLabel(this, "Kept files"), full());
         exports = ToolUi.group(this);
-        TextView loading = text(this, "Wczytywanie…", 14, FAINT);
+        TextView loading = text(this, "Loading…", 14, FAINT);
         loading.setPadding(dp(this, 16), dp(this, 16), dp(this, 16), dp(this, 16));
         exports.addView(loading, full());
         body.addView(exports, cardParams(this));
 
         // ------------------------------------------------------------ maintenance
-        body.addView(sectionLabel(this, "Konserwacja"), full());
+        body.addView(sectionLabel(this, "Maintenance"), full());
         LinearLayout tools = ToolUi.group(this);
-        ToolUi.add(tools, new ToolUi.Row(this, R.drawable.ms_terminal, "Dziennik środowiska", "konsola Linuxa z tego uruchomienia", true)
+        ToolUi.add(tools, new ToolUi.Row(this, R.drawable.ms_terminal, "Environment log", "Linux console from this boot", true)
                 .onClick(v -> showLog()).view);
-        ToolUi.add(tools, new ToolUi.Row(this, R.drawable.ms_description, "Zachowaj diagnostykę rozruchu", "plik do zgłoszenia problemu", true)
+        ToolUi.add(tools, new ToolUi.Row(this, R.drawable.ms_description, "Save boot diagnostics", "file for a bug report", true)
                 .onClick(v -> new Thread(() -> {
                     try {
                         JSONObject saved = vm.exportDiagnostics();
                         runOnUiThread(() -> { if (!isDestroyed()) openExport(saved); });
                     } catch (Exception e) { runOnUiThread(() -> error(e)); }
                 }, "docker-diagnostics-export").start()).view);
-        ToolUi.add(tools, new ToolUi.Row(this, R.drawable.ms_description, "Licencje i źródła", "Linux, QEMU, Docker Engine", true)
+        ToolUi.add(tools, new ToolUi.Row(this, R.drawable.ms_description, "Licenses and sources", "Linux, QEMU, Docker Engine", true)
                 .onClick(v -> showLicenses()).view);
-        ToolUi.add(tools, new ToolUi.Row(this, R.drawable.ms_close, "Usuń wszystkie zadania i cache", "zachowane pliki pozostaną", false).danger()
-                .onClick(v -> confirmSheet(this, "Zresetować środowisko?", "Usuniesz dysk roboczy, zadania i obrazy Dockera. Zachowane pliki pozostaną dostępne.", "Usuń dysk", true, () -> {
+        ToolUi.add(tools, new ToolUi.Row(this, R.drawable.ms_close, "Delete all tasks and cache", "preserved files will remain", false).danger()
+                .onClick(v -> confirmSheet(this, "Reset environment?", "This deletes the work disk, tasks and Docker images. Saved files will remain available.", "Delete disk", true, () -> {
                     new Thread(() -> {
                         try {
                             vm.reset();
@@ -150,7 +150,7 @@ public class DockerActivity extends Screen {
                     }, "docker-reset").start();
                 })).view);
         body.addView(tools, cardParams(this));
-        TextView limits = ToolUi.note(this, "Środowisko korzysta z pamięci i baterii telefonu. Pierwsze uruchomienie wymaga rozpakowania Linuxa; duże projekty potrzebują dodatkowego miejsca.", 12);
+        TextView limits = ToolUi.note(this, "The environment uses the phone's memory and battery. The first start requires unpacking Linux; large projects need extra space.", 12);
         limits.setTextColor(FAINT);
         body.addView(limits, full());
 
@@ -190,14 +190,14 @@ public class DockerActivity extends Screen {
     private void create(boolean demo) {
         new Thread(() -> {
             try {
-                JSONObject task = vm.request(new JSONObject().put("op", "create").put("name", demo ? "Moja aplikacja WWW" : "Nowe zadanie"));
+                JSONObject task = vm.request(new JSONObject().put("op", "create").put("name", demo ? "My web app" : "New task"));
                 String id = task.getString("id");
                 if (demo) {
                     vm.request(new JSONObject().put("op", "write").put("task", id).put("path", "Dockerfile").put("content",
                             demoAsset("Dockerfile")));
                     vm.request(new JSONObject().put("op", "write").put("task", id).put("path", "serve.sh").put("content", demoAsset("serve.sh")));
                     vm.request(new JSONObject().put("op", "write").put("task", id).put("path", "index.html").put("content",
-                            "<!doctype html><meta name=viewport content='width=device-width,initial-scale=1'><title>Moja aplikacja</title><style>body{font:20px system-ui;background:#f7f7f5;color:#202020;max-width:600px;margin:15vh auto;padding:24px}button{background:#202020;color:white;border:0;border-radius:24px;padding:14px 24px;font:inherit}</style><h1>Zbudowano na telefonie.</h1><p>Ta aplikacja działa w Dockerze w androidagent.</p><button onclick='this.textContent=\"Działa!\"'>Sprawdź</button>"));
+                            "<!doctype html><meta name=viewport content='width=device-width,initial-scale=1'><title>My app</title><style>body{font:20px system-ui;background:#f7f7f5;color:#202020;max-width:600px;margin:15vh auto;padding:24px}button{background:#202020;color:white;border:0;border-radius:24px;padding:14px 24px;font:inherit}</style><h1>Built on the phone.</h1><p>This app runs in Docker in androidagent.</p><button onclick='this.textContent=\"It works!\"'>Try it</button>"));
                 }
                 runOnUiThread(() -> { if (!isDestroyed()) startActivity(new Intent(this, DockerTaskActivity.class).putExtra("task", id).putExtra("demo", demo)); });
             } catch (Exception e) { runOnUiThread(() -> error(e)); }
@@ -217,20 +217,20 @@ public class DockerActivity extends Screen {
         String s = vm.state;
         boolean ready = "ready".equals(s), stopped = "stopped".equals(s), failed = "error".equals(s), stopping = "stopping".equals(s);
         boolean running = vm.alive() || "preparing".equals(s) || "booting".equals(s);
-        ToolUi.setText(status, ready ? "Środowisko działa" : stopped ? "Środowisko zatrzymane" : failed ? "Nie udało się uruchomić" : "Przygotowywanie środowiska…");
+        ToolUi.setText(status, ready ? "Environment running" : stopped ? "Environment stopped" : failed ? "Failed to start" : "Preparing environment…");
         dot.setColor(ready ? OK : stopped ? FAINT : failed ? ERR : stopping ? WARN : ACCENT);
         dot.setPulsing(!ready && !stopped && !failed);
         String information = vm.detail;
         if (ready) information = "Docker " + vm.guest.optString("engine_version") + " · " + vm.guest.optString("architecture")
-                + "\nWolne miejsce: " + String.format(Locale.US, "%.1f GB w środowisku · %.1f GB na telefonie", vm.guest.optLong("disk_free_bytes") / 1073741824.0, vm.directory.getUsableSpace() / 1073741824.0);
+                + "\nFree space: " + String.format(Locale.US, "%.1f GB in the environment · %.1f GB on the phone", vm.guest.optLong("disk_free_bytes") / 1073741824.0, vm.directory.getUsableSpace() / 1073741824.0);
         else if ("booting".equals(s)) {
             JSONObject phase = vm.guest.optJSONObject("startup");
             if (phase != null && phase.has("phase_elapsed_seconds")) information += String.format(Locale.ROOT,
-                    "\nEtap: %.0f s · limit %.0f s", phase.optDouble("phase_elapsed_seconds"), phase.optDouble("phase_budget_seconds"));
+                    "\nStage: %.0f s · limit %.0f s", phase.optDouble("phase_elapsed_seconds"), phase.optDouble("phase_budget_seconds"));
         }
         ToolUi.setText(detail, information == null ? "" : information);
         detail.setTextColor(failed ? ERR : MUTED);
-        String label = running ? "Zatrzymaj środowisko" : "Uruchom środowisko";
+        String label = running ? "Stop environment" : "Start environment";
         if (!label.equals(lastStart)) {
             lastStart = label;
             start.setText(label);
@@ -265,7 +265,7 @@ public class DockerActivity extends Screen {
     private void renderTasks(JSONArray list, boolean first) {
         tasks.removeAllViews();
         if (list == null || list.length() == 0) {
-            TextView empty = text(this, "Tu pojawią się Twoje zadania.", 14, MUTED);
+            TextView empty = text(this, "Your tasks will appear here.", 14, MUTED);
             empty.setPadding(dp(this, 16), dp(this, 16), dp(this, 16), dp(this, 16));
             tasks.addView(empty, full());
             return;
@@ -278,9 +278,9 @@ public class DockerActivity extends Screen {
             JSONArray jobs = task.optJSONArray("jobs");
             JSONObject job = jobs == null || jobs.length() == 0 ? null : jobs.optJSONObject(jobs.length() - 1);
             String jobState = job == null ? "" : job.optString("state");
-            String meta = "#" + (id.length() > 6 ? id.substring(0, 6) : id) + (job == null ? " · bez uruchomień"
+            String meta = "#" + (id.length() > 6 ? id.substring(0, 6) : id) + (job == null ? " · no runs"
                     : " · " + kind(job.optString("kind")) + " " + state(jobState));
-            ToolUi.Row r = new ToolUi.Row(this, R.drawable.ms_terminal, task.optString("name", "Zadanie"), meta, true)
+            ToolUi.Row r = new ToolUi.Row(this, R.drawable.ms_terminal, task.optString("name", "Task"), meta, true)
                     .onClick(v -> startActivity(new Intent(this, DockerTaskActivity.class).putExtra("task", id)));
             if (job != null) {
                 Dot d = toolDot(this, "running".equals(jobState) || "queued".equals(jobState) ? ACCENT
@@ -297,14 +297,14 @@ public class DockerActivity extends Screen {
                         DockerPreviewActivity.intent(this, port, task.optString("name")))), wrap());
                 if (!lan.isEmpty()) {
                     TextView wifi = ToolUi.urlChip(this, lan, INFO, null);
-                    wifi.setContentDescription("Adres w sieci Wi-Fi " + lan);
+                    wifi.setContentDescription("Wi-Fi address " + lan);
                     LinearLayout.LayoutParams wp = wrap();
                     wp.leftMargin = dp(this, 6);
                     links.addView(wifi, wp);
                 }
                 r.extra(links, 8);
             } else if (task.has("preview_error")) {
-                r.setMeta(meta + " · podgląd: " + task.optString("preview_error"));
+                r.setMeta(meta + " · preview: " + task.optString("preview_error"));
             }
             if (tasks.getChildCount() > 0) tasks.addView(hairline(), dividerParams());
             tasks.addView(r.view, full());
@@ -315,20 +315,20 @@ public class DockerActivity extends Screen {
 
     private static String kind(String k) {
         switch (k) {
-            case "build": return "budowanie";
-            case "run": return "uruchomienie";
-            case "exec": return "komenda";
+            case "build": return "building";
+            case "run": return "run";
+            case "exec": return "command";
             default: return k;
         }
     }
 
     private static String state(String s) {
         switch (s) {
-            case "running": return "trwa";
-            case "queued": return "w kolejce";
-            case "succeeded": return "gotowe";
-            case "failed": return "błąd";
-            case "cancelled": return "anulowane";
+            case "running": return "running";
+            case "queued": return "queued";
+            case "succeeded": return "ready";
+            case "failed": return "error";
+            case "cancelled": return "canceled";
             default: return s;
         }
     }
@@ -341,7 +341,7 @@ public class DockerActivity extends Screen {
         exports.removeAllViews();
         exports.setBackground(saved.length() == 0 ? outlined(this, 0x00000000, 14, OUTLINE, 1) : outlined(this, CARD, 14, LINE, 1));
         if (saved.length() == 0) {
-            TextView empty = text(this, "Wyeksportuj plik przed usunięciem zadania.", 14, MUTED);
+            TextView empty = text(this, "Export a file before deleting the task.", 14, MUTED);
             empty.setPadding(dp(this, 16), dp(this, 16), dp(this, 16), dp(this, 16));
             exports.addView(empty, full());
             return;
@@ -351,7 +351,7 @@ public class DockerActivity extends Screen {
             JSONObject file = saved.optJSONObject(i);
             if (file == null) continue;
             String task = file.optString("task");
-            String meta = ToolUi.size(file.optLong("bytes")) + (task.isEmpty() ? "" : " · zadanie #" + (task.length() > 6 ? task.substring(0, 6) : task));
+            String meta = ToolUi.size(file.optLong("bytes")) + (task.isEmpty() ? "" : " · task #" + (task.length() > 6 ? task.substring(0, 6) : task));
             ToolUi.Row r = new ToolUi.Row(this, R.drawable.ms_description, file.optString("name"), meta, true)
                     .onClick(v -> openExport(file));
             ToolUi.add(exports, r.view);
@@ -367,18 +367,18 @@ public class DockerActivity extends Screen {
         view.setDataAndType(Uri.parse(file.optString("uri")), name.endsWith(".apk") ? "application/vnd.android.package-archive" : name.endsWith(".html") ? "text/html" : "application/octet-stream");
         try { startActivity(view); } catch (Exception e) {
             Intent share = new Intent(Intent.ACTION_SEND).setType("application/octet-stream").putExtra(Intent.EXTRA_STREAM, Uri.parse(file.optString("uri"))).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            try { startActivity(Intent.createChooser(share, "Zapisz lub udostępnij plik")); } catch (Exception x) { error(x); }
+            try { startActivity(Intent.createChooser(share, "Save or share file")); } catch (Exception x) { error(x); }
         }
     }
 
     private void showLog() {
         LinearLayout content = column(this);
         String console = vm.console();
-        TextView log = ToolUi.logPanel(content, console.isEmpty() ? "Dziennik z poprzedniego uruchomienia możesz zachować przyciskiem „Zachowaj diagnostykę rozruchu”." : "", ToolUi.screenDp(this, 0.55f), true);
+        TextView log = ToolUi.logPanel(content, console.isEmpty() ? "You can keep the log from the previous run with the “Save boot diagnostics” button." : "", ToolUi.screenDp(this, 0.55f), true);
         if (!console.isEmpty()) log.setText(AnsiText.render(console, mono(this, 700)));
-        Button close = button(this, "Zamknij", false);
+        Button close = button(this, "Close", false);
         content.addView(close, ToolUi.buttonParams(this, 14));
-        Dialog d = ToolUi.sheet(this, "Dziennik Linuxa", null, content);
+        Dialog d = ToolUi.sheet(this, "Linux log", null, content);
         close.setOnClickListener(v -> d.dismiss());
         d.show();
     }
@@ -395,9 +395,9 @@ public class DockerActivity extends Screen {
                     LinearLayout box = column(this);
                     TextView text = ToolUi.logPanel(box, content, ToolUi.screenDp(this, 0.55f), false);
                     android.text.util.Linkify.addLinks(text, android.text.util.Linkify.WEB_URLS);
-                    Button close = button(this, "Zamknij", false);
+                    Button close = button(this, "Close", false);
                     box.addView(close, ToolUi.buttonParams(this, 14));
-                    Dialog d = ToolUi.sheet(this, "Licencje środowiska", null, box);
+                    Dialog d = ToolUi.sheet(this, "Environment licenses", null, box);
                     close.setOnClickListener(v -> d.dismiss());
                     d.show();
                 });

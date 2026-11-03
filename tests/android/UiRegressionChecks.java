@@ -27,7 +27,7 @@ final class UiRegressionChecks {
             require((info.imeOptions & android.view.inputmethod.EditorInfo.IME_FLAG_NO_FULLSCREEN) != 0,
                     "Landscape keyboard can hide the native Send button behind extract mode");
             require(connection.commitText("/status", 1), "Keyboard commit failed");
-            View send = description(screen.getWindow().getDecorView(), "Wyślij");
+            View send = description(screen.getWindow().getDecorView(), "Send");
             require(send != null && send.isEnabled(), "Keyboard input did not enable Send");
             send.performClick();
             require(input.length() == 0 && !send.isEnabled(), "Local keyboard submission was not accepted exactly once");
@@ -95,7 +95,7 @@ final class UiRegressionChecks {
                 input.setSelection(6, 9);
                 ((ChatActivity) screen).onActivityResult(23, Activity.RESULT_OK,
                         new android.content.Intent().setData(FilesProvider.attachmentUri(name)));
-                View send = description(screen.getWindow().getDecorView(), "Wyślij");
+                View send = description(screen.getWindow().getDecorView(), "Send");
                 require(send != null && !send.isEnabled(), "Send permits text before its attachment finishes importing");
                 screen.recreate();
             });
@@ -107,7 +107,7 @@ final class UiRegressionChecks {
                 android.widget.EditText input = edit(restored.getWindow().getDecorView());
                 require("Szkic z oczekującym załącznikiem".contentEquals(input.getText()), "Import rotation lost draft text");
                 require(input.getSelectionStart() == 6 && input.getSelectionEnd() == 9, "Rotation lost draft selection");
-                View send = description(restored.getWindow().getDecorView(), "Wyślij");
+                View send = description(restored.getWindow().getDecorView(), "Send");
                 require(send != null && !send.isEnabled(), "Rotation detached the import from Send state");
             });
             byte[] payload = "ATTACHMENT_ROTATION_OK".getBytes(java.nio.charset.StandardCharsets.UTF_8);
@@ -131,7 +131,7 @@ final class UiRegressionChecks {
             byte[] actual = java.nio.file.Files.readAllBytes(Attachments.file(app, imported[0]).toPath());
             require(java.util.Arrays.equals(payload, actual), "Imported attachment bytes changed");
             onMain(instrumentation, () -> {
-                View send = description(restored.getWindow().getDecorView(), "Wyślij");
+                View send = description(restored.getWindow().getDecorView(), "Send");
                 require(send != null && send.isEnabled(), "Completed import left Send disabled");
             });
             return recreated;
@@ -149,13 +149,13 @@ final class UiRegressionChecks {
         onMain(instrumentation, () -> {
             try {
                 // The live reply is rendered as Markdown; its raw source is the streamed text.
-                View before = description(screen.getWindow().getDecorView(), "Odpowiedź na żywo");
+                View before = description(screen.getWindow().getDecorView(), "Live response");
                 require(before instanceof Markdown.Content && ((Markdown.Content) before).source().length() > 0,
                         "Missing streaming fixture");
                 expected[0] = ((Markdown.Content) before).source();
                 instrumentation.callActivityOnPause(screen);
                 instrumentation.callActivityOnResume(screen);
-                View after = description(screen.getWindow().getDecorView(), "Odpowiedź na żywo");
+                View after = description(screen.getWindow().getDecorView(), "Live response");
                 require(after instanceof Markdown.Content && expected[0].equals(((Markdown.Content) after).source())
                         && ((Markdown.Content) after).getChildCount() > 0, "Live reply detached after resume");
             } catch (Throwable e) { failure[0] = e; }

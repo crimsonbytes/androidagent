@@ -29,7 +29,7 @@ final class DockerVm {
     private volatile Process process;
     private volatile int epoch;
     private volatile int stoppedEpoch;
-    volatile String state = "stopped", detail = "Gotowy do uruchomienia";
+    volatile String state = "stopped", detail = "Ready to start";
     volatile JSONObject guest = new JSONObject();
     private volatile String console = "";
     private final String token;
@@ -100,7 +100,7 @@ final class DockerVm {
             McpHost.get(context).requireReady();
             if (alive() || "preparing".equals(state) || "booting".equals(state) || "stopping".equals(state)) return;
             generation = ++epoch; startAttempts++;
-            state = "preparing"; detail = "Przygotowywanie środowiska"; console = "";
+            state = "preparing"; detail = "Preparing environment"; console = "";
             guest = new JSONObject(); lastGuestResponse = 0; lastProbeError = "";
             ramMb = Math.max(512, Math.min(2048, ram)); vcpus = Math.max(1, Math.min(2, cores));
             log = new DockerDiagnostics(new File(directory, "diagnostics"), token);
@@ -108,10 +108,10 @@ final class DockerVm {
         }
         boolean processStarted = false;
         try {
-            if (!"arm64-v8a".equals(abi) && !"x86_64".equals(abi)) throw new IOException("Wymagany telefon ARM64 lub x86_64");
+            if (!"arm64-v8a".equals(abi) && !"x86_64".equals(abi)) throw new IOException("Requires an ARM64 or x86_64 phone");
             File nativeDir = new File(context.getApplicationInfo().nativeLibraryDir);
             File qemu = new File(nativeDir, "libqemu.so"), img = new File(nativeDir, "libqemu_img.so");
-            if (!qemu.isFile() || !img.isFile()) throw new IOException("Ten APK nie zawiera środowiska QEMU. Zbuduj pełny wariant aplikacji.");
+            if (!qemu.isFile() || !img.isFile()) throw new IOException("This APK doesn't include the QEMU environment. Build the full app variant.");
             final Process running;
             synchronized (preparation) {
             if (epoch != generation) return;
@@ -129,7 +129,7 @@ final class DockerVm {
                 Process create = nativeProcess(Arrays.asList(img.getAbsolutePath(), "create", "-f", "qcow2", "-F", "qcow2",
                         "-b", new File(directory, "base.qcow2").getAbsolutePath(), overlay.getAbsolutePath())).redirectOutput(creationLog).start();
                 if (!create.waitFor(30, TimeUnit.SECONDS) || create.exitValue() != 0) {
-                    create.destroyForcibly(); throw new IOException("Nie można utworzyć dysku: " + readBounded(new FileInputStream(creationLog), 8192));
+                    create.destroyForcibly(); throw new IOException("Cannot create disk: " + readBounded(new FileInputStream(creationLog), 8192));
                 }
             }
             ArrayList<String> args = new ArrayList<>();
@@ -165,9 +165,9 @@ final class DockerVm {
                 if (epoch != generation) return;
                 ProcessBuilder pb = nativeProcess(shell);
                 File pidFile=new File(directory,"vm.pid");
-                if(pidFile.exists()&&!pidFile.delete())throw new IOException("Nie można przygotować pliku procesu środowiska");
+                if(pidFile.exists()&&!pidFile.delete())throw new IOException("Cannot prepare the environment process file");
                 pb.environment().put("AA_PID_FILE", pidFile.getAbsolutePath());
-                process = pb.start(); processStarted = true; running = process; state = "booting"; detail = "Uruchamianie Linuxa i Dockera";
+                process = pb.start(); processStarted = true; running = process; state = "booting"; detail = "Starting Linux and Docker";
                 bootStarted = SystemClock.elapsedRealtime();
                 log.append("ANDROID_HOST_PROCESS_STARTED epoch_ms=" + System.currentTimeMillis()
                     + " monotonic_ms=" + bootStarted + " ram_mb=" + ramMb + " vcpus=" + vcpus + "\n");
@@ -209,12 +209,12 @@ final class DockerVm {
                         guest = result;
                         JSONObject startup = result.optJSONObject("startup");
                         if (startup != null) log.noteStartup(startup);
-                        if (startup != null && "error".equals(startup.optString("stage"))) startupError = startup.optString("detail", "Błąd rozruchu Docker Engine");
-                        if (result.optBoolean("ready")) { state = "ready"; detail = "Docker działa na telefonie"; }
+                        if (startup != null && "error".equals(startup.optString("stage"))) startupError = startup.optString("detail", "Docker Engine startup error");
+                        if (result.optBoolean("ready")) { state = "ready"; detail = "Docker is running on the phone"; }
                         // A busy engine can miss one short heartbeat while a
                         // build is running. Its supervisor publishes failures
                         // explicitly; do not reject cancellation due to jitter.
-                        else if (!"ready".equals(state)) { state = "booting"; detail = startup == null ? "Uruchamianie Linuxa i Dockera" : startup.optString("detail", "Uruchamianie Dockera"); }
+                        else if (!"ready".equals(state)) { state = "booting"; detail = startup == null ? "Starting Linux and Docker" : startup.optString("detail", "Starting Docker"); }
                     }
                 } catch (Exception error) {
                     synchronized (lifecycle) {
@@ -230,16 +230,16 @@ final class DockerVm {
                 if (startupError != null) {
                     captureGuestDiagnostics(log, generation, running);
                     log.finish("guest_startup_error", null, startupError);
-                    throw new IOException(startupError + ". Zachowano diagnostykę rozruchu.");
+                    throw new IOException(startupError + ". Boot diagnostics were kept.");
                 }
                 if (!"ready".equals(state) && SystemClock.elapsedRealtime() > deadline) {
                     captureGuestDiagnostics(log, generation, running);
-                    log.finish("host_startup_timeout", null, "Limit rozruchu Androida");
-                    throw new IOException("Linux nie uruchomił Dockera w wyznaczonym czasie. Zachowano diagnostykę rozruchu.");
+                    log.finish("host_startup_timeout", null, "Android startup limit");
+                    throw new IOException("Linux did not start Docker in time. Startup diagnostics were kept.");
                 }
                 Thread.sleep(2000);
             }
-            if (epoch == generation) throw new IOException("Środowisko zakończyło działanie. " + console.substring(Math.max(0, console.length() - 1000)));
+            if (epoch == generation) throw new IOException("The environment has exited. " + console.substring(Math.max(0, console.length() - 1000)));
         } catch (Exception e) {
             synchronized (lifecycle) {
                 if (epoch == generation) {
@@ -259,14 +259,14 @@ final class DockerVm {
     }
 
     JSONObject diagnostics(int offset, int limit) throws Exception {
-        if (offset < 0 || limit < 1 || limit > 32768) throw new IllegalArgumentException("offset >= 0; limit musi wynosić 1–32768 bajtów");
+        if (offset < 0 || limit < 1 || limit > 32768) throw new IllegalArgumentException("offset >= 0; limit must be 1–32768 bytes");
         DockerDiagnostics current = diagnostics;
         return current.read(offset, limit).put("metadata", current.status());
     }
 
     JSONObject exportDiagnostics() throws Exception {
         DockerDiagnostics current = diagnostics;
-        if (!current.status().optBoolean("available")) throw new IOException("Brak zapisanego dziennika. Najpierw uruchom środowisko.");
+        if (!current.status().optBoolean("available")) throw new IOException("No saved log. Start the environment first.");
         File dir = new File(context.getFilesDir(), "docker-exports"); dir.mkdirs();
         String id = UUID.randomUUID().toString().replace("-", "") + ".txt";
         File target = new File(dir, id);
@@ -297,54 +297,54 @@ final class DockerVm {
         boolean preserveDisk = new File(directory, "user.qcow2").exists();
         JSONObject current = new JSONObject(manifest);
         if (preserveDisk) {
-            if (!marker.isFile()) throw new IOException("Nie można potwierdzić wersji zapisanego dysku. Zachowaj wyniki przed zmianą środowiska.");
+            if (!marker.isFile()) throw new IOException("Cannot confirm the saved disk version. Save your results before changing the environment.");
             JSONObject previous = new JSONObject(readBounded(new FileInputStream(marker), 16384));
             JSONObject priorFiles = previous.getJSONObject("files"), nextFiles = current.getJSONObject("files");
             // Never replace a QCOW2 backing image underneath existing user
             // sectors. 0.4.3 changes only the owned guest runtime in initramfs.
             for (String name : Arrays.asList("base.qcow2.gz", "vmlinuz-virt")) {
                 if (!nextFiles.getString(name).equals(priorFiles.optString(name)))
-                    throw new IOException("Ta aktualizacja zmienia bazę dysku. Najpierw zachowaj wyniki; dysk nie został zmieniony.");
+                    throw new IOException("This update changes the disk base. Save your results first; the disk was not changed.");
             }
             if (!new File(directory, "base.qcow2").isFile() || !new File(directory, "vmlinuz-virt").isFile())
-                throw new IOException("Brakuje bazy zapisanego dysku. Dysk użytkownika pozostaje zachowany.");
-            detail = "Aktualizowanie nadzoru Dockera z zachowaniem dysku i projektów";
+                throw new IOException("The saved disk's base image is missing. The user disk is preserved.");
+            detail = "Updating the Docker supervisor while keeping the disk and projects";
         }
         long needed = (preserveDisk ? 64L : 1024L) * 1024 * 1024;
         if (directory.getUsableSpace() < needed) throw new IOException(preserveDisk
-                ? "Aktualizacja nadzoru Dockera wymaga co najmniej 64 MB wolnego miejsca."
-                : "Przygotowanie środowiska wymaga co najmniej 1 GB wolnego miejsca.");
+                ? "Updating the Docker supervisor requires at least 64 MB of free space."
+                : "Environment setup needs at least 1 GB of free space.");
         JSONObject files = new JSONObject(manifest).getJSONObject("files");
         for (String name : Arrays.asList("base.qcow2.gz", "vmlinuz-virt", "initramfs-virt")) {
             if (preserveDisk && !"initramfs-virt".equals(name)) continue;
             if (epoch != generation) return;
-            detail = "Rozpakowywanie środowiska Linux";
+            detail = "Unpacking Linux environment";
             File part = new File(directory, name + ".part");
             MessageDigest hash = MessageDigest.getInstance("SHA-256");
             try (InputStream in = context.getAssets().open(asset + name); FileOutputStream out = new FileOutputStream(part)) {
                 byte[] buffer = new byte[65536]; int n;
                 while ((n = in.read(buffer)) != -1) {
-                    if (epoch != generation) throw new IOException("Przerwano przygotowanie");
+                    if (epoch != generation) throw new IOException("Setup interrupted");
                     hash.update(buffer, 0, n); out.write(buffer, 0, n);
                 }
                 out.getFD().sync();
             }
-            if (!hex(hash.digest()).equals(files.getString(name))) { part.delete(); throw new IOException("Nieprawidłowa suma SHA256 środowiska"); }
+            if (!hex(hash.digest()).equals(files.getString(name))) { part.delete(); throw new IOException("Invalid environment SHA256 checksum"); }
             if (name.endsWith(".gz")) {
                 File unpacked = new File(directory, "base.qcow2.part");
                 try (InputStream in = new GZIPInputStream(new FileInputStream(part), 65536); FileOutputStream out = new FileOutputStream(unpacked)) {
                     byte[] buffer = new byte[65536]; int n; long total=0;
                     while ((n=in.read(buffer))!=-1) {
-                        if(epoch!=generation)throw new IOException("Przerwano przygotowanie");
-                        total+=n;if(total>1024L*1024*1024)throw new IOException("Obraz przekracza limit rozpakowania");
-                        out.write(buffer,0,n);detail="Rozpakowywanie Linuxa: "+(total/1048576)+" MB";
+                        if(epoch!=generation)throw new IOException("Setup interrupted");
+                        total+=n;if(total>1024L*1024*1024)throw new IOException("Image exceeds the unpack limit");
+                        out.write(buffer,0,n);detail="Unpacking Linux: "+(total/1048576)+" MB";
                     }
                     out.getFD().sync();
                 }
                 if (epoch != generation) return;
-                if (!unpacked.renameTo(new File(directory, "base.qcow2"))) throw new IOException("Nie można zapisać obrazu Linuxa");
+                if (!unpacked.renameTo(new File(directory, "base.qcow2"))) throw new IOException("Cannot save the Linux image");
                 part.delete();
-            } else if (!part.renameTo(new File(directory, name))) throw new IOException("Nie można zapisać kernela");
+            } else if (!part.renameTo(new File(directory, name))) throw new IOException("Cannot save the kernel");
         }
         if (epoch != generation) return;
         copyAssets(asset + "qemu", new File(directory, "qemu"));
@@ -353,7 +353,7 @@ final class DockerVm {
         try (FileOutputStream out = new FileOutputStream(markerPart)) {
             out.write(manifest.getBytes(StandardCharsets.UTF_8)); out.getFD().sync();
         }
-        if (!markerPart.renameTo(marker)) throw new IOException("Nie można zapisać wersji środowiska");
+        if (!markerPart.renameTo(marker)) throw new IOException("Cannot save the environment version");
         java.io.FileDescriptor installedDirectory = android.system.Os.open(directory.getAbsolutePath(), android.system.OsConstants.O_RDONLY, 0);
         try { android.system.Os.fsync(installedDirectory); } finally { android.system.Os.close(installedDirectory); }
     }
@@ -375,10 +375,10 @@ final class DockerVm {
             if(!task.matches("[a-f0-9]{32}"))throw new IllegalArgumentException("Invalid task id");
             UsbDocker.closeTask(context,task);
         }
-        if (!"ready".equals(state)) throw new IOException("Otwórz Docker w androidagent i uruchom środowisko. " + detail);
+        if (!"ready".equals(state)) throw new IOException("Open Docker in androidagent and start the environment. " + detail);
         final int generation = epoch;
         JSONObject result = requestRaw(args, 60000);
-        if (generation != epoch) throw new IOException("Środowisko zostało zatrzymane");
+        if (generation != epoch) throw new IOException("The environment was stopped");
         published(args.optString("op"), result, generation);
         return result;
     }
@@ -464,7 +464,7 @@ final class DockerVm {
      * 18800–18899, preferring 18800 + (guest − 8080). A setting change re-binds the forward.
      */
     private Forward forward(int guestPort, int generation) throws Exception {
-        if (guestPort < GUEST_PREVIEW_FIRST || guestPort > GUEST_PREVIEW_LAST) throw new IOException("Nieprawidłowy port podglądu w Linuxie: " + guestPort);
+        if (guestPort < GUEST_PREVIEW_FIRST || guestPort > GUEST_PREVIEW_LAST) throw new IOException("Invalid Linux preview port: " + guestPort);
         String bind = lanExposure(context) ? "0.0.0.0" : "127.0.0.1";
         synchronized (forwarding) {
             if (forwardGeneration != generation) { forwards.clear(); forwardRetry.clear(); forwardGeneration = generation; }
@@ -481,11 +481,11 @@ final class DockerVm {
             Set<Integer> taken = new HashSet<>();
             for (Forward f : forwards.values()) taken.add(f.host);
             int preferred = HOST_PREVIEW_FIRST + guestPort - GUEST_PREVIEW_FIRST;
-            String failure = "Brak wolnego portu " + HOST_PREVIEW_FIRST + "–" + HOST_PREVIEW_LAST + " dla podglądu";
+            String failure = "No free port " + HOST_PREVIEW_FIRST + "–" + HOST_PREVIEW_LAST + " for preview";
             for (int n = 0; n <= HOST_PREVIEW_LAST - HOST_PREVIEW_FIRST; n++) {
                 int host = HOST_PREVIEW_FIRST + (preferred - HOST_PREVIEW_FIRST + n) % (HOST_PREVIEW_LAST - HOST_PREVIEW_FIRST + 1);
                 if (taken.contains(host)) continue;
-                if (epoch != generation) throw new IOException("Środowisko zostało zatrzymane");
+                if (epoch != generation) throw new IOException("The environment was stopped");
                 String reply = hmp("hostfwd_add " + NETDEV + " tcp:" + bind + ":" + host + "-:" + guestPort);
                 if (reply.isEmpty()) {
                     Forward added = new Forward(guestPort, host, bind, false);
@@ -555,7 +555,7 @@ final class DockerVm {
             int code = connection.getResponseCode();
             String text = readBounded(code == 200 ? connection.getInputStream() : connection.getErrorStream(), 1024 * 1024);
             JSONObject result = new JSONObject(text);
-            if (code != 200 || result.has("error")) throw new IOException(result.optString("error", "Błąd środowiska " + code));
+            if (code != 200 || result.has("error")) throw new IOException(result.optString("error", "Environment error " + code));
             return result;
         } finally { connection.disconnect(); }
     }
@@ -570,7 +570,7 @@ final class DockerVm {
         return c;
     }
     JSONObject export(String task, String path) throws Exception {
-        if (!"ready".equals(state)) throw new IOException("Środowisko jest zatrzymane");
+        if (!"ready".equals(state)) throw new IOException("The environment is stopped");
         HttpURLConnection c = connect("/artifact?task=" + URLEncoder.encode(task, "UTF-8") + "&path=" + URLEncoder.encode(path, "UTF-8"), 120000);
         File dir = new File(context.getFilesDir(), "docker-exports"); dir.mkdirs();
         String display = new File(path).getName();
@@ -604,7 +604,7 @@ final class DockerVm {
     void stop(boolean graceful) {
         final int generation;final Process running;
         synchronized (lifecycle) {
-            generation=++epoch;pendingStops++;running=process;state="stopping";detail="Zatrzymywanie środowiska";
+            generation=++epoch;pendingStops++;running=process;state="stopping";detail="Stopping environment";
             diagnostics.finish(graceful ? "user_stop" : "forced_stop", null, detail);
         }
         try {
@@ -617,13 +617,13 @@ final class DockerVm {
             synchronized (lifecycle) {
                 // Keep start disabled until every old shutdown request completes.
                 // Otherwise a late HTTP shutdown could reach a new VM on this port.
-                if(epoch==generation) {kill();guest=new JSONObject();detail="Środowisko zatrzymane";}
+                if(epoch==generation) {kill();guest=new JSONObject();detail="Environment stopped";}
                 if(--pendingStops==0){stoppedEpoch=epoch;state="stopped";}
             }
         }
     }
     void emergencyStop() {
-        synchronized (lifecycle) { ++epoch;pendingStops++;diagnostics.finish("emergency_stop", null, "Przerwano pracę środowiska");kill();guest=new JSONObject();state="stopping";detail="Przerwano pracę środowiska"; }
+        synchronized (lifecycle) { ++epoch;pendingStops++;diagnostics.finish("emergency_stop", null, "Environment stopped");kill();guest=new JSONObject();state="stopping";detail="Environment stopped"; }
         try {UsbDocker.closeVm(context);}
         finally {synchronized (lifecycle) {if(--pendingStops==0){stoppedEpoch=epoch;state="stopped";}}}
     }
@@ -654,20 +654,20 @@ final class DockerVm {
     }
     void reset() throws Exception {
         synchronized (lifecycle) {
-        if (alive() || "preparing".equals(state) || "booting".equals(state) || "stopping".equals(state)) throw new IOException("Najpierw zatrzymaj środowisko");
+        if (alive() || "preparing".equals(state) || "booting".equals(state) || "stopping".equals(state)) throw new IOException("Stop the environment first");
         // Only this app-owned disk. Exported files and model accounts live elsewhere.
         File overlay = new File(directory, "user.qcow2");
-        if (overlay.exists() && !overlay.delete()) throw new IOException("Nie można usunąć dysku");
-        guest = new JSONObject(); detail = "Usunięto zadania i cache Dockera";
+        if (overlay.exists() && !overlay.delete()) throw new IOException("Cannot delete the disk");
+        guest = new JSONObject(); detail = "Docker tasks and cache deleted";
         }
     }
     private static String readBounded(InputStream in, int max) throws IOException {
-        if (in == null) throw new IOException("Brak odpowiedzi");
+        if (in == null) throw new IOException("No response");
         try (InputStream stream = in; ByteArrayOutputStream out = new ByteArrayOutputStream()) { copy(stream, out, max); return new String(out.toByteArray(), StandardCharsets.UTF_8); }
     }
     private static void copy(InputStream in, OutputStream out, long max) throws IOException {
         byte[] buffer = new byte[65536]; long count = 0; int n;
-        while ((n = in.read(buffer)) != -1) { count += n; if (count > max) throw new IOException("Plik przekracza limit rozmiaru"); out.write(buffer, 0, n); }
+        while ((n = in.read(buffer)) != -1) { count += n; if (count > max) throw new IOException("File exceeds the size limit"); out.write(buffer, 0, n); }
     }
     private static String hex(byte[] data) { StringBuilder s = new StringBuilder(); for (byte b : data) s.append(String.format(java.util.Locale.ROOT, "%02x", b & 255)); return s.toString(); }
 }

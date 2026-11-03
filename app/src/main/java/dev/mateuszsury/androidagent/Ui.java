@@ -438,7 +438,7 @@ final class Ui {
             c.addView(m);
         }
         LinearLayout btns = row(a);
-        Button no = button(a, "Anuluj", false);
+        Button no = button(a, "Cancel", false);
         Button yes = button(a, action, !destructive);
         if (destructive) {
             yes.setTextColor(ERR);
@@ -470,9 +470,9 @@ final class Ui {
         bar.setGravity(Gravity.CENTER);
         bar.setPadding(dp(a, 8), dp(a, 2), dp(a, 8), dp(a, 2));
         Object[][] items = {
-                {R.drawable.ms_chat_bubble, "Czaty", MainActivity.class},
-                {R.drawable.ms_terminal, "Sesje", MonitorActivity.class},
-                {R.drawable.ms_tune, "Ustawienia", SetupActivity.class},
+                {R.drawable.ms_chat_bubble, "Chats", MainActivity.class},
+                {R.drawable.ms_terminal, "Sessions", MonitorActivity.class},
+                {R.drawable.ms_tune, "Settings", SetupActivity.class},
         };
         for (int i = 0; i < items.length; i++) {
             final int idx = i;
@@ -536,7 +536,7 @@ final class Ui {
         LinearLayout bar = row(a);
         bar.setPadding(dp(a, 4), dp(a, 6), dp(a, 8), dp(a, 6));
         bar.setMinimumHeight(dp(a, 60));
-        ImageButton back = iconButton(a, R.drawable.ms_arrow_back, "Wróć");
+        ImageButton back = iconButton(a, R.drawable.ms_arrow_back, "Back");
         back.setOnClickListener(v -> a.finish());
         bar.addView(back);
         LinearLayout texts = column(a);

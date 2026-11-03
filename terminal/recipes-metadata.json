@@ -1,9 +1,9 @@
 {
-  "recipes_commit": "ae877f2c6a2b2318abeb43699d6ec5f619c216a6",
+  "recipes_commit": "9960bff8500e0be59b11a6364d257180c3171696",
   "packages": {
     "apt": {
       "recipe": "packages/apt/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/apt",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/apt",
       "recipe_files": [
         {
           "path": "packages/apt/0000-cmake-fix.patch",
@@ -83,11 +83,11 @@
         "homepage": "https://packages.debian.org/apt",
         "revision": "2"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/apt/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/apt/build.sh"
     },
     "attr": {
       "recipe": "packages/attr/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/attr",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/attr",
       "recipe_files": [
         {
           "path": "packages/attr/build.sh",
@@ -102,11 +102,11 @@
         "sha256": "d42fa374513180bb48cb11a46696f488240e5124ff1e6ad88b0abff706985612",
         "homepage": "http://savannah.nongnu.org/projects/attr/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/attr/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/attr/build.sh"
     },
     "bash": {
       "recipe": "packages/bash/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/bash",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/bash",
       "recipe_files": [
         {
           "path": "packages/bash/build.sh",
@@ -181,11 +181,11 @@
         "sha256": "0d5cd86965f869a26cf64f4b71be7b96f90a3ba8b3d74e27e8e9d9d5550f31ba",
         "homepage": "https://www.gnu.org/software/bash/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/bash/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/bash/build.sh"
     },
     "bzip2": {
       "recipe": "packages/libbz2/bzip2.subpackage.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libbz2",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libbz2",
       "recipe_files": [
         {
           "path": "packages/libbz2/build.sh",
@@ -210,11 +210,11 @@
       ],
       "recipe_sha256": "d6b23cb24dcd8b90bdf1b97514ece79ef270effcc3369b340ef5c91b92a522b1",
       "declared_fields": {},
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libbz2/bzip2.subpackage.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libbz2/bzip2.subpackage.sh"
     },
     "c-ares": {
       "recipe": "packages/c-ares/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/c-ares",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/c-ares",
       "recipe_files": [
         {
           "path": "packages/c-ares/0001-disable-ares-android.patch",
@@ -226,65 +226,66 @@
         },
         {
           "path": "packages/c-ares/build.sh",
-          "git_blob_sha": "1ca79be308f79948979669f90679523059eebd99"
+          "git_blob_sha": "062483aa9f06ed621e0741f1887e11c4c8974ba4"
         }
       ],
-      "recipe_sha256": "39364f4135281f12c103e20468f8776c4dec2008f268d3cea73c9d17ff3441d3",
+      "recipe_sha256": "9c30248647f8c21dc99070fc9f89f3be522303e365d682dd80dc1ac52416f39b",
       "declared_fields": {
-        "version": "\"1.34.8\"",
+        "version": "\"1.34.9\"",
         "license": "\"MIT\"",
         "srcurl": "https://github.com/c-ares/c-ares/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz",
-        "sha256": "ddf8be8b179ef6ff656e7413da93cf0f3038c627aca29ce9aae30f66e5b32bc1",
+        "sha256": "453bab9eb8c2bd4343b527dd97dbd77e1fab6608781dda2dbbfde7e480882c97",
         "homepage": "https://c-ares.org/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/c-ares/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/c-ares/build.sh"
     },
     "ca-certificates": {
       "recipe": "packages/ca-certificates/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/ca-certificates",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/ca-certificates",
       "recipe_files": [
         {
           "path": "packages/ca-certificates/build.sh",
-          "git_blob_sha": "5ad361715bc74694cb595482bd0e3d582b2f9824"
+          "git_blob_sha": "75d7ea0b4c44d6d37ad65186e75b54434f8ac20f"
         },
         {
           "path": "packages/ca-certificates/ca-certificates-java.subpackage.sh",
           "git_blob_sha": "1d2b7655be21702fc4377f20ef47e36f5005b5d9"
         }
       ],
-      "recipe_sha256": "49346cd737c0c8f423f26cb0cb04467f93fb9d69c9c1fb1aff5840a9ea215861",
+      "recipe_sha256": "3b0473c9a6f44ecf202b12f7b16e85c93814eb5e259fb414b362f16cc00fc93d",
       "declared_fields": {
-        "version": "\"1:2026.09.25\"",
+        "version": "\"1:2026.10.20\"",
         "license": "\"MPL-2.0\"",
         "srcurl": "https://curl.se/ca/cacert-$(sed 's/\\./-/g' <<< ${TERMUX_PKG_VERSION:2}).pem",
-        "sha256": "a41b5d356aea97a529fe27e0f7316d2f9d946d75927476cf9cf1b90637d00505",
-        "homepage": "https://curl.se/docs/caextract.html"
+        "sha256": "796f1389bfea13c0ed78f663b765baaff54a508e5483786bd6ece73c5e3e3cbe",
+        "homepage": "https://curl.se/docs/caextract.html",
+        "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/ca-certificates/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/ca-certificates/build.sh"
     },
     "command-not-found": {
       "recipe": "packages/command-not-found/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/command-not-found",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/command-not-found",
       "recipe_files": [
         {
           "path": "packages/command-not-found/build.sh",
-          "git_blob_sha": "be8e70e57aedfcba869d694244aa566fc40f7748"
+          "git_blob_sha": "379f617fdd8148239aa600d4bfb60003c4f26903"
         }
       ],
-      "recipe_sha256": "e65b506d654c3f704742340c755665dd18f6bc7d4575b71e6f76681d11ade673",
+      "recipe_sha256": "61fe63a23eec0a902d087ed94b86eb18d942650ef678b9aa0079feeb6ac15f39",
       "declared_fields": {
         "version": "3.5.0",
         "license": "\"Apache-2.0\"",
         "srcurl": "https://github.com/termux/command-not-found/archive/refs/tags/v${TERMUX_PKG_VERSION}.tar.gz",
         "sha256": "1c3681c9c5046a2f9ecaa250361e78cdc30ba2baabc0dfa11accfb6982721b13",
         "homepage": "https://github.com/termux/command-not-found",
-        "revision": "15"
+        "revision": "18"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/command-not-found/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/command-not-found/build.sh"
     },
     "coreutils": {
       "recipe": "packages/coreutils/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/coreutils",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/coreutils",
       "recipe_files": [
         {
           "path": "packages/coreutils/backport-782a1e5b-env-sanitizer-too-aggressive.patch",
@@ -339,11 +340,11 @@
         "sha256": "a480198559733e9b3da999e90543ac6f888a2caa544d8d664c5a1f17e528e210",
         "homepage": "https://www.gnu.org/software/coreutils/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/coreutils/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/coreutils/build.sh"
     },
     "curl": {
       "recipe": "packages/libcurl/curl.subpackage.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libcurl",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libcurl",
       "recipe_files": [
         {
           "path": "packages/libcurl/build.sh",
@@ -356,11 +357,11 @@
       ],
       "recipe_sha256": "47a25ce446d62c15a4911b4ed6e95fb0655cb1624eb1b62a13a6b6e87315daef",
       "declared_fields": {},
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libcurl/curl.subpackage.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libcurl/curl.subpackage.sh"
     },
     "dash": {
       "recipe": "packages/dash/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/dash",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/dash",
       "recipe_files": [
         {
           "path": "packages/dash/build.sh",
@@ -387,11 +388,11 @@
         "sha256": "53622e51df0fd7a2950552cfe0da0bee9bfc1510784e752b62eacc49b3776d33",
         "homepage": "http://gondor.apana.org.au/~herbert/dash/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/dash/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/dash/build.sh"
     },
     "debianutils": {
       "recipe": "packages/debianutils/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/debianutils",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/debianutils",
       "recipe_files": [
         {
           "path": "packages/debianutils/Makefile.am.patch",
@@ -410,11 +411,11 @@
         "sha256": "bf79c301ad48e82ddb09d8c0770f6d44294ee9529ae5e54164072f7bf5c57016",
         "homepage": "https://packages.debian.org/debianutils"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/debianutils/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/debianutils/build.sh"
     },
     "dialog": {
       "recipe": "packages/dialog/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/dialog",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/dialog",
       "recipe_files": [
         {
           "path": "packages/dialog/build.sh",
@@ -429,11 +430,11 @@
         "sha256": "62bdf59057d4f760a1cc2217827f07887b4a3eebf694c25eacd4803d2171cdc6",
         "homepage": "https://invisible-island.net/dialog/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/dialog/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/dialog/build.sh"
     },
     "diffutils": {
       "recipe": "packages/diffutils/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/diffutils",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/diffutils",
       "recipe_files": [
         {
           "path": "packages/diffutils/build.sh",
@@ -449,11 +450,11 @@
         "homepage": "https://www.gnu.org/software/diffutils/",
         "revision": "2"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/diffutils/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/diffutils/build.sh"
     },
     "dos2unix": {
       "recipe": "packages/dos2unix/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/dos2unix",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/dos2unix",
       "recipe_files": [
         {
           "path": "packages/dos2unix/Makefile.patch",
@@ -472,11 +473,11 @@
         "sha256": "669ee27120ae71589f638fe3a167d6ea54f8633f5ab1b282551bd7a7c9510dfa",
         "homepage": "https://waterlander.net/dos2unix/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/dos2unix/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/dos2unix/build.sh"
     },
     "dpkg": {
       "recipe": "packages/dpkg/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/dpkg",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/dpkg",
       "recipe_files": [
         {
           "path": "packages/dpkg/build.sh",
@@ -539,11 +540,11 @@
         "homepage": "https://packages.debian.org/dpkg",
         "revision": "5"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/dpkg/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/dpkg/build.sh"
     },
     "ed": {
       "recipe": "packages/ed/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/ed",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/ed",
       "recipe_files": [
         {
           "path": "packages/ed/build.sh",
@@ -562,15 +563,15 @@
         "sha256": "3f33b22135219c39c3c695f7b7171c2567d3e2a17c798c0a90607320cbb268f2",
         "homepage": "https://www.gnu.org/software/ed/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/ed/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/ed/build.sh"
     },
     "findutils": {
       "recipe": "packages/findutils/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/findutils",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/findutils",
       "recipe_files": [
         {
           "path": "packages/findutils/build.sh",
-          "git_blob_sha": "ec14fc61c4db4340dd1de6b6cb32894c0a7b95ce"
+          "git_blob_sha": "0514bb4f52ce8210ad048067f157f199f70836f8"
         },
         {
           "path": "packages/findutils/configure.patch",
@@ -581,7 +582,7 @@
           "git_blob_sha": "e8561a074ba5d6d445e53f572ab76216a9e87dd8"
         }
       ],
-      "recipe_sha256": "95d87e84d9fc19b18ec186b29bbfc0fd818af4d92cfcb57d330590d69e65a051",
+      "recipe_sha256": "0afb92f5845f3cb83f9a8cbd3ef60a798088555271e0628c5e78f6920ab60e06",
       "declared_fields": {
         "version": "4.11.0",
         "license": "\"GPL-3.0\"",
@@ -589,11 +590,11 @@
         "sha256": "bfd19cb06cc71f3352d567e90284d8cdac02ac89774bbeadf0b533b0c11432fd",
         "homepage": "https://www.gnu.org/software/findutils/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/findutils/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/findutils/build.sh"
     },
     "gawk": {
       "recipe": "packages/gawk/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/gawk",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/gawk",
       "recipe_files": [
         {
           "path": "packages/gawk/build.sh",
@@ -628,11 +629,11 @@
         "sha256": "07f6f7342b7febe4313fc2c2542ad93d64fe20ad8717200109f105a826f5fd37",
         "homepage": "https://www.gnu.org/software/gawk/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/gawk/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/gawk/build.sh"
     },
     "gdbm": {
       "recipe": "packages/gdbm/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/gdbm",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/gdbm",
       "recipe_files": [
         {
           "path": "packages/gdbm/build.sh",
@@ -648,11 +649,11 @@
         "homepage": "https://www.gnu.org.ua/software/gdbm/",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/gdbm/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/gdbm/build.sh"
     },
     "git": {
       "recipe": "packages/git/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/git",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/git",
       "recipe_files": [
         {
           "path": "packages/git/build.sh",
@@ -719,11 +720,11 @@
         "sha256": "26c56c296b38c0695b26fa95f475f1d01704d2d38e73465ca30b0b2f5dc789d3",
         "homepage": "https://git-scm.com/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/git/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/git/build.sh"
     },
     "gpgv": {
       "recipe": "packages/gnupg/gpgv.subpackage.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/gnupg",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/gnupg",
       "recipe_files": [
         {
           "path": "packages/gnupg/agent-agent.h.patch",
@@ -768,11 +769,11 @@
       ],
       "recipe_sha256": "dc6e50caf101bae1adf30d0cf6556be38cbae053efc1376562c7e780a7d0648a",
       "declared_fields": {},
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/gnupg/gpgv.subpackage.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/gnupg/gpgv.subpackage.sh"
     },
     "grep": {
       "recipe": "packages/grep/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/grep",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/grep",
       "recipe_files": [
         {
           "path": "packages/grep/build.sh",
@@ -792,11 +793,11 @@
         "homepage": "https://www.gnu.org/software/grep/",
         "revision": "3"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/grep/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/grep/build.sh"
     },
     "gzip": {
       "recipe": "packages/gzip/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/gzip",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/gzip",
       "recipe_files": [
         {
           "path": "packages/gzip/build.sh",
@@ -823,11 +824,11 @@
         "sha256": "9aa0cc780dec156b8282844833b342ab7cb08c25d2cd9a1869cdd0df31deff48",
         "homepage": "https://www.gnu.org/software/gzip/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/gzip/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/gzip/build.sh"
     },
     "inetutils": {
       "recipe": "packages/inetutils/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/inetutils",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/inetutils",
       "recipe_files": [
         {
           "path": "packages/inetutils/build.sh",
@@ -875,11 +876,11 @@
         "homepage": "https://www.gnu.org/software/inetutils/",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/inetutils/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/inetutils/build.sh"
     },
     "jq": {
       "recipe": "packages/jq/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/jq",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/jq",
       "recipe_files": [
         {
           "path": "packages/jq/build.sh",
@@ -894,11 +895,11 @@
         "sha256": "71b8d6e8f5fe81f6c6d0d110e3892251f6ce76ed095abd315e26e6e1193af3af",
         "homepage": "https://jqlang.org/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/jq/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/jq/build.sh"
     },
     "less": {
       "recipe": "packages/less/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/less",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/less",
       "recipe_files": [
         {
           "path": "packages/less/build.sh",
@@ -917,11 +918,11 @@
         "sha256": "d1008fb78dcae1323ddab664bcb352a61f022b1b131bd8018548e021d975ec7a",
         "homepage": "https://www.greenwoodsoftware.com/less/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/less/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/less/build.sh"
     },
     "libacl": {
       "recipe": "packages/libacl/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libacl",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libacl",
       "recipe_files": [
         {
           "path": "packages/libacl/build.sh",
@@ -936,11 +937,11 @@
         "sha256": "73c853c3d44e1f693e5a96a986f1bd19d3d0dac2c7d453e796177774bc4e5f6a",
         "homepage": "http://savannah.nongnu.org/projects/acl"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libacl/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libacl/build.sh"
     },
     "libandroid-glob": {
       "recipe": "packages/libandroid-glob/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libandroid-glob",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libandroid-glob",
       "recipe_files": [
         {
           "path": "packages/libandroid-glob/LICENSE",
@@ -948,7 +949,7 @@
         },
         {
           "path": "packages/libandroid-glob/build.sh",
-          "git_blob_sha": "aeccee04af2130a60314391d7ce37871b69cbd6b"
+          "git_blob_sha": "14ddb5ca72ca1b151c505cec0511ce9bb514ace4"
         },
         {
           "path": "packages/libandroid-glob/glob.c",
@@ -959,18 +960,18 @@
           "git_blob_sha": "d7f8aec2d3e0d0adf5750ecd0c3d17e037144280"
         }
       ],
-      "recipe_sha256": "d21990594578e13a1b792508e023c9b385fd837c7f2ac0b851ada50a5c953132",
+      "recipe_sha256": "6102e21f8da56e853d2add2f8158462187b7fc10c0a5406c5c7a63872adabd24",
       "declared_fields": {
         "version": "0.6",
         "license": "\"BSD 3-Clause\"",
         "homepage": "https://man7.org/linux/man-pages/man3/glob.3.html",
         "revision": "3"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libandroid-glob/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libandroid-glob/build.sh"
     },
     "libandroid-posix-semaphore": {
       "recipe": "packages/libandroid-posix-semaphore/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libandroid-posix-semaphore",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libandroid-posix-semaphore",
       "recipe_files": [
         {
           "path": "packages/libandroid-posix-semaphore/LICENSE",
@@ -978,25 +979,25 @@
         },
         {
           "path": "packages/libandroid-posix-semaphore/build.sh",
-          "git_blob_sha": "003a836f9c2a8e3f6b114b6eb511ef18cf69a1da"
+          "git_blob_sha": "4fd26faf9c0df66d50f92be4d7e93762735d919a"
         },
         {
           "path": "packages/libandroid-posix-semaphore/semaphore.c",
           "git_blob_sha": "45d27f91afff2be2d5e17c886e667633b8227aa6"
         }
       ],
-      "recipe_sha256": "ef7431b10b8f6c9e60e0c785e435138f6de39fa2a301a6fe73fabf2948dd6fec",
+      "recipe_sha256": "d970743073549fcbbf2afe4774c7a8a7239adc724c578eb44ef888afed71d0d6",
       "declared_fields": {
         "version": "0.1",
         "license": "\"MIT\"",
         "homepage": "https://man7.org/linux/man-pages/man7/sem_overview.7.html",
         "revision": "4"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libandroid-posix-semaphore/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libandroid-posix-semaphore/build.sh"
     },
     "libandroid-selinux": {
       "recipe": "packages/libandroid-selinux/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libandroid-selinux",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libandroid-selinux",
       "recipe_files": [
         {
           "path": "packages/libandroid-selinux/Makefile-android",
@@ -1004,7 +1005,7 @@
         },
         {
           "path": "packages/libandroid-selinux/build.sh",
-          "git_blob_sha": "de28d16581e79b337afa5357ef6124bacc3939eb"
+          "git_blob_sha": "2c865292e2b52da74d30d9eb4c4389df355c9d98"
         },
         {
           "path": "packages/libandroid-selinux/termux-build.patch",
@@ -1015,7 +1016,7 @@
           "git_blob_sha": "38928b3c4b59c43bdc6b03638bc7d77a04727678"
         }
       ],
-      "recipe_sha256": "98b11e90b4f7bc9afaa85fd4005a0dec1151d1272ee71e7bd88c81b95d0d56a6",
+      "recipe_sha256": "c51cc0d2f853469fc83b8f06a3b5d389c6bcd862b1e0812d90ee3dac964f1bab",
       "declared_fields": {
         "version": "14.0.0.11",
         "license": "\"Public Domain\"",
@@ -1024,18 +1025,18 @@
         "homepage": "https://selinuxproject.org",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libandroid-selinux/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libandroid-selinux/build.sh"
     },
     "libandroid-shmem": {
       "recipe": "packages/libandroid-shmem/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libandroid-shmem",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libandroid-shmem",
       "recipe_files": [
         {
           "path": "packages/libandroid-shmem/build.sh",
-          "git_blob_sha": "7e013d0a658622a3a1797f868d4028cfd58f42a7"
+          "git_blob_sha": "1b0cb64a2273491377dea61c6035dfa672b3fecf"
         }
       ],
-      "recipe_sha256": "db55b10b90c54dd4d39b76b5b074835c09c7c7534a84a12bc29c6a63717ff2fd",
+      "recipe_sha256": "0262fc1342aedf7d14e2b6a2932c33e0ebc9bd1f4a80533bd0f2400c6ef9ccf3",
       "declared_fields": {
         "version": "0.7",
         "license": "\"BSD 3-Clause\"",
@@ -1043,11 +1044,11 @@
         "sha256": "1e5ff8459bc0a8c229dd8a94b27d119987e09ef3414331c2b5ebfff20b98e867",
         "homepage": "https://github.com/termux/libandroid-shmem"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libandroid-shmem/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libandroid-shmem/build.sh"
     },
     "libandroid-support": {
       "recipe": "packages/libandroid-support/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libandroid-support",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libandroid-support",
       "recipe_files": [
         {
           "path": "packages/libandroid-support/build.sh",
@@ -1063,11 +1064,11 @@
         "homepage": "https://github.com/termux/libandroid-support",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libandroid-support/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libandroid-support/build.sh"
     },
     "libassuan": {
       "recipe": "packages/libassuan/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libassuan",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libassuan",
       "recipe_files": [
         {
           "path": "packages/libassuan/build.sh",
@@ -1083,11 +1084,11 @@
         "homepage": "https://www.gnupg.org/related_software/libassuan/",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libassuan/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libassuan/build.sh"
     },
     "libblkid": {
       "recipe": "packages/util-linux/libblkid.subpackage.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/util-linux",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/util-linux",
       "recipe_files": [
         {
           "path": "packages/util-linux/blk-utils.subpackage.sh",
@@ -1200,11 +1201,11 @@
       ],
       "recipe_sha256": "4ba0d72f271531e7f8c23e46d74233bb09f890397911c7793701dafd477c96b2",
       "declared_fields": {},
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/util-linux/libblkid.subpackage.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/util-linux/libblkid.subpackage.sh"
     },
     "libbz2": {
       "recipe": "packages/libbz2/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libbz2",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libbz2",
       "recipe_files": [
         {
           "path": "packages/libbz2/build.sh",
@@ -1236,11 +1237,11 @@
         "homepage": "http://www.bzip.org/",
         "revision": "8"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libbz2/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libbz2/build.sh"
     },
     "libc++": {
       "recipe": "packages/libc++/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libc++",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libc++",
       "recipe_files": [
         {
           "path": "packages/libc++/build.sh",
@@ -1255,11 +1256,11 @@
         "sha256": "753611f410d002cfcd3f3dc2ef49aad532089d3180b436c060a90bf0fcb64df2",
         "homepage": "https://libcxx.llvm.org/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libc++/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libc++/build.sh"
     },
     "libcap-ng": {
       "recipe": "packages/libcap-ng/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libcap-ng",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libcap-ng",
       "recipe_files": [
         {
           "path": "packages/libcap-ng/build.sh",
@@ -1274,11 +1275,11 @@
         "sha256": "399040138e0ca62fa2bcabd63da9af4431a246ef7a654561a0ca3cb00010a539",
         "homepage": "https://people.redhat.com/sgrubb/libcap-ng/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libcap-ng/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libcap-ng/build.sh"
     },
     "libcrypt": {
       "recipe": "packages/libcrypt/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libcrypt",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libcrypt",
       "recipe_files": [
         {
           "path": "packages/libcrypt/LICENSE",
@@ -1304,11 +1305,11 @@
         "homepage": "http://michael.dipperstein.com/crypt/",
         "revision": "6"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libcrypt/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libcrypt/build.sh"
     },
     "libcurl": {
       "recipe": "packages/libcurl/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libcurl",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libcurl",
       "recipe_files": [
         {
           "path": "packages/libcurl/build.sh",
@@ -1327,11 +1328,11 @@
         "sha256": "8dadd7d2536a314f982ad05a651b713f426bf7d02cc2c76cffb9796f2218e6c5",
         "homepage": "https://curl.se/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libcurl/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libcurl/build.sh"
     },
     "libevent": {
       "recipe": "packages/libevent/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libevent",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libevent",
       "recipe_files": [
         {
           "path": "packages/libevent/CMakeLists.txt.patch",
@@ -1362,30 +1363,30 @@
         "sha256": "1a0885e17dc78afbaeddf13cf849f9238bbc24acdc178464a0d1934d7c5ffbd5",
         "homepage": "https://libevent.org/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libevent/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libevent/build.sh"
     },
     "libexpat": {
       "recipe": "packages/libexpat/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libexpat",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libexpat",
       "recipe_files": [
         {
           "path": "packages/libexpat/build.sh",
-          "git_blob_sha": "d3fa88a41a4c7b92b9e263f333bf0ec024f04bf8"
+          "git_blob_sha": "ee4c5bf33832d2dd49d7f0868d1418af1fdf7098"
         }
       ],
-      "recipe_sha256": "f8101759677259a33b83edd45cb47a57d19f4ddee52afc3d6e138ad04438e8f3",
+      "recipe_sha256": "d9154be35b45aab4e4375eb125b7f945a81edeb0478091e0bee6512aa8ceb521",
       "declared_fields": {
-        "version": "\"2.9.0\"",
+        "version": "\"2.10.0\"",
         "license": "\"MIT\"",
         "srcurl": "https://github.com/libexpat/libexpat/releases/download/R_${TERMUX_PKG_VERSION//./_}/expat-$TERMUX_PKG_VERSION.tar.bz2",
-        "sha256": "775e8a68f81a748a401dc3168318d4a39484eb4f954726f21517c8f42c0ba984",
+        "sha256": "44e0139015f1c9908d0876b5516235136f16b14932d8f6634a16737a12742f53",
         "homepage": "https://libexpat.github.io/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libexpat/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libexpat/build.sh"
     },
     "libffi": {
       "recipe": "packages/libffi/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libffi",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libffi",
       "recipe_files": [
         {
           "path": "packages/libffi/build.sh",
@@ -1400,11 +1401,11 @@
         "sha256": "7da3e2d9a171eb0a038f592ecad3ff2bb2550f3496d87b3b29ad0cf4430c0db4",
         "homepage": "https://sourceware.org/libffi/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libffi/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libffi/build.sh"
     },
     "libgcrypt": {
       "recipe": "packages/libgcrypt/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libgcrypt",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libgcrypt",
       "recipe_files": [
         {
           "path": "packages/libgcrypt/build.sh",
@@ -1427,11 +1428,11 @@
         "sha256": "d77f68f48879510e79a2f65977ccc68981781ea0923e5bdffac2a193ea3d660e",
         "homepage": "https://www.gnu.org/software/libgcrypt/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libgcrypt/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libgcrypt/build.sh"
     },
     "libgmp": {
       "recipe": "packages/libgmp/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libgmp",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libgmp",
       "recipe_files": [
         {
           "path": "packages/libgmp/build.sh",
@@ -1447,11 +1448,11 @@
         "homepage": "https://gmplib.org/",
         "revision": "2"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libgmp/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libgmp/build.sh"
     },
     "libgnutls": {
       "recipe": "packages/libgnutls/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libgnutls",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libgnutls",
       "recipe_files": [
         {
           "path": "packages/libgnutls/build.sh",
@@ -1479,11 +1480,11 @@
         "homepage": "https://www.gnutls.org/",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libgnutls/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libgnutls/build.sh"
     },
     "libgpg-error": {
       "recipe": "packages/libgpg-error/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libgpg-error",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libgpg-error",
       "recipe_files": [
         {
           "path": "packages/libgpg-error/atexit.patch",
@@ -1510,11 +1511,11 @@
         "sha256": "7a85413f2bc354f4f8aa832b718af122e48965e9e0eb9012ee659c13c6385c93",
         "homepage": "https://www.gnupg.org/related_software/libgpg-error/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libgpg-error/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libgpg-error/build.sh"
     },
     "libiconv": {
       "recipe": "packages/libiconv/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libiconv",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libiconv",
       "recipe_files": [
         {
           "path": "packages/libiconv/build.sh",
@@ -1533,11 +1534,11 @@
         "sha256": "88dd96a8c0464eca144fc791ae60cd31cd8ee78321e67397e25fc095c4a19aa6",
         "homepage": "https://www.gnu.org/software/libiconv/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libiconv/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libiconv/build.sh"
     },
     "libicu": {
       "recipe": "packages/libicu/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libicu",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libicu",
       "recipe_files": [
         {
           "path": "packages/libicu/build.sh",
@@ -1568,11 +1569,11 @@
         "sha256": "3a2e7a47604ba702f345878308e6fefeca612ee895cf4a5f222e7955fabfe0c0",
         "homepage": "http://site.icu-project.org/home"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libicu/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libicu/build.sh"
     },
     "libidn2": {
       "recipe": "packages/libidn2/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libidn2",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libidn2",
       "recipe_files": [
         {
           "path": "packages/libidn2/0000-disable-versioning-of-symbols.patch",
@@ -1592,11 +1593,11 @@
         "homepage": "https://www.gnu.org/software/libidn/#libidn2",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libidn2/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libidn2/build.sh"
     },
     "liblz4": {
       "recipe": "packages/liblz4/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/liblz4",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/liblz4",
       "recipe_files": [
         {
           "path": "packages/liblz4/build.sh",
@@ -1616,11 +1617,11 @@
         "homepage": "https://lz4.github.io/lz4/",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/liblz4/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/liblz4/build.sh"
     },
     "liblzma": {
       "recipe": "packages/liblzma/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/liblzma",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/liblzma",
       "recipe_files": [
         {
           "path": "packages/liblzma/build.sh",
@@ -1643,11 +1644,11 @@
         "sha256": "4ce24038fd4221e0d13bc1a2de7a4db56e90b92b3bf75321f6c14be73f65de4b",
         "homepage": "https://tukaani.org/xz/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/liblzma/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/liblzma/build.sh"
     },
     "libmagic": {
       "recipe": "packages/libmagic/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libmagic",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libmagic",
       "recipe_files": [
         {
           "path": "packages/libmagic/build.sh",
@@ -1671,11 +1672,11 @@
         "homepage": "https://darwinsys.com/file/",
         "revision": "3"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libmagic/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libmagic/build.sh"
     },
     "libmd": {
       "recipe": "packages/libmd/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libmd",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libmd",
       "recipe_files": [
         {
           "path": "packages/libmd/build.sh",
@@ -1690,11 +1691,11 @@
         "sha256": "fc0f1eb6b6766470326f2c014693809190e67dba84274a6fbae9d4912d066706",
         "homepage": "https://www.hadrons.org/software/libmd/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libmd/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libmd/build.sh"
     },
     "libmount": {
       "recipe": "packages/util-linux/libmount.subpackage.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/util-linux",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/util-linux",
       "recipe_files": [
         {
           "path": "packages/util-linux/blk-utils.subpackage.sh",
@@ -1807,11 +1808,11 @@
       ],
       "recipe_sha256": "7166f6f0eee068bbfdaf731f2d4b85e66e9ee4b9aa5faf9fa4abfac11f0319ea",
       "declared_fields": {},
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/util-linux/libmount.subpackage.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/util-linux/libmount.subpackage.sh"
     },
     "libmpfr": {
       "recipe": "packages/libmpfr/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libmpfr",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libmpfr",
       "recipe_files": [
         {
           "path": "packages/libmpfr/build.sh",
@@ -1826,11 +1827,11 @@
         "sha256": "b67ba0383ef7e8a8563734e2e889ef5ec3c3b898a01d00fa0a6869ad81c6ce01",
         "homepage": "https://www.mpfr.org/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libmpfr/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libmpfr/build.sh"
     },
     "libnettle": {
       "recipe": "packages/libnettle/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libnettle",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libnettle",
       "recipe_files": [
         {
           "path": "packages/libnettle/build.sh",
@@ -1853,68 +1854,68 @@
         "sha256": "fe9ff51cb1f2abb5e65a6b8c10a92da0ab5ab6eaf26e7fc2b675c45f1fb519b5",
         "homepage": "https://www.lysator.liu.se/~nisse/nettle/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libnettle/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libnettle/build.sh"
     },
     "libnghttp2": {
       "recipe": "packages/libnghttp2/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libnghttp2",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libnghttp2",
       "recipe_files": [
         {
           "path": "packages/libnghttp2/build.sh",
-          "git_blob_sha": "864cd06485fcf3fce7a9963440d42d58d3c92d9e"
+          "git_blob_sha": "0f396031b695c9b8753a92399415bccc6a49de80"
         }
       ],
-      "recipe_sha256": "0860290bcf314619c3744d9ae75ab7c7b20951baf2013e9e04dafc7f29b55447",
+      "recipe_sha256": "fa2a19dc6d6d6490f39fcb69958b33b830ba9750eeb6878504c2fdf66f1fd13a",
       "declared_fields": {
-        "version": "\"1.70.0\"",
+        "version": "\"1.71.0\"",
         "license": "\"MIT\"",
         "srcurl": "https://github.com/nghttp2/nghttp2/releases/download/v${TERMUX_PKG_VERSION}/nghttp2-${TERMUX_PKG_VERSION}.tar.xz",
-        "sha256": "e05cb1388eaca3830aded4ccf20044b6e1ac1a61411dcca11b0437c4285c8bc2",
+        "sha256": "c0f55121d88650e4b9227aec28cebaf664d2417ca60fe70be0f8d38829f52116",
         "homepage": "https://nghttp2.org/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libnghttp2/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libnghttp2/build.sh"
     },
     "libnghttp3": {
       "recipe": "packages/libnghttp3/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libnghttp3",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libnghttp3",
       "recipe_files": [
         {
           "path": "packages/libnghttp3/build.sh",
-          "git_blob_sha": "7abd7063c7ae4943adef70a94c0087966cc5865e"
+          "git_blob_sha": "67debef9e6f32ca38dec73cfd9ab0fc8138f67b6"
         }
       ],
-      "recipe_sha256": "3c36d3fb8a483efaa0252a113f87e283e83f549632bf22562e0e7415e71cb30f",
+      "recipe_sha256": "884b7075b8063d8e9bdb48fb1b974d8fb9a412822992c9173f9a5410f646c676",
       "declared_fields": {
-        "version": "\"1.18.0\"",
+        "version": "\"1.19.0\"",
         "license": "\"MIT\"",
         "srcurl": "https://github.com/ngtcp2/nghttp3/releases/download/v${TERMUX_PKG_VERSION}/nghttp3-${TERMUX_PKG_VERSION}.tar.xz",
-        "sha256": "aad782c23d3f01bd4bb52c8bac7a553b631ef8115fd1612703df6183449fef19",
+        "sha256": "228e17f5cc3d4de7bfced9912bd09de30e7f45741cc47503cf88d3fa9209e155",
         "homepage": "https://nghttp2.org/nghttp3/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libnghttp3/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libnghttp3/build.sh"
     },
     "libngtcp2": {
       "recipe": "packages/libngtcp2/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libngtcp2",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libngtcp2",
       "recipe_files": [
         {
           "path": "packages/libngtcp2/build.sh",
-          "git_blob_sha": "dfc6b5341349635211b1308fcec46c512167656d"
+          "git_blob_sha": "70ddfb095213c3fda1639837b2891282d2adeef8"
         }
       ],
-      "recipe_sha256": "622048f19724f9f28c47909be37d94a751c5fd14b6eb33557bf53da26ea7c5ff",
+      "recipe_sha256": "44e5a632ca656bee20f616a1221b4327110260c08d31aad66e2422a31be79ae6",
       "declared_fields": {
-        "version": "\"1.25.0\"",
+        "version": "\"1.26.0\"",
         "license": "\"MIT\"",
         "srcurl": "\"https://github.com/ngtcp2/ngtcp2/releases/download/v$TERMUX_PKG_VERSION/ngtcp2-$TERMUX_PKG_VERSION.tar.gz\"",
-        "sha256": "1c0843076528a87b65e9a9d455100941f4cb65d44f96c5da6ae56df146043955",
+        "sha256": "85174d674e7f8fd911a827c6e483fd417b21b1f54d7853dac464cee446c8d35f",
         "homepage": "https://github.com/ngtcp2/ngtcp2"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libngtcp2/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libngtcp2/build.sh"
     },
     "libnpth": {
       "recipe": "packages/libnpth/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libnpth",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libnpth",
       "recipe_files": [
         {
           "path": "packages/libnpth/build.sh",
@@ -1929,11 +1930,11 @@
         "sha256": "8bd24b4f23a3065d6e5b26e98aba9ce783ea4fd781069c1b35d149694e90ca3e",
         "homepage": "https://www.gnupg.org/related_software/npth/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libnpth/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libnpth/build.sh"
     },
     "libsmartcols": {
       "recipe": "packages/util-linux/libsmartcols.subpackage.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/util-linux",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/util-linux",
       "recipe_files": [
         {
           "path": "packages/util-linux/blk-utils.subpackage.sh",
@@ -2046,15 +2047,15 @@
       ],
       "recipe_sha256": "91d040076db77c81fefbaa9ace80a7bca90f39d1dd613af3f3878e38529de11a",
       "declared_fields": {},
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/util-linux/libsmartcols.subpackage.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/util-linux/libsmartcols.subpackage.sh"
     },
     "libsqlite": {
       "recipe": "packages/libsqlite/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libsqlite",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libsqlite",
       "recipe_files": [
         {
           "path": "packages/libsqlite/build.sh",
-          "git_blob_sha": "5d9b8e3ad7ee63bfbaa588f1e95ab2f20c924cf7"
+          "git_blob_sha": "1439e4ea3df40e1db03635746a3c1793a3d1a9a7"
         },
         {
           "path": "packages/libsqlite/libsqlite-tcl.subpackage.sh",
@@ -2066,26 +2067,27 @@
         },
         {
           "path": "packages/libsqlite/src-os_unix.c.patch",
-          "git_blob_sha": "a627290bd0865011ce88b425be10849441bae1bb"
+          "git_blob_sha": "e6016267d91a23cc0bebf98ffabcba2afbc8a119"
         },
         {
           "path": "packages/libsqlite/src-tclsqlite.patch",
           "git_blob_sha": "1c8f3fc738d05c00669ab6a0feed567b6616890e"
         }
       ],
-      "recipe_sha256": "b7691cbd94f06b294b3ec5eb6025e964418eb999a1877c8d12c1f214f67e92a8",
+      "recipe_sha256": "0e72d86c4888c13ef4d1d57b980629606fb2882a140825b7e4ee1ebbf8a8e5ed",
       "declared_fields": {
         "version": "\"3.54.1\"",
         "license": "\"Public Domain\"",
         "srcurl": "https://www.sqlite.org/${_SQLITE_YEAR}/sqlite-src-$(sed 's/\\./''/; s/\\./0/' <<< \"$TERMUX_PKG_VERSION\")00.zip",
         "sha256": "387e7f6cad4797b17848c07d453dc6606917bb356a6cfe5a3abafd38c240c71b",
-        "homepage": "https://www.sqlite.org"
+        "homepage": "https://www.sqlite.org",
+        "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libsqlite/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libsqlite/build.sh"
     },
     "libssh2": {
       "recipe": "packages/libssh2/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libssh2",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libssh2",
       "recipe_files": [
         {
           "path": "packages/libssh2/CVE-2025-15661.patch",
@@ -2121,11 +2123,11 @@
         "homepage": "https://www.libssh2.org",
         "revision": "2"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libssh2/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libssh2/build.sh"
     },
     "libtalloc": {
       "recipe": "packages/libtalloc/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libtalloc",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libtalloc",
       "recipe_files": [
         {
           "path": "packages/libtalloc/build.sh",
@@ -2140,11 +2142,11 @@
         "sha256": "912afa237510ae542a7733998eb18a12bcda35ab6729c8e2ddb43e8d0ebab007",
         "homepage": "https://talloc.samba.org/talloc/doc/html/index.html"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libtalloc/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libtalloc/build.sh"
     },
     "libtasn1": {
       "recipe": "packages/libtasn1/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libtasn1",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libtasn1",
       "recipe_files": [
         {
           "path": "packages/libtasn1/build.sh",
@@ -2163,11 +2165,11 @@
         "sha256": "1d8a444a223cc5464240777346e125de51d8e6abf0b8bac742ac84609167dc87",
         "homepage": "https://www.gnu.org/software/libtasn1/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libtasn1/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libtasn1/build.sh"
     },
     "libtirpc": {
       "recipe": "packages/libtirpc/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libtirpc",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libtirpc",
       "recipe_files": [
         {
           "path": "packages/libtirpc/build.sh",
@@ -2194,15 +2196,15 @@
         "sha256": "8839959bfcc7a0f4c609d8e4f53f1c67ae33de23775ec35beb39ff15adf11920",
         "homepage": "\"http://git.linux-nfs.org/?p=steved/libtirpc.git\""
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libtirpc/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libtirpc/build.sh"
     },
     "libunbound": {
       "recipe": "packages/libunbound/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libunbound",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libunbound",
       "recipe_files": [
         {
           "path": "packages/libunbound/build.sh",
-          "git_blob_sha": "329a1341c6b38ebc1849f1d5b21275def2043e4a"
+          "git_blob_sha": "11070196a03cf00edcf6d59128b51e5cabd7b29d"
         },
         {
           "path": "packages/libunbound/libunbound-libunbound.c.patch",
@@ -2221,38 +2223,38 @@
           "git_blob_sha": "eb652a8ffbbfac3fb8f8892d0d890a0f60999567"
         }
       ],
-      "recipe_sha256": "3373020a05bde81f314a03caac736feac9e376aba304fadcc594dff62c523bee",
+      "recipe_sha256": "66636b6e4b7c15469fecf8319e1a7575354f3f2585ae2f0a39ae9e4a7d710e7e",
       "declared_fields": {
-        "version": "\"1.26.1\"",
+        "version": "\"1.26.2\"",
         "license": "\"BSD 3-Clause\"",
         "srcurl": "https://nlnetlabs.nl/downloads/unbound/unbound-${TERMUX_PKG_VERSION}.tar.gz",
-        "sha256": "35a6dc0e425a9282c3426d9a3043144011bf0534aed4b73ab62c52aee0af1503",
+        "sha256": "d8ee7aa6bbb3ff1be7d9e57637d0d0ec2f18273a8efff1a0afe2c665858b96f7",
         "homepage": "https://unbound.net/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libunbound/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libunbound/build.sh"
     },
     "libunistring": {
       "recipe": "packages/libunistring/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libunistring",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/libunistring",
       "recipe_files": [
         {
           "path": "packages/libunistring/build.sh",
-          "git_blob_sha": "7653e38202c739e6099d279cb0819cddcff76a15"
+          "git_blob_sha": "b40f1b6295939940dffbaca9bbbc6f2899cc3b13"
         }
       ],
-      "recipe_sha256": "ad3070ea9961bbe5cc0a8fbab9f9207e7620c9596f208b5f5b0f3d44266ef392",
+      "recipe_sha256": "dea81690f9d669292402e312c4de69b1806d62d58404fb9e3e10421fb3629696",
       "declared_fields": {
-        "version": "\"1.4.2\"",
+        "version": "\"1.5\"",
         "license": "\"LGPL-3.0, GPL-2.0\"",
         "srcurl": "https://mirrors.kernel.org/gnu/libunistring/libunistring-${TERMUX_PKG_VERSION}.tar.xz",
-        "sha256": "5b46e74377ed7409c5b75e7a96f95377b095623b689d8522620927964a41499c",
+        "sha256": "fe89007a8a414ae4790b816b86859e877d3ab135db3c37f06541ff7e85ac344b",
         "homepage": "https://www.gnu.org/software/libunistring/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/libunistring/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/libunistring/build.sh"
     },
     "lsof": {
       "recipe": "packages/lsof/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/lsof",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/lsof",
       "recipe_files": [
         {
           "path": "packages/lsof/build.sh",
@@ -2275,15 +2277,15 @@
         "sha256": "bac1b0acbc50aede42fc97dffaa0b0475e97973e36a6351de5f349c6155afc68",
         "homepage": "https://github.com/lsof-org/lsof"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/lsof/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/lsof/build.sh"
     },
     "nano": {
       "recipe": "packages/nano/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/nano",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/nano",
       "recipe_files": [
         {
           "path": "packages/nano/build.sh",
-          "git_blob_sha": "243f37e5f3a6a191662e18329ce0bbbe04b8b56c"
+          "git_blob_sha": "e6c6aa253edc5a8fbef9455fa0e73c45bc55f312"
         },
         {
           "path": "packages/nano/nano.alternatives",
@@ -2294,20 +2296,19 @@
           "git_blob_sha": "ffff353ba87291231791dd39898df07897ce6d0d"
         }
       ],
-      "recipe_sha256": "0eaee9be3917c272fd45930642e14523f2a752910d9ed64dd1a4c98507ad54d3",
+      "recipe_sha256": "94a6a1c363821ed60d52d2979ef6e5f40716fdea270797a4bff9910a1f11cf1a",
       "declared_fields": {
-        "version": "\"9.2\"",
+        "version": "\"9.3\"",
         "license": "\"GPL-3.0\"",
         "srcurl": "\"https://nano-editor.org/dist/latest/nano-$TERMUX_PKG_VERSION.tar.xz\"",
-        "sha256": "05ecb99247b782e8a5b3a25ed4101dd034b0236902f7449bc9795b717642f7e9",
-        "homepage": "https://www.nano-editor.org/",
-        "revision": "1"
+        "sha256": "a9affc52c9596ee0682bcdd4ceb3c0b235eb221d83d733dfd9b0dff45897cb0d",
+        "homepage": "https://www.nano-editor.org/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/nano/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/nano/build.sh"
     },
     "ncurses": {
       "recipe": "packages/ncurses/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/ncurses",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/ncurses",
       "recipe_files": [
         {
           "path": "packages/ncurses/build.sh",
@@ -2346,11 +2347,11 @@
         "sha256": "(28cd102efe6a2610e830cc79cf270da6ff0427b2022900a9a36d2761522f9576",
         "homepage": "https://invisible-island.net/ncurses/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/ncurses/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/ncurses/build.sh"
     },
     "ncurses-ui-libs": {
       "recipe": "packages/ncurses/ncurses-ui-libs.subpackage.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/ncurses",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/ncurses",
       "recipe_files": [
         {
           "path": "packages/ncurses/build.sh",
@@ -2383,11 +2384,11 @@
       ],
       "recipe_sha256": "a1ed7e1aa01e0f87e5a23f7df0ff8efa11fc7740201191862ac6e56dcc44581e",
       "declared_fields": {},
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/ncurses/ncurses-ui-libs.subpackage.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/ncurses/ncurses-ui-libs.subpackage.sh"
     },
     "net-tools": {
       "recipe": "packages/net-tools/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/net-tools",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/net-tools",
       "recipe_files": [
         {
           "path": "packages/net-tools/arp.c.patch",
@@ -2443,178 +2444,177 @@
         "homepage": "http://net-tools.sourceforge.net/",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/net-tools/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/net-tools/build.sh"
     },
     "nodejs-lts": {
       "recipe": "packages/nodejs-lts/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/nodejs-lts",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/nodejs-lts",
       "recipe_files": [
         {
           "path": "packages/nodejs-lts/avoid-ficlone-ioctl.patch",
-          "git_blob_sha": "1e8ae6a5a20a755533886db6c0b1026f7507855a"
+          "git_blob_sha": "5d3473e4d8fde51f507312c261bebb32f4eae183"
         },
         {
           "path": "packages/nodejs-lts/build.sh",
-          "git_blob_sha": "2ac240058fa3b09169e368714e00a014dd90a62e"
+          "git_blob_sha": "542dd09dbe986f6e2c98b80e020eeb4d55df9cb4"
         },
         {
           "path": "packages/nodejs-lts/common.gypi.patch",
-          "git_blob_sha": "aadd7109810fc1dda57ebdd0ca8f0a6ea68422f4"
+          "git_blob_sha": "5a7ea346c6c3b6d87d97a81888a651eb8d34d079"
         },
         {
           "path": "packages/nodejs-lts/deps-uv-src-unix-core.c.patch",
-          "git_blob_sha": "cf21baec366eb7d83ee4c2a619f7e179dc13d081"
+          "git_blob_sha": "7bb43c543d228d930fe60b4c8212dea25c116992"
         },
         {
           "path": "packages/nodejs-lts/deps-uv-src-unix-process.c.patch",
-          "git_blob_sha": "f091f53563b1bb0498a6fed728cdad9bcf2e17bb"
+          "git_blob_sha": "054998f7c15675296a24ec811d7005591816bc21"
         },
         {
           "path": "packages/nodejs-lts/deps-uv-uv.gyp.patch",
-          "git_blob_sha": "f320927bf369fc9b1f8f5435157dc33fec6aecb7"
+          "git_blob_sha": "68c0faba59236a85cbe300fd788ff96e2ee7db38"
         },
         {
           "path": "packages/nodejs-lts/deps-uvwasi-src-uvwasi.c.patch",
-          "git_blob_sha": "21835dbd0a2f71a1a3e89fa2229b8a4a3aa61911"
+          "git_blob_sha": "6a8a670650396d9d11db560cb10f319e30613e8c"
         },
         {
           "path": "packages/nodejs-lts/deps-v8-src-flags-flag-definitions.h.patch",
-          "git_blob_sha": "70c1c917579a489ac7cf78d6d42b7edd93b16f2b"
+          "git_blob_sha": "a34ee96e49f2e045ce82bb73b836283ce159766f"
         },
         {
           "path": "packages/nodejs-lts/deps-v8-src-trap-handler-trap-handler.h.patch",
-          "git_blob_sha": "6a4247d9e6f7e2801f111eace30cbd0dc78958d8"
+          "git_blob_sha": "a800b87ccad66afde3772f879e6c5954cf54d3ed"
         },
         {
           "path": "packages/nodejs-lts/fix_multiple_definitions.patch",
-          "git_blob_sha": "dd6429c7ff3a5ee45372632c571cbf98d73622c8"
+          "git_blob_sha": "06d61549851d1d2c01925926dcbe14c9dfdcd204"
         },
         {
           "path": "packages/nodejs-lts/lib-child_process.js.patch",
-          "git_blob_sha": "eafa6bf6f5843b44ac6d97cf57364014df07d5b5"
+          "git_blob_sha": "3f2508a08f12806e74e011197a0ecd59568ca9f2"
         },
         {
           "path": "packages/nodejs-lts/lib-os.js.patch",
-          "git_blob_sha": "8d5095a608b632eb9c33377153c662aa2564f1c6"
+          "git_blob_sha": "44420063575367b5c0e7e2aeb9a4dc99de4f9a35"
         },
         {
           "path": "packages/nodejs-lts/node.gyp.patch",
-          "git_blob_sha": "b5e668461da0f29a41d142bd9cf1f1d8fcfb0897"
+          "git_blob_sha": "b769e501ca8435dd52b5eb1e7458ee4ebc0b249c"
         },
         {
           "path": "packages/nodejs-lts/src-debug_utils.cc.patch",
-          "git_blob_sha": "f24f75d4febe6f787ec9ae9fde7456abbdc8514b"
+          "git_blob_sha": "361cde50f005a1ee7a4fc1da8161b214568308ca"
         },
         {
           "path": "packages/nodejs-lts/src-getaddrinfo.patch",
-          "git_blob_sha": "2987f25bef3260469c5b44979e94858208b85b79"
+          "git_blob_sha": "4bb3e3d5beca988ef4c1f02b31dac917db9197c2"
         },
         {
           "path": "packages/nodejs-lts/src-node_internals.h.patch",
-          "git_blob_sha": "0ecb8499f65533671a2c2632b8ef0d48414026aa"
+          "git_blob_sha": "ed70ad433cc152ab84f3fa867d855ef1bd3c910a"
         },
         {
           "path": "packages/nodejs-lts/src-node_report.cc.patch",
-          "git_blob_sha": "9af03a4899614c77173907ce07eeb7c384d3bdb3"
+          "git_blob_sha": "c9e1d63db79e3d968fe6711bb40abe90fd3b5d14"
         },
         {
           "path": "packages/nodejs-lts/test-fs-readfile-pipe-large.js.patch",
-          "git_blob_sha": "67802922a4b2a426b8b5d6ea37f36461d53202fd"
+          "git_blob_sha": "1fac80edd04c5af8429b5bc925e0b8f2fc30155b"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-child-process-exec-env.js.patch",
-          "git_blob_sha": "ea4f03d67fe52f0519885456a5d1a9757752e0d2"
+          "git_blob_sha": "bc67685a95e9b16bea930c0d88f4acebe5c1f84e"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-child-process-spawnsync-shell.js.patch",
-          "git_blob_sha": "420243521d669ba96becd78221ddbacabee03d9f"
+          "git_blob_sha": "60125d9170861caaac358e672637ebafe43e35fe"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-child-process-uid-gid.js.patch",
-          "git_blob_sha": "d8ef8b763a08d617840201de2a13aa90eb957126"
+          "git_blob_sha": "a011d7294d4e900611629d1ef493c78d284ce725"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-cluster-bind-privileged-port.js.patch",
-          "git_blob_sha": "33b430eb5d9d84a2cde41dceb79e234971f8f7b6"
+          "git_blob_sha": "14881b055841a75d578658c88af6061085a219a4"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-cluster-shared-handle-bind-privileged-port.js.patch",
-          "git_blob_sha": "3f0b651e7ffa20a138b18d227afe688dfc06e230"
+          "git_blob_sha": "b948e0d633433527d3d5738238858a0d2c76f234"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-dgram-bind-fd.js.patch",
-          "git_blob_sha": "8af0c3abb1016244c6f5bed1e42784f8ef1171b3"
+          "git_blob_sha": "fca5e5c50552a99f0afd27bbfafc7509ea0ed255"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-dgram-membership.js.patch",
-          "git_blob_sha": "5f84c63c9eb143b2c518cf444ac8b404af741d40"
+          "git_blob_sha": "ff7fe7216a841c098356f7fb15cbc807e4e4b0c2"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-dgram-socket-buffer-size.js.patch",
-          "git_blob_sha": "ae11ed4d7d9bb2415f328d0bca04a8a051e29e8e"
+          "git_blob_sha": "49fbac015450a625c1a1434c2654e34f87e2ec06"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-fs-readfile-pipe.js.patch",
-          "git_blob_sha": "aebd136f936843c8639f8ab80ac11ed5de90d59b"
+          "git_blob_sha": "40ac20db2548b4c3351a05f0eec0ba3bc92c5bfa"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-fs-readfilesync-pipe-large.js.patch",
-          "git_blob_sha": "65488bd02c34e4e4d6f61241be1f0255ee946327"
+          "git_blob_sha": "bcdcd7136828e1a19aa33a6c254e0b8b4632d278"
         },
         {
           "path": "packages/nodejs-lts/test-parallel-test-process-constants-noatime.js.patch",
-          "git_blob_sha": "5238f7fbec8662233db5aa7c6ea72518daf4fde5"
+          "git_blob_sha": "cceb63f9d88b0fa25d01e08fa39b1507d233ac8c"
         },
         {
           "path": "packages/nodejs-lts/test-sequential-test-fs-watch.js.patch",
-          "git_blob_sha": "261198a274df1eee76fbc1240284171be847001b"
+          "git_blob_sha": "2f378e22e3d4a8e569bf36cf77d470fe640ecb69"
         },
         {
           "path": "packages/nodejs-lts/tools-gyp-pylib-gyp-generator-ninja.py.patch",
-          "git_blob_sha": "1022210af57da393337a55d2c49dcfd114c4874b"
+          "git_blob_sha": "5b263c3b702992fe6f16cb1597b7034ca31c5ce1"
         },
         {
           "path": "packages/nodejs-lts/tools-v8_gypfiles-toolchain.gypi.patch",
-          "git_blob_sha": "ef492115b69daf69e504e2f45a387e734e8ef751"
+          "git_blob_sha": "4dde88dabae02fd52797ac55176a1b0aad649a66"
         },
         {
           "path": "packages/nodejs-lts/tools-v8_gypfiles-v8.gyp.patch",
-          "git_blob_sha": "cd03b9bb5df5b4b364311172f828428e545f0c0c"
+          "git_blob_sha": "46c2dee17e34dabf169fc7d245b6a0d66467e63d"
         }
       ],
-      "recipe_sha256": "7478c0adb5c1393a4eed6f44005f2454f66d4f4b3eec4102f18c43646648e156",
+      "recipe_sha256": "b0c496be18bf909a885f0b0a6be5e4ae150ed13b7d09f8a53f403a779538a5db",
       "declared_fields": {
-        "version": "24.18.0",
+        "version": "24.22.2",
         "license": "\"MIT\"",
         "srcurl": "https://nodejs.org/dist/v${TERMUX_PKG_VERSION}/node-v${TERMUX_PKG_VERSION}.tar.xz",
-        "sha256": "e94afde24db08e0c564ee7110a2d5aab51ee0059382c9fd8233c54eec47b28f9",
-        "homepage": "https://nodejs.org/",
-        "revision": "1"
+        "sha256": "8fe2ec1723bb9f8d0b683907c82708debbeda64af21cb2aa214c4241eed0a061",
+        "homepage": "https://nodejs.org/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/nodejs-lts/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/nodejs-lts/build.sh"
     },
     "npm": {
       "recipe": "packages/npm/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/npm",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/npm",
       "recipe_files": [
         {
           "path": "packages/npm/build.sh",
-          "git_blob_sha": "50ec9521e5d2762a58311aa60bf4e4b090d12074"
+          "git_blob_sha": "42091e54633cf3c93c010192d41c3728b1e7e612"
         }
       ],
-      "recipe_sha256": "bb56a297bc3adb259dfbd5fb59de576b551b259a5e352ed2424d68a0ae74046f",
+      "recipe_sha256": "f540b9b59011b51afbae3195d83a1188526831eab0d56d67a04bac4226cb379d",
       "declared_fields": {
-        "version": "\"11.21.1\"",
+        "version": "\"12.2.1\"",
         "license": "\"Artistic-License-2.0\"",
         "srcurl": "git+https://github.com/npm/cli.git",
         "sha256": "a7bba8c40e179d3be92176026f6c29caf6a8c7b0fcae4eb71951a9e103ac6f9e",
         "homepage": "https://docs.npmjs.com/cli/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/npm/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/npm/build.sh"
     },
     "oniguruma": {
       "recipe": "packages/oniguruma/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/oniguruma",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/oniguruma",
       "recipe_files": [
         {
           "path": "packages/oniguruma/build.sh",
@@ -2630,11 +2630,11 @@
         "homepage": "https://github.com/kkos/oniguruma",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/oniguruma/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/oniguruma/build.sh"
     },
     "openssl": {
       "recipe": "packages/openssl/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/openssl",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/openssl",
       "recipe_files": [
         {
           "path": "packages/openssl/Configurations-15-android.conf.patch",
@@ -2665,11 +2665,11 @@
         "sha256": "a2157c2830efdec3788939b00c9b0638306d3f0bbb76dc4832ee503bb397df98",
         "homepage": "https://www.openssl.org/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/openssl/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/openssl/build.sh"
     },
     "p11-kit": {
       "recipe": "packages/p11-kit/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/p11-kit",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/p11-kit",
       "recipe_files": [
         {
           "path": "packages/p11-kit/build.sh",
@@ -2684,35 +2684,34 @@
         "sha256": "f2cc09111e44bf3fea58f023180b33acea90aa82d042d6fbb623fbc5ba033bb7",
         "homepage": "\"https://p11-glue.github.io/p11-glue/p11-kit.html\""
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/p11-kit/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/p11-kit/build.sh"
     },
     "patch": {
       "recipe": "packages/patch/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/patch",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/patch",
       "recipe_files": [
         {
           "path": "packages/patch/build.sh",
-          "git_blob_sha": "5ad754045823e81b2e21b36b01fc99f214d1aba1"
+          "git_blob_sha": "cd975a35ff3b9347626a802741b1967500c70847"
         },
         {
           "path": "packages/patch/tmpdir-path.patch",
           "git_blob_sha": "477a90401735659f04dccea5c9410004d766b7ef"
         }
       ],
-      "recipe_sha256": "a9ebc3ba8970675afd7263deb3169a4e04fb81a8ccfeb0e56e19910a5211e546",
+      "recipe_sha256": "686747548a9aecf21984e9c56a35c296d96c5b89da2626c0450cc42155b9ace9",
       "declared_fields": {
-        "version": "2.8",
+        "version": "\"2.8.1\"",
         "license": "\"GPL-2.0\"",
         "srcurl": "https://mirrors.kernel.org/gnu/patch/patch-${TERMUX_PKG_VERSION}.tar.xz",
-        "sha256": "f87cee69eec2b4fcbf60a396b030ad6aa3415f192aa5f7ee84cad5e11f7f5ae3",
-        "homepage": "https://savannah.gnu.org/projects/patch/",
-        "revision": "1"
+        "sha256": "3240c7959c5347c8ed347e3c4201c0337bf4240d5cf09d68889e58eeaba30e17",
+        "homepage": "https://savannah.gnu.org/projects/patch/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/patch/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/patch/build.sh"
     },
     "pcre2": {
       "recipe": "packages/pcre2/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/pcre2",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/pcre2",
       "recipe_files": [
         {
           "path": "packages/pcre2/build.sh",
@@ -2731,11 +2730,11 @@
         "sha256": "53c156e1ba416a20da8e65395daa132da0d80e76910424caca3fcdae7831d384",
         "homepage": "https://pcre2project.github.io/pcre2/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/pcre2/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/pcre2/build.sh"
     },
     "procps": {
       "recipe": "packages/procps/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/procps",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/procps",
       "recipe_files": [
         {
           "path": "packages/procps/build.sh",
@@ -2819,34 +2818,34 @@
         "homepage": "https://gitlab.com/procps-ng/procps",
         "revision": "2"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/procps/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/procps/build.sh"
     },
     "proot": {
       "recipe": "packages/proot/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/proot",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/proot",
       "recipe_files": [
         {
           "path": "packages/proot/build.sh",
-          "git_blob_sha": "440897beb2717fc334edd5ad2ab42bd63b504910"
+          "git_blob_sha": "8b89ba5623c47bdf4fe5761d1b452852c4870e53"
         },
         {
           "path": "packages/proot/termux-chroot",
           "git_blob_sha": "ce57067e01f6d6f53cb95ed7db789f7dabf10fe7"
         }
       ],
-      "recipe_sha256": "b05269630e16250f84f051f5ae53cd49b91a6b7c319782e0aad2e849716c80b3",
+      "recipe_sha256": "d8fa15724e6f376d1b0f24802edb6fa3bd79bf91b0b662716e55eb285be620ab",
       "declared_fields": {
-        "version": "\"5.1.107.96\"",
+        "version": "\"5.1.107.102\"",
         "license": "\"GPL-2.0\"",
         "srcurl": "https://github.com/termux/proot/archive/v${TERMUX_PKG_VERSION}.zip",
-        "sha256": "75f654fe60dea92dabff2bf083ae8bfe4f91baa6a1a374786a6bf391015eebaa",
+        "sha256": "30d12a6e2cc4147123756ff58edea262d3083bbc238c12d0ab9b39e3d1c40852",
         "homepage": "https://proot-me.github.io/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/proot/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/proot/build.sh"
     },
     "psmisc": {
       "recipe": "packages/psmisc/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/psmisc",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/psmisc",
       "recipe_files": [
         {
           "path": "packages/psmisc/build.sh",
@@ -2878,11 +2877,11 @@
         "homepage": "https://gitlab.com/psmisc/psmisc",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/psmisc/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/psmisc/build.sh"
     },
     "python": {
       "recipe": "packages/python/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/python",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/python",
       "recipe_files": [
         {
           "path": "packages/python/0001-fix-hardcoded-paths.patch",
@@ -2909,28 +2908,24 @@
           "git_blob_sha": "fb3729bb92dfdd5ee9516e0fa51de890806dcacf"
         },
         {
-          "path": "packages/python/0007-fix-pkgconfig-variable-substitution.patch",
-          "git_blob_sha": "f11703cfb7386684e0dc407f29d2f26fc585ba52"
-        },
-        {
-          "path": "packages/python/0008-fix-ctypes-util-find_library.patch",
+          "path": "packages/python/0007-fix-ctypes-util-find_library.patch",
           "git_blob_sha": "a8257f91f9fbff1dd6f6b210cc68f912555b17d4"
         },
         {
-          "path": "packages/python/0009-do-not-hardlink.patch",
+          "path": "packages/python/0008-do-not-hardlink.patch",
           "git_blob_sha": "4291d12e96a37c6ca58f99df83fdb51e0e9776ed"
         },
         {
-          "path": "packages/python/0010-fix-module-linking.patch",
-          "git_blob_sha": "6c2408b2aa0ebf5c81cfcb19a9fe4ffd6cf5d4a1"
+          "path": "packages/python/0009-fix-module-linking.patch",
+          "git_blob_sha": "1b566167f136f05844dc8f448b816242bc38bff5"
         },
         {
-          "path": "packages/python/0011-enable-blocked-functions.patch",
+          "path": "packages/python/0010-enable-blocked-functions.patch",
           "git_blob_sha": "dbf6830b8a71af8c20dea9c579a78892f11611f1"
         },
         {
           "path": "packages/python/build.sh",
-          "git_blob_sha": "5c3b8d2f8b52bc84c21fcb463735301bcd759c40"
+          "git_blob_sha": "5a042ecc33827e4f3dec6b714ef1ccb0743b1773"
         },
         {
           "path": "packages/python/debpython.patch",
@@ -2949,20 +2944,19 @@
           "git_blob_sha": "e6405571aadccfdeb04cc366df6ee717896002ba"
         }
       ],
-      "recipe_sha256": "354ad5204056395bc423780da9112395aad862c01636ae3a56d2f4c025d69f12",
+      "recipe_sha256": "22e359914b12965fafc4a2e7a552334a03e0be9652ac33bac2aa62ee1dfcd472",
       "declared_fields": {
-        "version": "\"3.14.6\"",
+        "version": "(",
         "license": "\"custom\"",
         "srcurl": "(",
         "sha256": "(",
-        "homepage": "https://python.org/",
-        "revision": "1"
+        "homepage": "https://python.org/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/python/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/python/build.sh"
     },
     "python-pip": {
       "recipe": "packages/python-pip/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/python-pip",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/python-pip",
       "recipe_files": [
         {
           "path": "packages/python-pip/android-api-abi.patch",
@@ -2970,7 +2964,7 @@
         },
         {
           "path": "packages/python-pip/build.sh",
-          "git_blob_sha": "0727120c7b4c08306866cf63ecf6dd1ef68795d8"
+          "git_blob_sha": "85e6f087351f16103e24658548c94802e981fbd9"
         },
         {
           "path": "packages/python-pip/fix-hardcoded-paths.patch",
@@ -2981,19 +2975,20 @@
           "git_blob_sha": "6ef6c754315e0b56f51a04a1c365d9701aaa6504"
         }
       ],
-      "recipe_sha256": "d183a90da94435a9a91c5b26fc787660fe73c311b9e429005d7796bfd8ce0054",
+      "recipe_sha256": "649907a39c73f602906417b1058a6b94659683480d01a8b1672f8482cf65b25b",
       "declared_fields": {
-        "version": "\"26.2.1\"",
+        "version": "\"26.2.2\"",
         "license": "\"MIT\"",
         "srcurl": "https://github.com/pypa/pip/archive/refs/tags/$TERMUX_PKG_VERSION.tar.gz",
-        "sha256": "65cac79de403d368cc8333f3d9981f293248dc336662338749693ff99659d5e3",
-        "homepage": "https://pip.pypa.io/"
+        "sha256": "b505949bb27827b32f54c9f1f5ca660a6fae3fde61cbe0a971975a3ed34a7ee1",
+        "homepage": "https://pip.pypa.io/",
+        "revision": "2"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/python-pip/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/python-pip/build.sh"
     },
     "readline": {
       "recipe": "packages/readline/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/readline",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/readline",
       "recipe_files": [
         {
           "path": "packages/readline/build.sh",
@@ -3016,11 +3011,11 @@
         "sha256": "fe5383204467828cd495ee8d1d3c037a7eba1389c22bc6a041f627976f9061cc",
         "homepage": "\"https://tiswww.case.edu/php/chet/readline/rltop.html\""
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/readline/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/readline/build.sh"
     },
     "resolv-conf": {
       "recipe": "packages/resolv-conf/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/resolv-conf",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/resolv-conf",
       "recipe_files": [
         {
           "path": "packages/resolv-conf/build.sh",
@@ -3033,11 +3028,11 @@
         "license": "\"Public Domain\"",
         "homepage": "https://man7.org/linux/man-pages/man5/resolv.conf.5.html"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/resolv-conf/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/resolv-conf/build.sh"
     },
     "sed": {
       "recipe": "packages/sed/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/sed",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/sed",
       "recipe_files": [
         {
           "path": "packages/sed/build.sh",
@@ -3060,11 +3055,11 @@
         "sha256": "b8e72182b2ec96a3574e2998c47b7aaa64cc20ce000d8e9ac313cc07cecf28c7",
         "homepage": "https://www.gnu.org/software/sed/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/sed/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/sed/build.sh"
     },
     "tar": {
       "recipe": "packages/tar/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/tar",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/tar",
       "recipe_files": [
         {
           "path": "packages/tar/build.sh",
@@ -3100,18 +3095,18 @@
         "homepage": "https://www.gnu.org/software/tar/",
         "revision": "3"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/tar/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/tar/build.sh"
     },
     "termux-am": {
       "recipe": "packages/termux-am/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-am",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-am",
       "recipe_files": [
         {
           "path": "packages/termux-am/build.sh",
-          "git_blob_sha": "68b586cdc105846c27b03e87b9bdd8ab8ecbd92c"
+          "git_blob_sha": "4f42d36e5357a8e307abf01a9a5db614b186e828"
         }
       ],
-      "recipe_sha256": "15ce8bab563f8d6aeaafa5e95acdcf4d3036f059ad59b4c08316043b38b1a279",
+      "recipe_sha256": "d35a1ac2801164c6dc27c13807cbd4d5267a4c98e8e8d36676adaabe7d6eeecf",
       "declared_fields": {
         "version": "\"0.8.1\"",
         "license": "\"Apache-2.0\"",
@@ -3119,18 +3114,18 @@
         "sha256": "bdfd0c9f1c544a779be0a73393580f75303818775f3396c6b93adc7d5ba6116e",
         "homepage": "https://github.com/termux/TermuxAm"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-am/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-am/build.sh"
     },
     "termux-am-socket": {
       "recipe": "packages/termux-am-socket/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-am-socket",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-am-socket",
       "recipe_files": [
         {
           "path": "packages/termux-am-socket/build.sh",
-          "git_blob_sha": "30c44d38f6c2764b678ea21525b8b9b950242c39"
+          "git_blob_sha": "df3f0f2df4ab78910802e397a99896658c963fbd"
         }
       ],
-      "recipe_sha256": "bbec4a179ff5b0baaa1e22052da97d70001234d2e9599949fc525f4e539ff261",
+      "recipe_sha256": "5bc26ba01001497cd510550467ee934347fe5f4eb79d0ec737426758092bd6f2",
       "declared_fields": {
         "version": "1.5.0",
         "license": "\"GPL-3.0\"",
@@ -3139,11 +3134,11 @@
         "homepage": "https://github.com/termux/termux-am-socket",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-am-socket/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-am-socket/build.sh"
     },
     "termux-core": {
       "recipe": "packages/termux-core/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-core",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-core",
       "recipe_files": [
         {
           "path": "packages/termux-core/app/main/scripts/termux/shell/command/environment/termux_core__bash__termux_apps_info_app_version_name",
@@ -3171,14 +3166,14 @@
         },
         {
           "path": "packages/termux-core/build.sh",
-          "git_blob_sha": "96eddd15e008d9734bc02defaa757040f211753a"
+          "git_blob_sha": "00244761c48e6569dd2ac4fcd3c2d9ff6a8e783f"
         },
         {
           "path": "packages/termux-core/build/scripts/termux-replace-termux-core-src-scripts",
           "git_blob_sha": "b109eb391690076557918158a61b8409a6162192"
         }
       ],
-      "recipe_sha256": "bd6a9412e9287cd2f4c2b81adab540182377794e5052a6953876907f3e159864",
+      "recipe_sha256": "2f5fafa55f380ac4eb927c4ca17749d6495402acb416a67d4492f32131561c67",
       "declared_fields": {
         "version": "0.4.0",
         "license": "\"MIT\"",
@@ -3187,18 +3182,18 @@
         "homepage": "https://github.com/termux/termux-core-package",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-core/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-core/build.sh"
     },
     "termux-exec": {
       "recipe": "packages/termux-exec/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-exec",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-exec",
       "recipe_files": [
         {
           "path": "packages/termux-exec/build.sh",
-          "git_blob_sha": "c73c3df4673168a97a35325061e293e975e36a04"
+          "git_blob_sha": "262c72b95db9f12c3a3c4a3f1ad7b46b4bbd9eab"
         }
       ],
-      "recipe_sha256": "c17393ac01252179aed7066ad11c6478225f4a17068c1197ce2029190af3dd67",
+      "recipe_sha256": "1a0340930bb1a66d223236f95f9a8bd9f178af29685bc21b208db50213a2eb01",
       "declared_fields": {
         "version": "1:2.5.0",
         "license": "\"Apache-2.0\"",
@@ -3207,11 +3202,11 @@
         "homepage": "https://github.com/termux/termux-exec-package",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-exec/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-exec/build.sh"
     },
     "termux-keyring": {
       "recipe": "packages/termux-keyring/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-keyring",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-keyring",
       "recipe_files": [
         {
           "path": "packages/termux-keyring/2096779623.gpg",
@@ -3260,11 +3255,11 @@
         "license": "\"Apache-2.0\"",
         "homepage": "https://github.com/termux"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-keyring/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-keyring/build.sh"
     },
     "termux-licenses": {
       "recipe": "packages/termux-licenses/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-licenses",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-licenses",
       "recipe_files": [
         {
           "path": "packages/termux-licenses/LICENSES/AGPL-3.0-only.txt",
@@ -3416,27 +3411,27 @@
         },
         {
           "path": "packages/termux-licenses/build.sh",
-          "git_blob_sha": "5978425d5238a8483d15387b3d710b9ad385d11e"
+          "git_blob_sha": "c87ce9fdb9a3204a536645e0e3317bf170cd5deb"
         }
       ],
-      "recipe_sha256": "a6645bd79592436e1f90cc0da5ed81f212a125c1ec1e321031f23809825a0adb",
+      "recipe_sha256": "dd59852fdf9ca59b297dadc905aab35f97593640633e0d47452812043c518966",
       "declared_fields": {
         "version": "2.2",
         "license": "\"GPL-3.0\"",
         "homepage": "https://termux.dev"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-licenses/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-licenses/build.sh"
     },
     "termux-tools": {
       "recipe": "packages/termux-tools/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-tools",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-tools",
       "recipe_files": [
         {
           "path": "packages/termux-tools/build.sh",
-          "git_blob_sha": "9973785b2bca259321db3ac77a5e122875cd8539"
+          "git_blob_sha": "d4558541f58f0b637a4a3414eca004a198f18efd"
         }
       ],
-      "recipe_sha256": "c858d156af8ca6c96959331e7031bba37f8a78290fe54cd2064b8b96ea572479",
+      "recipe_sha256": "afb2f5ba7ecfb08116efe3331f57ea7e68079eaaad904fcb5d5388dd032651fc",
       "declared_fields": {
         "version": "\"1.46.0+really1.45.0\"",
         "license": "\"GPL-3.0\"",
@@ -3445,11 +3440,11 @@
         "homepage": "https://termux.dev/",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/termux-tools/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/termux-tools/build.sh"
     },
     "unzip": {
       "recipe": "packages/unzip/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/unzip",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/unzip",
       "recipe_files": [
         {
           "path": "packages/unzip/bugfix-cve-2014-8139-crc32.patch",
@@ -3573,11 +3568,11 @@
         "homepage": "https://sourceforge.net/projects/infozip/",
         "revision": "10"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/unzip/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/unzip/build.sh"
     },
     "util-linux": {
       "recipe": "packages/util-linux/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/util-linux",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/util-linux",
       "recipe_files": [
         {
           "path": "packages/util-linux/blk-utils.subpackage.sh",
@@ -3696,11 +3691,11 @@
         "sha256": "fbd62a100ab7bb8746ba0661255c3c48185b1e9021507c624da01fbc696330ec",
         "homepage": "https://en.wikipedia.org/wiki/Util-linux"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/util-linux/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/util-linux/build.sh"
     },
     "xxhash": {
       "recipe": "packages/xxhash/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/xxhash",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/xxhash",
       "recipe_files": [
         {
           "path": "packages/xxhash/build.sh",
@@ -3715,11 +3710,11 @@
         "sha256": "5738270935e7c3d38a79b3adf7c9692566ce7895a25f67de43ad52ab504acd32",
         "homepage": "https://cyan4973.github.io/xxHash/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/xxhash/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/xxhash/build.sh"
     },
     "xz-utils": {
       "recipe": "packages/liblzma/xz-utils.subpackage.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/liblzma",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/liblzma",
       "recipe_files": [
         {
           "path": "packages/liblzma/build.sh",
@@ -3736,11 +3731,11 @@
       ],
       "recipe_sha256": "b25e036e06f5c5a8b0e1fa17b20bb50e442fad63f9245c953972a25919cebd8e",
       "declared_fields": {},
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/liblzma/xz-utils.subpackage.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/liblzma/xz-utils.subpackage.sh"
     },
     "zip": {
       "recipe": "packages/zip/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/zip",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/zip",
       "recipe_files": [
         {
           "path": "packages/zip/build.sh",
@@ -3764,11 +3759,11 @@
         "homepage": "https://sourceforge.net/projects/infozip/",
         "revision": "7"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/zip/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/zip/build.sh"
     },
     "zlib": {
       "recipe": "packages/zlib/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/zlib",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/zlib",
       "recipe_files": [
         {
           "path": "packages/zlib/build.sh",
@@ -3787,11 +3782,11 @@
         "sha256": "d7a0654783a4da529d1bb793b7ad9c3318020af77667bcae35f95d0e42a792f3",
         "homepage": "https://www.zlib.net/"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/zlib/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/zlib/build.sh"
     },
     "zstd": {
       "recipe": "packages/zstd/build.sh",
-      "url": "https://github.com/termux/termux-packages/tree/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/zstd",
+      "url": "https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/zstd",
       "recipe_files": [
         {
           "path": "packages/zstd/build-cmake-contrib-CMakeLists.txt.patch",
@@ -3815,7 +3810,7 @@
         "homepage": "https://github.com/facebook/zstd",
         "revision": "1"
       },
-      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/ae877f2c6a2b2318abeb43699d6ec5f619c216a6/packages/zstd/build.sh"
+      "source_url": "https://raw.githubusercontent.com/termux/termux-packages/9960bff8500e0be59b11a6364d257180c3171696/packages/zstd/build.sh"
     }
   }
 }

@@ -8,13 +8,13 @@
 [![Android](https://img.shields.io/badge/Android-11%2B-green)](docs/BUILDING.md)
 
 <p align="center">
-  <img src="docs/images/redesign-home.png" width="190" alt="Home screen in the Claude Code style with the welcome box and shortcuts" />
-  <img src="docs/images/redesign-chat.png" width="190" alt="Conversation transcript with tool calls, results and Markdown reply" />
-  <img src="docs/images/redesign-services.png" width="190" alt="Background services screen with a running Python web server" />
-  <img src="docs/images/redesign-terminal.png" width="190" alt="Embedded terminal running Python and Node.js with ANSI colours" />
+  <img src="docs/images/redesign-home.png" width="190" alt="English home screen in the Claude Code style: welcome box, agent chip and shortcuts" />
+  <img src="docs/images/redesign-chat.png" width="190" alt="English conversation transcript with tool calls, results and a Markdown reply" />
+  <img src="docs/images/redesign-services.png" width="190" alt="English Background services screen with a running Python web server and its URLs" />
+  <img src="docs/images/redesign-terminal.png" width="190" alt="English built-in terminal running Python and Node.js with ANSI colours" />
 </p>
 
-An independent community fork of [Buddy](https://github.com/ghorbelhamdi/buddy-android). It is not an official OpenAI or Anthropic application. The application UI is in Polish; project documentation is in English. See the [screenshot gallery](docs/SCREENSHOTS.md).
+An independent community fork of [Buddy](https://github.com/ghorbelhamdi/buddy-android). It is not an official OpenAI or Anthropic application. The application UI is in English (upstream androidagent is in Polish), apart from a few Docker VM boot messages; project documentation is in English. See the [screenshot gallery](docs/SCREENSHOTS.md).
 
 ## Project overview
 

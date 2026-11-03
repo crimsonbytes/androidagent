@@ -2,13 +2,13 @@
 
 These are unedited captures, not mockups. Screenshots contain test data only; login codes and account credentials are not included.
 
-## 0.5.0 redesign, Android 11 emulator
+## 0.5.0 redesign, English UI, Android 15 emulator
 
 | Home | Conversation | Background services | Terminal |
 | --- | --- | --- | --- |
-| <img src="images/redesign-home.png" width="200" alt="Home in the Claude Code style" /> | <img src="images/redesign-chat.png" width="200" alt="Transcript with tool calls and results" /> | <img src="images/redesign-services.png" width="200" alt="Running background web server" /> | <img src="images/redesign-terminal.png" width="200" alt="Embedded terminal with Python and Node.js" /> |
+| <img src="images/redesign-home.png" width="200" alt="English home in the Claude Code style" /> | <img src="images/redesign-chat.png" width="200" alt="English transcript with tool calls and results" /> | <img src="images/redesign-services.png" width="200" alt="English background services screen with a running web server" /> | <img src="images/redesign-terminal.png" width="200" alt="English built-in terminal with Python and Node.js" /> |
 
-Source: a debuggable development build of the 0.5.0 branch with the published 0.4.4 terminal runtime, on an Android 11 x86_64 software emulator, downscaled. The conversation is seeded demo data (no model account). The services screen shows a real `python3 -m http.server` started through the MCP `service_start` tool after owner approval in the chat; the terminal output is a real Python and Node.js run in the embedded environment.
+Source: the English build of this branch (`tools/build-english.sh`, release signing, not debuggable) on an Android 15 x86_64 emulator at 720×1480, captured by `tools/english-screenshots.sh` through the "Build English APK" workflow and reduced to a 256-colour palette. The conversation is seeded example data (no model account). The services screen shows a real `python3 -m http.server` and a second probe service running in the embedded runtime; the terminal output is a real Python and Node.js run.
 
 ## androidagent 0.4.4
 

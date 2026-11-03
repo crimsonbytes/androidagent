@@ -122,12 +122,12 @@ class CodexStreamTests(unittest.TestCase):
     def test_mcp_tool_result_text_and_images(self):
         events, _ = self.translate([{'type': 'item.completed', 'item': {
             'id': 'item_6', 'type': 'mcp_tool_call', 'server': 'phone', 'tool': 'screenshot', 'arguments': {},
-            'result': {'content': [{'type': 'text', 'text': 'Ekran 1080x2220'},
+            'result': {'content': [{'type': 'text', 'text': 'Screen 1080x2220'},
                                    {'type': 'image', 'data': 'AAAA', 'mimeType': 'image/png'}]},
             'error': None, 'status': 'completed'}}])
         result = self.result_of(events[0])
         self.assertEqual(result['tool_use_id'], 'item_6')
-        self.assertEqual(result['content'], 'Ekran 1080x2220\n[obraz]')
+        self.assertEqual(result['content'], 'Screen 1080x2220\n[image]')
         self.assertFalse(result['is_error'])
 
     def test_mcp_tool_failure_is_an_error_result(self):

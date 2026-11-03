@@ -7,15 +7,15 @@ The root `LICENSE` does not relicense QEMU, Linux, Alpine or their dependencies.
 
 ## QEMU and Android shared libraries
 
-- QEMU 11.1.2, GPL-2.0, official Termux binary packages. Exact download filenames,
+- QEMU 11.1.3, GPL-2.0, official Termux binary packages. Exact download filenames,
   versions and SHA256: `qemu-lock.json`. The actually packaged ELF files and their
   original paths: `qemu-libraries-arm64-v8a.json` / `qemu-libraries-x86_64.json`.
-- Upstream source: https://download.qemu.org/qemu-11.1.2.tar.xz
-  SHA256: `731b5681e4bb18be313231579b8efd0296c5b015fa36dc533874b639ba838016`.
+- Upstream source: https://download.qemu.org/qemu-11.1.3.tar.xz
+  SHA256: `5a8289c7940dc77d3873c81a6c29ba3afe1446fc9d36e77fa1658cdbecb84b22`.
 - Termux QEMU recipe and Android patches:
-  https://github.com/termux/termux-packages/tree/14ef1032809e1d885bf120b1ee03d751e3727325/packages/qemu-system-x86-64-headless
+  https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696/packages/qemu-system-x86-64-headless
 - Package recipe snapshot:
-  https://github.com/termux/termux-packages/tree/14ef1032809e1d885bf120b1ee03d751e3727325
+  https://github.com/termux/termux-packages/tree/9960bff8500e0be59b11a6364d257180c3171696
   Package recipes contain upstream source URLs, hashes, patches, build options and
   dependency declarations. Their component licenses differ. Existing package
   copyright/license notices are copied to `licenses/termux` and into APK assets.

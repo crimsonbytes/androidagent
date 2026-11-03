@@ -27,7 +27,7 @@ final class McpHost implements McpServer.Handler {
         synchronized(this){requireReady(chat);startingOwners.add(owner);generation=controlGeneration;}
         try{
             UsbSessions.get(app).activate(chat);UsbStorage.get(app).activate(chat);
-            synchronized(this){requireReady();if(generation!=controlGeneration||cancelledStarts.contains(owner))throw new IllegalStateException("Start rozmowy anulowano przez Stop.");runs.put(token,owner);acquire(owner);}
+            synchronized(this){requireReady();if(generation!=controlGeneration||cancelledStarts.contains(owner))throw new IllegalStateException("Chat start was canceled by Stop.");runs.put(token,owner);acquire(owner);}
             return token;
         }catch(RuntimeException e){revoke(chat);throw e;}
         finally{synchronized(this){startingOwners.remove(owner);cancelledStarts.remove(owner);notifyAll();}}
@@ -45,8 +45,8 @@ final class McpHost implements McpServer.Handler {
     @Override public synchronized String principal(String token){return runs.get(token);}
     synchronized boolean running(){return server!=null&&server.listening();}
     boolean stopping(){return stopping;}
-    void requireReady(){if(stopping)throw new IllegalStateException("Trwa zatrzymywanie narzędzi. Spróbuj ponownie za chwilę.");}
-    synchronized void requireReady(String chat){requireReady();String owner="chat:"+chat;if(startingOwners.contains(owner)||closingOwners.contains(owner)||runs.containsValue(owner))throw new IllegalStateException("Poprzednie narzędzia tej rozmowy są jeszcze aktywne lub zatrzymywane. Spróbuj ponownie za chwilę.");}
+    void requireReady(){if(stopping)throw new IllegalStateException("Tools are stopping. Try again in a moment.");}
+    synchronized void requireReady(String chat){requireReady();String owner="chat:"+chat;if(startingOwners.contains(owner)||closingOwners.contains(owner)||runs.containsValue(owner))throw new IllegalStateException("This chat's previous tools are still active or stopping. Try again in a moment.");}
     private synchronized void requireActiveCaller(String caller){
         if(!caller.startsWith("chat:"))return;
         String credential=McpServer.credential();

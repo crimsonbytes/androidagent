@@ -67,13 +67,13 @@ public class OnboardingActivity extends Screen {
         }
         dots.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
         top.addView(dots, weight1());
-        TextView skip = monoText(this, "Później", 13, MUTED);
+        TextView skip = monoText(this, "Later", 13, MUTED);
         skip.setTypeface(mono(this, 500));
         skip.setGravity(Gravity.CENTER);
         skip.setPadding(dp(this, 14), dp(this, 10), dp(this, 14), dp(this, 10));
         skip.setMinHeight(dp(this, 44));
         skip.setBackgroundResource(ripple(this, true));
-        skip.setContentDescription("Później, pomiń przewodnik");
+        skip.setContentDescription("Later, skip the guide");
         skip.setOnClickListener(v -> finishGuide());
         top.addView(skip);
         root.addView(top, full());
@@ -203,7 +203,7 @@ public class OnboardingActivity extends Screen {
     }
 
     private void indicator() {
-        progress.setText(step == WELCOME ? "Witaj" : "Krok " + step + " z " + LAST);
+        progress.setText(step == WELCOME ? "Welcome" : "Step " + step + " of " + LAST);
         for (int i = 0; i < dots.getChildCount(); i++) {
             View d = dots.getChildAt(i);
             int n = i + 1;
@@ -235,24 +235,24 @@ public class OnboardingActivity extends Screen {
                 environment();
                 break;
             case PERMISSIONS:
-                header("Uprawnienia Androida", "Rozmowy i terminal działają bez dostępu do innych aplikacji.");
-                bullet(R.drawable.ic_remote, "Sterowanie ekranem",
-                        "Usługa ułatwień dostępu pozwala czytać i sterować ekranem. Jej włączenie wymaga Twojej zgody w ustawieniach systemu.");
-                bullet(R.drawable.ms_mic, "Powiadomienia, mikrofon, bateria",
-                        "Powiadomienia pokazują postęp i przycisk Stop. Mikrofon jest potrzebny tylko do rozmów głosowych. Wyjątek optymalizacji baterii pomaga przy długich zadaniach.");
-                bullet(R.drawable.ms_shield_person, "Twoje usługi zostają",
-                        "Możesz zachować inne włączone usługi ułatwień dostępu. androidagent ich nie zastępuje.");
-                primary("Przegląd uprawnień", v -> PermissionGuide.open(this));
-                secondary("Dalej", v -> go(TRY));
+                header("Android permissions", "Chats and the terminal work without access to other apps.");
+                bullet(R.drawable.ic_remote, "Screen control",
+                        "The accessibility service lets the agent read and control the screen. Turning it on requires your approval in system settings.");
+                bullet(R.drawable.ms_mic, "Notifications, microphone, battery",
+                        "Notifications show progress and a Stop button. The microphone is needed only for voice chats. A battery optimization exemption helps with long tasks.");
+                bullet(R.drawable.ms_shield_person, "Your services stay",
+                        "You can keep other accessibility services enabled. androidagent does not replace them.");
+                primary("Review permissions", v -> PermissionGuide.open(this));
+                secondary("Next", v -> go(TRY));
                 break;
             case TRY:
                 boolean account = SetupState.agentReady(this, Prefs.backend(this));
-                header(account ? "Gotowy do rozmowy" : "Zacznij od telefonu",
-                        account ? "Klient jest przygotowany i zalogowany do konta." : "Lokalny stan telefonu jest dostępny także przed logowaniem.");
+                header(account ? "Ready to chat" : "Start with your phone",
+                        account ? "The client is set up and signed in to the account." : "Local phone status is available even before sign-in.");
                 body.addView(statusPreview(), gap(22));
-                note("Komenda /status odczytuje stan telefonu lokalnie. Ten wynik nie jest odpowiedzią modelu.");
-                if (!account) note("Aby rozmawiać z Codexem lub Claude Code, otwórz środowisko i zaloguj się do wybranego konta.");
-                primary("Sprawdź stan telefonu", v -> {
+                note("The /status command reads the phone's state locally. This result is not a model response.");
+                if (!account) note("To chat with Codex or Claude Code, open the environment and sign in to your chosen account.");
+                primary("Check phone status", v -> {
                     Prefs.setOnboarded(this, true);
                     Sessions.Session session = ChatHub.get(this).create(Prefs.backend(this));
                     ChatHub.get(this).select(session);
@@ -260,7 +260,7 @@ public class OnboardingActivity extends Screen {
                     startActivity(new Intent(this, ChatActivity.class).putExtra("id", session.id).putExtra("draft", "/status"));
                     finish();
                 });
-                secondary("Przejdź do rozmów", v -> finishGuide());
+                secondary("Go to chats", v -> finishGuide());
                 break;
             default: break;
         }
@@ -273,22 +273,22 @@ public class OnboardingActivity extends Screen {
         sp.topMargin = dp(this, 28);
         body.addView(spark, sp);
         Motion.pop(spark, 80);
-        TextView title = title(this, "Poznaj androidagent", 30);
+        TextView title = title(this, "Meet androidagent", 30);
         title.setAccessibilityHeading(true);
         title.setPadding(0, dp(this, 22), 0, dp(this, 6));
         body.addView(title);
-        body.addView(text(this, "Codex i Claude Code na Twoim telefonie.", 16, MUTED));
-        LinearLayout box = terminalBox(this, "co dostajesz", Theme.withAlpha(FAINT, 0xC0));
+        body.addView(text(this, "Codex and Claude Code on your phone.", 16, MUTED));
+        LinearLayout box = terminalBox(this, "what you get", Theme.withAlpha(FAINT, 0xC0));
         box.setPadding(dp(this, 16), dp(this, 20), dp(this, 16), dp(this, 6));
-        feature(box, R.drawable.ms_terminal, "Własne środowisko",
-                "Jedna aplikacja zawiera własne środowisko terminalowe, pliki i narzędzia telefonu. Nie musisz instalować osobnej aplikacji Termux.");
-        feature(box, R.drawable.ms_shield_person, "Twoje konto",
-                "Oficjalne klienty wymagają internetu i Twojego konta. Przygotowanie narzędzi jest automatyczne, a logowanie wykonujesz samodzielnie przez oficjalną stronę.");
-        feature(box, R.drawable.ms_phone, "Sterowanie opcjonalne",
-                "Sterowanie ekranem jest opcjonalne. Uprawnienia systemowe wybierasz w ustawieniach Androida.");
+        feature(box, R.drawable.ms_terminal, "Self-contained environment",
+                "One app includes its own terminal environment, files and phone tools. You don't need to install a separate Termux app.");
+        feature(box, R.drawable.ms_shield_person, "Your account",
+                "Official clients require internet access and your account. Tool setup is automatic; you sign in yourself through the official page.");
+        feature(box, R.drawable.ms_phone, "Optional control",
+                "Screen control is optional. You choose system permissions in Android settings.");
         body.addView(box, gap(26));
         Motion.stagger(box, 160, 60);
-        primary("Zaczynamy", v -> go(BRAIN));
+        primary("Get started", v -> go(BRAIN));
     }
 
     private void feature(LinearLayout box, int icon, String title, String text) {
@@ -311,12 +311,12 @@ public class OnboardingActivity extends Screen {
     }
 
     private void brain() {
-        header("Wybierz agenta", "Możesz zmienić domyślny wybór w ustawieniach i dodać drugiego klienta.");
+        header("Choose agent", "You can change the default in settings and add a second client.");
         int index = 0;
         for (String[] option : new String[][]{
-                {"codex", "Codex", "Oficjalny klient z Twoim kontem ChatGPT."},
-                {"claude", "Claude Code", "Oficjalny klient z Twoim kontem Claude."},
-                {"both", "Obaj", "Codex pozostaje domyślnym agentem nowych rozmów."}}) {
+                {"codex", "Codex", "Official client with your ChatGPT account."},
+                {"claude", "Claude Code", "Official client with your Claude account."},
+                {"both", "Both", "Codex stays the default agent for new chats."}}) {
             boolean selected = option[0].equals(Prefs.agents(this));
             LinearLayout card = row(this);
             card.setPadding(dp(this, 14), dp(this, 14), dp(this, 14), dp(this, 14));
@@ -345,7 +345,7 @@ public class OnboardingActivity extends Screen {
             col.addView(d);
             card.addView(col, weight1());
             card.addView(radio(selected), new LinearLayout.LayoutParams(dp(this, 22), dp(this, 22)));
-            card.setContentDescription(option[1] + (selected ? ", wybrany" : ""));
+            card.setContentDescription(option[1] + (selected ? ", selected" : ""));
             card.setOnClickListener(v -> {
                 if (selected) return;
                 Prefs.setAgents(this, option[0]);
@@ -358,7 +358,7 @@ public class OnboardingActivity extends Screen {
             body.addView(card, params);
             index++;
         }
-        primary("Dalej", v -> go(ENVIRONMENT));
+        primary("Next", v -> go(ENVIRONMENT));
     }
 
     private View radio(boolean on) {
@@ -375,11 +375,11 @@ public class OnboardingActivity extends Screen {
 
     private void environment() {
         EmbeddedRuntime runtime = EmbeddedRuntime.get(this);
-        header("Wbudowane środowisko", "Terminal i oficjalni klienci działają wewnątrz androidagent.");
+        header("Built-in environment", "The terminal and official clients run inside androidagent.");
         boolean ready = runtime.ready(), busy = runtime.busy();
         boolean failed = runtime.error() != null && !runtime.error().isEmpty();
-        String status = ready ? "Środowisko gotowe" : runtime.status();
-        if (status == null || status.isEmpty()) status = "Środowisko oczekuje na przygotowanie.";
+        String status = ready ? "Environment ready" : runtime.status();
+        if (status == null || status.isEmpty()) status = "The environment is waiting to be prepared.";
         LinearLayout box = terminalBox(this, "~/.buddy", ready ? Theme.withAlpha(OK, 0xB0) : busy ? Theme.withAlpha(ACCENT, 0xB0) : Theme.withAlpha(FAINT, 0xC0));
         box.setPadding(dp(this, 16), dp(this, 20), dp(this, 16), dp(this, 16));
         LinearLayout line = row(this);
@@ -408,7 +408,7 @@ public class OnboardingActivity extends Screen {
             box.addView(error, full());
         }
         body.addView(box, gap(22));
-        note("Otwórz panel środowiska, aby zobaczyć postęp, ponowić pobieranie lub otworzyć pliki i terminal. Przygotowanie środowiska nie zastępuje logowania do konta.");
+        note("Open the environment panel to see progress, retry the download, or open files and the terminal. Setting up the environment does not replace signing in to your account.");
         for (String backend : wanted(this)) {
             boolean installed = SetupState.agentInstalled(this, backend);
             boolean signed = SetupState.agentReady(this, backend);
@@ -419,13 +419,13 @@ public class OnboardingActivity extends Screen {
             LinearLayout col = column(this);
             col.setPadding(dp(this, 12), 0, 0, 0);
             col.addView(title(this, name, 15));
-            TextView s = monoText(this, signed ? "zainstalowany · zalogowany"
-                    : installed ? "zainstalowany · wymaga logowania" : "jeszcze nieprzygotowany", 11, signed ? OK : installed ? WARN : FAINT);
+            TextView s = monoText(this, signed ? "installed · signed in"
+                    : installed ? "installed · sign-in required" : "not set up yet", 11, signed ? OK : installed ? WARN : FAINT);
             s.setPadding(0, dp(this, 2), 0, 0);
             col.addView(s);
             head.addView(col, weight1());
             card.addView(head, full());
-            Button login = button(this, signed ? "Sprawdź konto" : installed ? "Zaloguj się" : "Przygotuj klienta", false);
+            Button login = button(this, signed ? "Check account" : installed ? "Sign in" : "Set up client", false);
             login.setOnClickListener(v -> {
                 if (signed) ping();
                 else if (installed) TermuxSetup.signIn(this, backend);
@@ -436,8 +436,8 @@ public class OnboardingActivity extends Screen {
             card.addView(login, lp);
             body.addView(card, gap(12));
         }
-        primary(busy ? "Pokaż postęp" : "Otwórz środowisko", v -> EmbeddedRuntime.open(this));
-        secondary("Dalej", v -> go(PERMISSIONS));
+        primary(busy ? "Show progress" : "Open environment", v -> EmbeddedRuntime.open(this));
+        secondary("Next", v -> go(PERMISSIONS));
     }
 
     /** A dark terminal panel previewing what /status does. */
@@ -446,9 +446,9 @@ public class OnboardingActivity extends Screen {
         append(sb, "› ", ACCENT);
         append(sb, "/status\n", CODE_TEXT);
         append(sb, "└ ", CODE_MUTED);
-        append(sb, "Odczyt lokalny: bateria, pamięć, sieć\n", CODE_MUTED);
+        append(sb, "Local read: battery, memory, network\n", CODE_MUTED);
         append(sb, "└ ", CODE_MUTED);
-        append(sb, "bez modelu i bez logowania", CODE_MUTED);
+        append(sb, "no model, no sign-in", CODE_MUTED);
         TextView t = terminalText(this, "");
         t.setText(sb);
         t.setTextIsSelectable(false);

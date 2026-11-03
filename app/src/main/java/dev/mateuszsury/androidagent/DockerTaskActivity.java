@@ -42,62 +42,62 @@ public class DockerTaskActivity extends Screen {
         LinearLayout root = column(this);
         root.setBackgroundColor(BG);
         root.setFitsSystemWindows(true);
-        root.addView(topBar(this, "Zadanie Docker", "~/zadania/#" + (task.length() > 8 ? task.substring(0, 8) : task)), full());
+        root.addView(topBar(this, "Docker task", "~/tasks/#" + (task.length() > 8 ? task.substring(0, 8) : task)), full());
         ScrollView scroll = new ScrollView(this);
         LinearLayout body = ToolUi.body(this);
 
         // ------------------------------------------------------------ project files
-        body.addView(sectionLabel(this, "Pliki projektu"), full());
+        body.addView(sectionLabel(this, "Project files"), full());
         LinearLayout files = card(this);
-        files.addView(ToolUi.caption(this, "Ścieżka"), full());
-        filename = field("Ścieżka pliku", "Dockerfile", false);
+        files.addView(ToolUi.caption(this, "Path"), full());
+        filename = field("File path", "Dockerfile", false);
         files.addView(filename, fieldParams(8));
-        TextView contentCaption = ToolUi.caption(this, "Zawartość");
+        TextView contentCaption = ToolUi.caption(this, "Content");
         contentCaption.setPadding(0, dp(this, 14), 0, 0);
         files.addView(contentCaption, full());
-        source = field("Treść pliku", "FROM alpine:3.23\nWORKDIR /workspace\n", true);
+        source = field("File content", "FROM alpine:3.23\nWORKDIR /workspace\n", true);
         source.setMinLines(6);
         source.setGravity(Gravity.TOP | Gravity.START);
         source.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         source.setLineSpacing(dp(this, 2), 1f);
         files.addView(source, fieldParams(8));
-        Button load = button(this, "Wczytaj plik", false);
+        Button load = button(this, "Load file", false);
         load.setOnClickListener(v -> operation("read", "path", filename.getText().toString()));
-        Button list = button(this, "Lista plików", false);
+        Button list = button(this, "File list", false);
         list.setOnClickListener(v -> operation("files"));
         files.addView(ToolUi.buttons(this, load, list), fieldParams(12));
-        Button save = button(this, "Zapisz plik", false);
+        Button save = button(this, "Save file", false);
         save.setTextColor(ACCENT_TEXT);
         save.setOnClickListener(v -> operation("write", "path", filename.getText().toString(), "content", source.getText().toString()));
-        Button build = button(this, "Zbuduj obraz", true);
+        Button build = button(this, "Build image", true);
         build.setOnClickListener(v -> operation("build", "dockerfile", filename.getText().toString()));
         files.addView(ToolUi.buttons(this, save, build), fieldParams(8));
         body.addView(files, cardParams(this));
 
         // ------------------------------------------------------------ run
-        body.addView(sectionLabel(this, "Uruchamianie"), full());
+        body.addView(sectionLabel(this, "Running"), full());
         LinearLayout run = card(this);
-        run.addView(ToolUi.caption(this, "Obraz"), full());
-        image = field("Obraz bazowy (puste: zbudowany obraz)", "", false);
+        run.addView(ToolUi.caption(this, "Image"), full());
+        image = field("Base image (empty: built image)", "", false);
         run.addView(image, fieldParams(8));
-        TextView commandCaption = ToolUi.caption(this, "Komenda");
+        TextView commandCaption = ToolUi.caption(this, "Command");
         commandCaption.setPadding(0, dp(this, 14), 0, 0);
         run.addView(commandCaption, full());
-        command = field("Komenda w kontenerze", "", false);
+        command = field("Command in container", "", false);
         run.addView(command, fieldParams(8));
-        preview = ToolUi.checkBox(this, "Opublikuj port 8080 kontenera");
+        preview = ToolUi.checkBox(this, "Publish container port 8080");
         preview.setChecked(getIntent().getBooleanExtra("demo", false));
         run.addView(preview, fieldParams(8));
-        Button start = button(this, "Uruchom kontener", true);
+        Button start = button(this, "Start container", true);
         start.setOnClickListener(v -> operation("run", "image", image.getText().toString(), "command", command.getText().toString(), "port", preview.isChecked() ? 8080 : JSONObject.NULL));
-        Button exec = button(this, "Wykonaj komendę", false);
+        Button exec = button(this, "Run command", false);
         exec.setOnClickListener(v -> operation("exec", "command", command.getText().toString()));
         run.addView(ToolUi.buttons(this, start, exec), fieldParams(8));
         body.addView(run, cardParams(this));
 
         // ------------------------------------------------------------ output
         LinearLayout outHead = row(this);
-        outHead.addView(sectionLabel(this, "Wynik"), weight1());
+        outHead.addView(sectionLabel(this, "Output"), weight1());
         jobBadge = badge(this, "", FAINT);
         jobBadge.setVisibility(View.GONE);
         LinearLayout.LayoutParams bp = wrap();
@@ -106,18 +106,18 @@ public class DockerTaskActivity extends Screen {
         outHead.addView(jobBadge, bp);
         body.addView(outHead, full());
         output = terminalText(this, "");
-        android.text.SpannableString idle = new android.text.SpannableString("Gotowy. Zapisz pliki, zbuduj obraz i uruchom aplikację.");
+        android.text.SpannableString idle = new android.text.SpannableString("Ready. Save the files, build the image and run the app.");
         idle.setSpan(new android.text.style.ForegroundColorSpan(CODE_MUTED), 0, idle.length(), 0);
         output.setText(idle);
         output.setMinHeight(dp(this, 150));
         output.setLinkTextColor(ACCENT);
         body.addView(output, sideParams(0));
-        Button logs = button(this, "Odśwież dziennik", false);
+        Button logs = button(this, "Refresh log", false);
         logs.setOnClickListener(v -> operation("logs"));
-        Button cancel = button(this, "Zatrzymaj zadanie", false);
+        Button cancel = button(this, "Stop task", false);
         cancel.setOnClickListener(v -> operation("cancel"));
         body.addView(ToolUi.buttons(this, logs, cancel), sideParams(10));
-        Button view = button(this, "Otwórz podgląd", false);
+        Button view = button(this, "Open preview", false);
         // Each task publishes its own phone port; the preview opens exactly that one.
         view.setOnClickListener(v -> startActivity(DockerPreviewActivity.intent(this, vm.previewPort(task), taskName())));
         LinearLayout.LayoutParams vp = sideParams(8);
@@ -131,29 +131,29 @@ public class DockerTaskActivity extends Screen {
         body.addView(links, lp);
 
         // ------------------------------------------------------------ export + cleanup
-        body.addView(sectionLabel(this, "Zachowaj wynik"), full());
+        body.addView(sectionLabel(this, "Keep output"), full());
         LinearLayout keep = card(this);
-        keep.addView(ToolUi.caption(this, "Plik"), full());
-        artifact = field("Plik do zachowania", "out/app.apk", false);
+        keep.addView(ToolUi.caption(this, "File"), full());
+        artifact = field("File to keep", "out/app.apk", false);
         keep.addView(artifact, fieldParams(8));
-        Button export = button(this, "Zachowaj plik", true);
+        Button export = button(this, "Keep file", true);
         export.setOnClickListener(v -> {
             final String path = artifact.getText().toString();
             new Thread(() -> {
                 try {
                     JSONObject result = vm.export(task, path);
-                    handler.post(() -> { if (!isDestroyed()) show("Zachowano " + result.optString("name") + "\nPlik jest dostępny na ekranie Docker także po usunięciu zadania.", null); });
+                    handler.post(() -> { if (!isDestroyed()) show("Kept " + result.optString("name") + "\nThe file stays available on the Docker screen even after the task is deleted.", null); });
                 } catch (Exception e) { handler.post(() -> showError(e)); }
             }, "docker-export").start();
         });
         keep.addView(export, ToolUi.buttonParams(this, 12));
-        TextView keepNote = text(this, "Zachowane pliki zostają w aplikacji po usunięciu zadania.", 12, FAINT);
+        TextView keepNote = text(this, "Kept files stay in the app after the task is deleted.", 12, FAINT);
         keepNote.setPadding(0, dp(this, 8), 0, 0);
         keep.addView(keepNote, full());
         body.addView(keep, cardParams(this));
         LinearLayout danger = ToolUi.group(this);
-        ToolUi.add(danger, new ToolUi.Row(this, R.drawable.ms_close, "Posprzątaj i usuń zadanie", "kontener, obraz i pliki robocze", false).danger()
-                .onClick(v -> confirmSheet(this, "Usunąć zadanie?", "Usuniesz kontener, jego obraz i pliki robocze. Zachowane pliki pozostaną dostępne.", "Posprzątaj", true, () -> operation("cleanup"))).view);
+        ToolUi.add(danger, new ToolUi.Row(this, R.drawable.ms_close, "Clean up and delete task", "container, image, and working files", false).danger()
+                .onClick(v -> confirmSheet(this, "Delete task?", "This deletes the container, its image and work files. Saved files will remain available.", "Clean up", true, () -> operation("cleanup"))).view);
         LinearLayout.LayoutParams dp2 = cardParams(this);
         dp2.topMargin = dp(this, 6);
         body.addView(danger, dp2);
@@ -215,8 +215,8 @@ public class DockerTaskActivity extends Screen {
     private void badgeFor(String state) {
         if (state == null || state.isEmpty()) { ToolUi.setVisible(jobBadge, false); return; }
         int color = "running".equals(state) || "queued".equals(state) ? ACCENT_TEXT : "succeeded".equals(state) ? OK : "failed".equals(state) ? ERR : MUTED;
-        String label = "running".equals(state) ? "trwa" : "queued".equals(state) ? "w kolejce" : "succeeded".equals(state) ? "gotowe"
-                : "failed".equals(state) ? "błąd" : "cancelled".equals(state) ? "anulowane" : state;
+        String label = "running".equals(state) ? "running" : "queued".equals(state) ? "queued" : "succeeded".equals(state) ? "ready"
+                : "failed".equals(state) ? "error" : "cancelled".equals(state) ? "canceled" : state;
         ToolUi.setText(jobBadge, label);
         jobBadge.setTag(state);
         jobBadge.setTextColor(color);
@@ -230,7 +230,7 @@ public class DockerTaskActivity extends Screen {
             args.put("op", op).put("task", task);
             for (int i = 0; i < fields.length; i += 2) if (fields[i + 1] != JSONObject.NULL) args.put((String) fields[i], fields[i + 1]);
         } catch (Exception e) { showError(e); return; }
-        output.setText("Wykonywanie…");
+        output.setText("Running…");
         new Thread(() -> {
             try {
                 JSONObject result = vm.request(args);
@@ -240,15 +240,15 @@ public class DockerTaskActivity extends Screen {
                     else if ("read".equals(op)) {
                         filename.setText(result.optString("path"));
                         source.setText(result.optString("content"));
-                        output.setText("Wczytano " + result.optString("path"));
+                        output.setText("Loaded " + result.optString("path"));
                     } else if ("files".equals(op)) {
                         JSONArray list = result.optJSONArray("files");
                         String[] names = new String[list == null ? 0 : list.length()];
                         for (int i = 0; i < names.length; i++) names[i] = list.optString(i);
-                        if (names.length == 0) output.setText("Projekt nie zawiera plików.");
+                        if (names.length == 0) output.setText("The project contains no files.");
                         else {
-                            output.setText(names.length + (names.length == 1 ? " plik w projekcie" : " plików w projekcie"));
-                            ToolUi.options(this, "Pliki projektu", "Wybierz plik, aby wczytać go do edytora.", names, null, index -> operation("read", "path", names[index]));
+                            output.setText(names.length + (names.length == 1 ? " file in the project" : " files in the project"));
+                            ToolUi.options(this, "Project files", "Choose a file to load into the editor.", names, null, index -> operation("read", "path", names[index]));
                         }
                     } else if ("cleanup".equals(op)) { finish(); }
                     else show(result.optString("output", result.toString()), null);
@@ -281,7 +281,7 @@ public class DockerTaskActivity extends Screen {
 
     private void showError(Exception e) {
         if (isDestroyed()) return;
-        android.text.SpannableString s = new android.text.SpannableString("Błąd: " + e.getMessage());
+        android.text.SpannableString s = new android.text.SpannableString("Error: " + e.getMessage());
         s.setSpan(new android.text.style.ForegroundColorSpan(AnsiText.PALETTE[1]), 0, s.length(), 0);
         output.setText(s);
     }
@@ -315,7 +315,7 @@ public class DockerTaskActivity extends Screen {
         shownLinks = sig;
         links.removeAllViews();
         if (url.isEmpty() || port <= 0) { ToolUi.setVisible(links, false); return; }
-        TextView label = monoText(this, "adres", 11, FAINT);
+        TextView label = monoText(this, "address", 11, FAINT);
         label.setPadding(0, 0, dp(this, 8), 0);
         links.addView(label, wrap());
         links.addView(ToolUi.urlChip(this, url, ACCENT_TEXT, () -> startActivity(DockerPreviewActivity.intent(this, port, taskName()))), wrap());

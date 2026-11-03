@@ -42,10 +42,10 @@ final class ApprovedCommandsChecks {
                 require(details.getHeight() > 0 && details.getHeight() <= Ui.dp(screen, 180),
                         "Long consent text hides the response buttons");
                 details.fullScroll(View.FOCUS_DOWN);
-                require(find(screen.getWindow().getDecorView(), "Zatwierdź") instanceof Button,
+                require(find(screen.getWindow().getDecorView(), "Approve") instanceof Button,
                         "Consent has no native approval button");
                 require(!result.exists(), "A command executed before the native approval click");
-                find(screen.getWindow().getDecorView(), "Zatwierdź").performClick();
+                find(screen.getWindow().getDecorView(), "Approve").performClick();
             });
             String response = running.get(30, TimeUnit.SECONDS).toString();
             require(response.contains(marker) && response.contains("[exit 0]"),
@@ -61,7 +61,7 @@ final class ApprovedCommandsChecks {
         try {
             Future<JSONObject> running = fixture.request("printf 'MUST_NOT_EXECUTE' > '" + result.getName() + "'");
             fixture.awaitPending(null);
-            onMain(instrumentation, () -> find(screen.getWindow().getDecorView(), "Odrzuć").performClick());
+            onMain(instrumentation, () -> find(screen.getWindow().getDecorView(), "Deny").performClick());
             running.get(30, TimeUnit.SECONDS);
             require(!result.exists(), "A denied command changed the filesystem");
         } finally { try { fixture.close(); } finally { result.delete(); } }
@@ -75,7 +75,7 @@ final class ApprovedCommandsChecks {
         try {
             Future<JSONObject> first = fixture.request(command);
             ApprovedCommands.Pending old = fixture.awaitPending(null);
-            onMain(instrumentation, () -> staleButton[0] = find(screen.getWindow().getDecorView(), "Zatwierdź"));
+            onMain(instrumentation, () -> staleButton[0] = find(screen.getWindow().getDecorView(), "Approve"));
             require(staleButton[0] != null, "First approval was never rendered");
             fixture.manager.cancelOwner(fixture.owner);
             first.get(30, TimeUnit.SECONDS);
@@ -87,7 +87,7 @@ final class ApprovedCommandsChecks {
             ApprovedCommands.Pending stillPending = fixture.manager.pendingForChat(fixture.session.id);
             require(stillPending != null && current.id.equals(stillPending.id) && !replacement.isDone(),
                     "Clicking an obsolete view approved a later request with the same command");
-            onMain(instrumentation, () -> find(screen.getWindow().getDecorView(), "Odrzuć").performClick());
+            onMain(instrumentation, () -> find(screen.getWindow().getDecorView(), "Deny").performClick());
             replacement.get(30, TimeUnit.SECONDS);
             require(!result.exists(), "An obsolete approval executed the replacement command");
         } finally { try { fixture.close(); } finally { result.delete(); } }

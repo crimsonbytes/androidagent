@@ -1,9 +1,9 @@
 {
   "x86_64": {
     "qemu-utils": {
-      "Version": "1:11.1.2",
-      "Filename": "pool/main/q/qemu-utils/qemu-utils_1:11.1.2_x86_64.deb",
-      "SHA256": "48c3798a7c2ab4271fe8a1e0b8c5c17acebc2e1f61d3c9e308e426098666fb0d"
+      "Version": "1:11.1.3",
+      "Filename": "pool/main/q/qemu-utils/qemu-utils_1:11.1.3_x86_64.deb",
+      "SHA256": "2ff6c59b3009bd06102b01f2759af4f676c242be339726194afd238494c416ab"
     },
     "zstd": {
       "Version": "1.5.7-1",
@@ -66,9 +66,9 @@
       "SHA256": "59121ca4bc5f5735d7bb603bd99548983064e8fde97d236e97122cb87d3452a3"
     },
     "libunistring": {
-      "Version": "1.4.2",
-      "Filename": "pool/main/libu/libunistring/libunistring_1.4.2_x86_64.deb",
-      "SHA256": "be23f951cef2a7588b3b98b27d6dfc3c82a4d4066471b024b189f9a9217e0525"
+      "Version": "1.5",
+      "Filename": "pool/main/libu/libunistring/libunistring_1.5_x86_64.deb",
+      "SHA256": "261efedb55f20f18ea943a78f35d89791a4805e80684bdab39dc15a8f9a93af8"
     },
     "libiconv": {
       "Version": "1.19",
@@ -91,14 +91,14 @@
       "SHA256": "0fcf8c5447bc5fbb0d411a47dc5c67d2aced861227e09052fc423220291a22c7"
     },
     "libngtcp2": {
-      "Version": "1.25.0",
-      "Filename": "pool/main/libn/libngtcp2/libngtcp2_1.25.0_x86_64.deb",
-      "SHA256": "d8232b10e8ab9129f4a0c1a5c8fc4591f11c74d99e5fd4d24121abbea65af5b7"
+      "Version": "1.26.0",
+      "Filename": "pool/main/libn/libngtcp2/libngtcp2_1.26.0_x86_64.deb",
+      "SHA256": "9a4ba347834cf4593cd80df9c9ad4caaf0486946ac0e1a812d10f0d712b5eae2"
     },
     "libnghttp2": {
-      "Version": "1.70.0",
-      "Filename": "pool/main/libn/libnghttp2/libnghttp2_1.70.0_x86_64.deb",
-      "SHA256": "7378c2e54518d0bd8cd349f6f89148a7feaef7e42196efcc0db237767319cdca"
+      "Version": "1.71.0",
+      "Filename": "pool/main/libn/libnghttp2/libnghttp2_1.71.0_x86_64.deb",
+      "SHA256": "9bc1791438de6380038835cbd10c9cede716212cc32e37eb54407cd24f6605d6"
     },
     "libevent": {
       "Version": "2.1.13",
@@ -136,9 +136,9 @@
       "SHA256": "00db1c1497e8703281efded7f1f2a63824b145c980d9ec309ae0ab7ccb9ce1c5"
     },
     "libnghttp3": {
-      "Version": "1.18.0",
-      "Filename": "pool/main/libn/libnghttp3/libnghttp3_1.18.0_x86_64.deb",
-      "SHA256": "bd9dc28e1e7593837dae5bb6747ca95de1cfb8da78d86009cbeb18fc6464fc0e"
+      "Version": "1.19.0",
+      "Filename": "pool/main/libn/libnghttp3/libnghttp3_1.19.0_x86_64.deb",
+      "SHA256": "b3fa3f6117a8d2c1e5c6535f733282c077d39760b79bd08eac4ffba8da7bc0e6"
     },
     "libbz2": {
       "Version": "1.0.8-8",
@@ -156,14 +156,14 @@
       "SHA256": "4a6f66ac12565342897ce9b5cd11ba8ce6fce1fd1a91ae679c3468d7fc2ee541"
     },
     "qemu-system-x86-64-headless": {
-      "Version": "1:11.1.2",
-      "Filename": "pool/main/q/qemu-system-x86-64-headless/qemu-system-x86-64-headless_1:11.1.2_x86_64.deb",
-      "SHA256": "6e50ba0a76b5a74613139c8cdcfe7a29455e6d9c412a68228630d4be6e546444"
+      "Version": "1:11.1.3",
+      "Filename": "pool/main/q/qemu-system-x86-64-headless/qemu-system-x86-64-headless_1:11.1.3_x86_64.deb",
+      "SHA256": "988996239081936d3dc89adab5ddf09181f3ca3ef8c95acc82e4741aaa0f3853"
     },
     "qemu-common": {
-      "Version": "1:11.1.2",
-      "Filename": "pool/main/q/qemu-common/qemu-common_1:11.1.2_x86_64.deb",
-      "SHA256": "fa356520a9e46fb86c1689bbbc23d4bc4625990e6c6bc64299ea9b7c0d83308d"
+      "Version": "1:11.1.3",
+      "Filename": "pool/main/q/qemu-common/qemu-common_1:11.1.3_x86_64.deb",
+      "SHA256": "e7b208594a2091a8a0e8766f4e80d91352b6514b11233b038266eef622e9411b"
     },
     "libcap-ng": {
       "Version": "2:0.9.6",
@@ -246,9 +246,9 @@
       "SHA256": "348582b47b4b6dec8c13147437d8bd93d029239bc95f30635074cad08efb6220"
     },
     "libandroid-stub": {
-      "Version": "30-2",
-      "Filename": "pool/main/liba/libandroid-stub/libandroid-stub_30-2_x86_64.deb",
-      "SHA256": "8f821820f69850016dcff77f4c76a64d1c04dd88d5bdd59f14d498679e4c3433"
+      "Version": "30-3",
+      "Filename": "pool/main/liba/libandroid-stub/libandroid-stub_30-3_x86_64.deb",
+      "SHA256": "73459e6d34535be52dd88638c0e0d75956cea24e381dd7012e0c354562679db5"
     },
     "dbus": {
       "Version": "1.16.2-3",
@@ -286,9 +286,9 @@
       "SHA256": "b964143f84f11270ba14baf9a747b9732f5a9b84d2ca0e70ca26ba0364e0ce0b"
     },
     "libexpat": {
-      "Version": "2.9.0",
-      "Filename": "pool/main/libe/libexpat/libexpat_2.9.0_x86_64.deb",
-      "SHA256": "4af6fa2a319696055d9b317270f6f7b54170159340e776cec53ed1ba09770293"
+      "Version": "2.10.0",
+      "Filename": "pool/main/libe/libexpat/libexpat_2.10.0_x86_64.deb",
+      "SHA256": "2e0f6f7d54ef7d8a732148f0a2ff53594b1a8d410a707f480f143861313a0ecd"
     },
     "ncurses": {
       "Version": "6.6.20260307+really6.5.20250830",
@@ -336,9 +336,9 @@
       "SHA256": "5eb3c080ff940f93b1f8eb24e61406f70359526e6bf1c59051560c17f31b3953"
     },
     "libjpeg-turbo": {
-      "Version": "3.2.0",
-      "Filename": "pool/main/libj/libjpeg-turbo/libjpeg-turbo_3.2.0_x86_64.deb",
-      "SHA256": "1726e1550b25dc0c14499702ff1c2cd0ff084516cfc24d7629e272907c727b77"
+      "Version": "3.2.1",
+      "Filename": "pool/main/libj/libjpeg-turbo/libjpeg-turbo_3.2.1_x86_64.deb",
+      "SHA256": "9a4399b4e26c58b98a2d9f38bfc7c0db883db273627efade044a08eabc54d04c"
     },
     "gstreamer": {
       "Version": "1.28.8",
@@ -386,9 +386,9 @@
       "SHA256": "051e20045d0feb887974bd784b5377ca3731611e8ce63de0c7d038c1224f2669"
     },
     "libslirp": {
-      "Version": "4.9.5",
-      "Filename": "pool/main/libs/libslirp/libslirp_4.9.5_x86_64.deb",
-      "SHA256": "eaa3aba235cbf26b10d3433acb39d428b2b871d51a31fcdfa7c81009929759ca"
+      "Version": "4.9.7",
+      "Filename": "pool/main/libs/libslirp/libslirp_4.9.7_x86_64.deb",
+      "SHA256": "ad79bb9553a37749850f6e4394ee52f812fa6594865588a01367f428518f1569"
     },
     "liblzo": {
       "Version": "2.10-5",
@@ -453,9 +453,9 @@
   },
   "arm64-v8a": {
     "qemu-utils": {
-      "Version": "1:11.1.2",
-      "Filename": "pool/main/q/qemu-utils/qemu-utils_1:11.1.2_aarch64.deb",
-      "SHA256": "3034aac2235208db4e54961fe75688230945865e617ed5410ddb60fa66f46d94"
+      "Version": "1:11.1.3",
+      "Filename": "pool/main/q/qemu-utils/qemu-utils_1:11.1.3_aarch64.deb",
+      "SHA256": "eee9d6dd32dbf67628afb79cb9a93f90f5e48a569eaba7a290f973716cd45e64"
     },
     "zstd": {
       "Version": "1.5.7-1",
@@ -518,9 +518,9 @@
       "SHA256": "4f255badf74cd31f6a2801c17fa1444199c84c834b517b7c843e2fe9ebe91d77"
     },
     "libunistring": {
-      "Version": "1.4.2",
-      "Filename": "pool/main/libu/libunistring/libunistring_1.4.2_aarch64.deb",
-      "SHA256": "5ff75cdf3ddd4ddf5dc9705050f270c3422820295a4b26f93496d3e8e9060122"
+      "Version": "1.5",
+      "Filename": "pool/main/libu/libunistring/libunistring_1.5_aarch64.deb",
+      "SHA256": "8853ca1421d6472046a0683d53084b26db1caa50a3aa2bf6422a1276c7dba69b"
     },
     "libiconv": {
       "Version": "1.19",
@@ -543,14 +543,14 @@
       "SHA256": "ab541abac8e0c81709cd7ca4a02bcfa0d60ba1f4bfe7fd6dce4a694a4a9dfffa"
     },
     "libngtcp2": {
-      "Version": "1.25.0",
-      "Filename": "pool/main/libn/libngtcp2/libngtcp2_1.25.0_aarch64.deb",
-      "SHA256": "f471bad7f4329b6b0b4aedf124e0a23a35f6ac99bfbae73304136f8bfd570fc3"
+      "Version": "1.26.0",
+      "Filename": "pool/main/libn/libngtcp2/libngtcp2_1.26.0_aarch64.deb",
+      "SHA256": "8225ecde58104ef5aa234fa54a1bea5051a8a9ef2937e5ba996b3e8dda68c8eb"
     },
     "libnghttp2": {
-      "Version": "1.70.0",
-      "Filename": "pool/main/libn/libnghttp2/libnghttp2_1.70.0_aarch64.deb",
-      "SHA256": "ab2e0a3408fe4934ffdf774bd5049a265db2e6db62dcb651baecbecfb81e3f0b"
+      "Version": "1.71.0",
+      "Filename": "pool/main/libn/libnghttp2/libnghttp2_1.71.0_aarch64.deb",
+      "SHA256": "ae33e7b21e0636be8686b9b13a20e31267f047f69cb26b4befd70c9a9bae221e"
     },
     "libevent": {
       "Version": "2.1.13",
@@ -588,9 +588,9 @@
       "SHA256": "1add4e0a926b848814e7e2f1817ea28b123c54cabd5bbc4e5cfd65291cbad84e"
     },
     "libnghttp3": {
-      "Version": "1.18.0",
-      "Filename": "pool/main/libn/libnghttp3/libnghttp3_1.18.0_aarch64.deb",
-      "SHA256": "0be2ee96def3608afaf24eb0b4b55f3484a37c95ea21bb1d6d85c7d543467603"
+      "Version": "1.19.0",
+      "Filename": "pool/main/libn/libnghttp3/libnghttp3_1.19.0_aarch64.deb",
+      "SHA256": "8bb6fa31f9281cd48047ec9a571cadf153538f5b38f0203ad7a4e221344b14a6"
     },
     "libbz2": {
       "Version": "1.0.8-8",
@@ -608,14 +608,14 @@
       "SHA256": "c27995e5f52b8ecc9b8b3e662eb08e49f82a18bfd3f34343936acc7b23964724"
     },
     "qemu-system-aarch64-headless": {
-      "Version": "1:11.1.2",
-      "Filename": "pool/main/q/qemu-system-aarch64-headless/qemu-system-aarch64-headless_1:11.1.2_aarch64.deb",
-      "SHA256": "3badce06e651c7da885287c48be713b61b7ff196e215e91da0f49fcf8fa91679"
+      "Version": "1:11.1.3",
+      "Filename": "pool/main/q/qemu-system-aarch64-headless/qemu-system-aarch64-headless_1:11.1.3_aarch64.deb",
+      "SHA256": "64d63f37884ee8ae07bf91e144b8d06955027ad69b339a4ecdd888d391bd8cd3"
     },
     "qemu-common": {
-      "Version": "1:11.1.2",
-      "Filename": "pool/main/q/qemu-common/qemu-common_1:11.1.2_aarch64.deb",
-      "SHA256": "df001684b2cf77a6a07f1d0b8a07c8e6f7d7d46f0b8461ebdc1bcf9e343b6bb3"
+      "Version": "1:11.1.3",
+      "Filename": "pool/main/q/qemu-common/qemu-common_1:11.1.3_aarch64.deb",
+      "SHA256": "4ec342d50d07a591911ec30e35b0edf61d0bc111a42fd881e53448123f807356"
     },
     "libcap-ng": {
       "Version": "2:0.9.6",
@@ -698,9 +698,9 @@
       "SHA256": "725dd2c6da7fc96e860fcc928e18aa9fb0e85e0bdcaf4f8ce0f0654ca6860fc2"
     },
     "libandroid-stub": {
-      "Version": "30-2",
-      "Filename": "pool/main/liba/libandroid-stub/libandroid-stub_30-2_aarch64.deb",
-      "SHA256": "74087792a86e3f90772627f2217797e422e5d5fc47f24ad825fc3bbb539a667a"
+      "Version": "30-3",
+      "Filename": "pool/main/liba/libandroid-stub/libandroid-stub_30-3_aarch64.deb",
+      "SHA256": "88c7f4ba78a5eb57eafc2f1102ceea562a156fe7346528ca35c771eb0927fefc"
     },
     "dbus": {
       "Version": "1.16.2-3",
@@ -738,9 +738,9 @@
       "SHA256": "2d86bed61ce89dd8fdb55e565aede10155f2ce3adaccb61d5f1375aec3314083"
     },
     "libexpat": {
-      "Version": "2.9.0",
-      "Filename": "pool/main/libe/libexpat/libexpat_2.9.0_aarch64.deb",
-      "SHA256": "f8a104e8227c9c181f6818658a3ee2fa4c107fac94219b068144fc6591086cdb"
+      "Version": "2.10.0",
+      "Filename": "pool/main/libe/libexpat/libexpat_2.10.0_aarch64.deb",
+      "SHA256": "0e4411f01f6fb664f3f04f9420289472f9afc30db01ea1c5d1e57fd9fa2354be"
     },
     "ncurses": {
       "Version": "6.6.20260307+really6.5.20250830",
@@ -788,9 +788,9 @@
       "SHA256": "09b9449418d5c2dc4f5c1c140ba8138d56be3e9ae5fd3be3318825ec9f8a0499"
     },
     "libjpeg-turbo": {
-      "Version": "3.2.0",
-      "Filename": "pool/main/libj/libjpeg-turbo/libjpeg-turbo_3.2.0_aarch64.deb",
-      "SHA256": "e6339075bcde28b4902d5a51f4063164834abfd2fa115e881ae637a34585e54f"
+      "Version": "3.2.1",
+      "Filename": "pool/main/libj/libjpeg-turbo/libjpeg-turbo_3.2.1_aarch64.deb",
+      "SHA256": "3e46721f2fbb10d5f53a45b99e2549d18a34ca3751aa4b704b3404fcdea5f8e7"
     },
     "gstreamer": {
       "Version": "1.28.8",
@@ -838,9 +838,9 @@
       "SHA256": "9b2ae32ab0a4b84f8804a6916fb4be884ccf27826e361aaffc4affbe023fc1c1"
     },
     "libslirp": {
-      "Version": "4.9.5",
-      "Filename": "pool/main/libs/libslirp/libslirp_4.9.5_aarch64.deb",
-      "SHA256": "76b0df1836e5da8b70e4f68cd22518dbea156184904fe3d2392bb9f8e7fd1e0b"
+      "Version": "4.9.7",
+      "Filename": "pool/main/libs/libslirp/libslirp_4.9.7_aarch64.deb",
+      "SHA256": "2dd2c214bcec7f1125fcd4040606e72768c38010ba87ed9c0365193616ba7ada"
     },
     "liblzo": {
       "Version": "2.10-5",

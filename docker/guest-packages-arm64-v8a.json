@@ -1,11 +1,11 @@
 [
   {
     "name": "alpine-base",
-    "version": "3.23.6-r0",
+    "version": "3.23.7-r0",
     "architecture": "aarch64",
     "license": "MIT",
     "origin": "alpine-base",
-    "aports_commit": "8608c79733409c3aa716f7985d1cb45aedba55bd",
+    "aports_commit": "13bdc4d2587d70f0c94daf578deaafe046796112",
     "homepage": "https://alpinelinux.org"
   },
   {
@@ -46,11 +46,11 @@
   },
   {
     "name": "alpine-release",
-    "version": "3.23.6-r0",
+    "version": "3.23.7-r0",
     "architecture": "aarch64",
     "license": "MIT",
     "origin": "alpine-base",
-    "aports_commit": "8608c79733409c3aa716f7985d1cb45aedba55bd",
+    "aports_commit": "13bdc4d2587d70f0c94daf578deaafe046796112",
     "homepage": "https://alpinelinux.org"
   },
   {
@@ -73,11 +73,11 @@
   },
   {
     "name": "brotli-libs",
-    "version": "1.2.0-r0",
+    "version": "1.2.1-r0",
     "architecture": "aarch64",
     "license": "MIT",
     "origin": "brotli",
-    "aports_commit": "e1a74d1bc0c4e0308990de2e9ec9d82529fcac8f",
+    "aports_commit": "613a63bfdea80e8e7ab904805c95e19beedbcde3",
     "homepage": "https://github.com/google/brotli"
   },
   {
@@ -127,29 +127,29 @@
   },
   {
     "name": "c-ares",
-    "version": "1.34.8-r0",
+    "version": "1.34.9-r0",
     "architecture": "aarch64",
     "license": "MIT",
     "origin": "c-ares",
-    "aports_commit": "5d4c6f7c12416f51673a8364ae60a3046345f11f",
+    "aports_commit": "3ad686d491ca23a0182a59883595ca078960b958",
     "homepage": "https://c-ares.org/"
   },
   {
     "name": "ca-certificates",
-    "version": "20260909-r0",
+    "version": "20261020-r0",
     "architecture": "aarch64",
     "license": "MPL-2.0 AND MIT",
     "origin": "ca-certificates",
-    "aports_commit": "c733d58a9d16316e7fb6a49e65f28ecda365c56b",
+    "aports_commit": "ac857c298f6fd212498ce76bb87836d940cdba2d",
     "homepage": "https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/"
   },
   {
     "name": "ca-certificates-bundle",
-    "version": "20260909-r0",
+    "version": "20261020-r0",
     "architecture": "aarch64",
     "license": "MPL-2.0 AND MIT",
     "origin": "ca-certificates",
-    "aports_commit": "c733d58a9d16316e7fb6a49e65f28ecda365c56b",
+    "aports_commit": "ac857c298f6fd212498ce76bb87836d940cdba2d",
     "homepage": "https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/"
   },
   {
@@ -181,11 +181,11 @@
   },
   {
     "name": "curl",
-    "version": "8.22.0-r0",
+    "version": "8.23.0-r0",
     "architecture": "aarch64",
     "license": "curl",
     "origin": "curl",
-    "aports_commit": "ce63a8e353eacc32ad36fd49ae1f427f4306da87",
+    "aports_commit": "856d76205ed1b7f875d32fd7b72eb93912f32acd",
     "homepage": "https://curl.se/"
   },
   {
@@ -397,11 +397,11 @@
   },
   {
     "name": "libcurl",
-    "version": "8.22.0-r0",
+    "version": "8.23.0-r0",
     "architecture": "aarch64",
     "license": "curl",
     "origin": "curl",
-    "aports_commit": "ce63a8e353eacc32ad36fd49ae1f427f4306da87",
+    "aports_commit": "856d76205ed1b7f875d32fd7b72eb93912f32acd",
     "homepage": "https://curl.se/"
   },
   {
@@ -415,11 +415,11 @@
   },
   {
     "name": "libexpat",
-    "version": "2.8.5-r0",
+    "version": "2.10.0-r0",
     "architecture": "aarch64",
     "license": "MIT",
     "origin": "expat",
-    "aports_commit": "171c26af3dfb6811add4c543559e647bac596b7d",
+    "aports_commit": "291311a14701f97a0f8483d0c2fe6c71efa4c590",
     "homepage": "https://libexpat.github.io/"
   },
   {
@@ -568,11 +568,11 @@
   },
   {
     "name": "linux-virt",
-    "version": "6.18.55-r0",
+    "version": "6.18.60-r0",
     "architecture": "aarch64",
     "license": "GPL-2.0-only",
     "origin": "linux-lts",
-    "aports_commit": "a485504610a948f6ef7b76b1dc02388c9be9bb03",
+    "aports_commit": "7c0621dbd415d5a9433635a5522c046a1ab1d2a5",
     "homepage": "https://www.kernel.org"
   },
   {
@@ -613,20 +613,20 @@
   },
   {
     "name": "musl",
-    "version": "1.2.5-r23",
+    "version": "1.2.5-r24",
     "architecture": "aarch64",
     "license": "MIT",
     "origin": "musl",
-    "aports_commit": "8aef0c37b0ad23dc4137f0e4755b97a59dc698b8",
+    "aports_commit": "fd05fc094264bce4fb76efc6c7f61ba4abfcb609",
     "homepage": "https://musl.libc.org/"
   },
   {
     "name": "musl-utils",
-    "version": "1.2.5-r23",
+    "version": "1.2.5-r24",
     "architecture": "aarch64",
     "license": "MIT AND BSD-2-Clause AND GPL-2.0-or-later",
     "origin": "musl",
-    "aports_commit": "8aef0c37b0ad23dc4137f0e4755b97a59dc698b8",
+    "aports_commit": "fd05fc094264bce4fb76efc6c7f61ba4abfcb609",
     "homepage": "https://musl.libc.org/"
   },
   {
@@ -694,38 +694,38 @@
   },
   {
     "name": "pyc",
-    "version": "3.12.15-r0",
+    "version": "3.12.16-r0",
     "architecture": "aarch64",
     "license": "PSF-2.0",
     "origin": "python3",
-    "aports_commit": "a93b9d92830751c4186e59de40ddd3e8650e61b0",
+    "aports_commit": "2ed0b6528f61b45078aecaed0140299ec38c97ef",
     "homepage": "https://www.python.org/"
   },
   {
     "name": "python3",
-    "version": "3.12.15-r0",
+    "version": "3.12.16-r0",
     "architecture": "aarch64",
     "license": "PSF-2.0",
     "origin": "python3",
-    "aports_commit": "a93b9d92830751c4186e59de40ddd3e8650e61b0",
+    "aports_commit": "2ed0b6528f61b45078aecaed0140299ec38c97ef",
     "homepage": "https://www.python.org/"
   },
   {
     "name": "python3-pyc",
-    "version": "3.12.15-r0",
+    "version": "3.12.16-r0",
     "architecture": "aarch64",
     "license": "PSF-2.0",
     "origin": "python3",
-    "aports_commit": "a93b9d92830751c4186e59de40ddd3e8650e61b0",
+    "aports_commit": "2ed0b6528f61b45078aecaed0140299ec38c97ef",
     "homepage": "https://www.python.org/"
   },
   {
     "name": "python3-pycache-pyc0",
-    "version": "3.12.15-r0",
+    "version": "3.12.16-r0",
     "architecture": "aarch64",
     "license": "PSF-2.0",
     "origin": "python3",
-    "aports_commit": "a93b9d92830751c4186e59de40ddd3e8650e61b0",
+    "aports_commit": "2ed0b6528f61b45078aecaed0140299ec38c97ef",
     "homepage": "https://www.python.org/"
   },
   {

@@ -31,7 +31,7 @@ public class PermissionsActivity extends Screen {
         LinearLayout root = column(this);
         root.setBackgroundColor(BG);
         root.setFitsSystemWindows(true);
-        LinearLayout bar = topBar(this, "Uprawnienia", "zgody Androida");
+        LinearLayout bar = topBar(this, "Permissions", "Android permissions");
         subtitle = (TextView) ((LinearLayout) ((LinearLayout) bar.getChildAt(0)).getChildAt(1)).getChildAt(1);
         root.addView(bar, full());
         scroll = new ScrollView(this);
@@ -62,99 +62,99 @@ public class PermissionsActivity extends Screen {
         if (cards == null || isDestroyed()) return;
         int position = scroll.getScrollY();
         PermissionGuide.State state = PermissionGuide.read(this);
-        subtitle.setText(state.enabledCount() + " z " + PermissionGuide.State.TOTAL + " włączonych · zgody Androida");
+        subtitle.setText(state.enabledCount() + " of " + PermissionGuide.State.TOTAL + " enabled · Android permissions");
         cards.removeAllViews();
         paragraph(cards,
-                "Terminal i rozmowy działają bez dostępu do ekranu i mikrofonu. "
-                        + "Logowanie do konta modelu jest osobnym krokiem. "
-                        + "Uprawnienia włączasz samodzielnie w oknach Androida.", MUTED);
+                "The terminal and chats work without screen or microphone access. "
+                        + "Signing in to the model account is a separate step. "
+                        + "You turn on permissions yourself in Android dialogs.", MUTED);
 
-        section("Aplikacja");
-        card(R.drawable.ms_notifications, "Powiadomienia", state.notifications ? "Włączone" : "Wyłączone · opcjonalne",
+        section("App");
+        card(R.drawable.ms_notifications, "Notifications", state.notifications ? "On" : "Off · optional",
                 state.notifications ? OK : FAINT,
-                "Pokazują aktywne zadania i przycisk zatrzymania. Odmowa nie blokuje rozmów ani narzędzi. "
-                        + "Android może nadal pokazywać aktywną usługę w swoim panelu.",
-                state.notifications ? "Ustawienia powiadomień" : "Włącz powiadomienia",
+                "They show active tasks and a stop button. Declining does not block chats or tools. "
+                        + "Android may still show an active service in its panel.",
+                state.notifications ? "Notification settings" : "Enable notifications",
                 () -> {
                     if (NotificationPermission.canRequest(this)) NotificationPermission.requestIfNeeded(this);
                     else launch(NotificationPermission.settingsIntent(this), PermissionGuide.appSettingsIntent(this));
                 }, null);
-        card(R.drawable.ms_mic, "Mikrofon", state.microphone ? "Dozwolony" : "Wyłączony · opcjonalny",
+        card(R.drawable.ms_mic, "Microphone", state.microphone ? "Allowed" : "Off · optional",
                 state.microphone ? OK : FAINT,
-                "Potrzebny tylko do dyktowania. Możesz zawsze pisać na klawiaturze. "
-                        + "Dyktowanie wymaga też dostępnej usługi rozpoznawania mowy w telefonie.",
-                state.microphone ? "Ustawienia mikrofonu" : "Zezwól na mikrofon",
+                "Needed only for dictation. You can always type on the keyboard. "
+                        + "Dictation also requires a speech recognition service on the phone.",
+                state.microphone ? "Microphone settings" : "Allow microphone",
                 () -> requestRuntime("microphone_requested", new String[]{Manifest.permission.RECORD_AUDIO},
                         MICROPHONE_REQUEST, state.microphone), null);
-        String accessibilityStatus = state.accessibilityConnected ? "Połączone"
-                : state.accessibilityEnabled ? "Włączone · oczekiwanie na połączenie" : "Wyłączone · opcjonalne";
-        card(R.drawable.ms_touch_app, "Sterowanie ekranem", accessibilityStatus,
+        String accessibilityStatus = state.accessibilityConnected ? "Connected"
+                : state.accessibilityEnabled ? "On · waiting for connection" : "Off · optional";
+        card(R.drawable.ms_touch_app, "Screen control", accessibilityStatus,
                 state.accessibilityConnected ? OK : state.accessibilityEnabled ? WARN : FAINT,
-                "Usługa ułatwień dostępu pozwala agentowi odczytywać ekran, klikać i przewijać. "
-                        + "W ustawieniach wybierz androidagent i potwierdź zgodę. "
-                        + "Pozostałe usługi ułatwień dostępu pozostają pod Twoją kontrolą.",
-                "Ustawienia ułatwień dostępu",
+                "The accessibility service lets the agent read the screen, tap, and scroll. "
+                        + "In settings, select androidagent and confirm. "
+                        + "Other accessibility services remain under your control.",
+                "Accessibility settings",
                 () -> launch(PermissionGuide.accessibilitySettingsIntent(), PermissionGuide.appSettingsIntent(this)),
                 state.accessibilityEnabled ? null : restrictedNote(
-                        "Jeżeli Android blokuje tę zgodę po instalacji APK, otwórz Informacje o aplikacji "
-                                + "i w menu z trzema kropkami wybierz Zezwól na ustawienia z ograniczeniami, jeśli ta opcja jest dostępna. "
-                                + "Następnie wróć do ustawień ułatwień dostępu."));
-        card(R.drawable.ms_battery_charging_full, "Długie zadania i bateria",
-                state.batteryExempt ? "Bez optymalizacji baterii" : "Optymalizacja aktywna", state.batteryExempt ? OK : FAINT,
-                "Dla długich rozmów, kompilacji i maszyny Docker możesz pozwolić aplikacji działać w tle. "
-                        + "Android lub producent urządzenia może mimo to zatrzymać proces przy braku pamięci. "
-                        + "W razie problemów sprawdź też ograniczenia działania w tle w Informacjach o aplikacji.",
-                state.batteryExempt ? "Ustawienia baterii" : "Zezwól na działanie w tle",
+                        "If Android blocks this permission after an APK install, open App info "
+                                + "and in the three-dot menu choose Allow restricted settings, if available. "
+                                + "Then return to accessibility settings."));
+        card(R.drawable.ms_battery_charging_full, "Long tasks and battery",
+                state.batteryExempt ? "No battery optimization" : "Optimization active", state.batteryExempt ? OK : FAINT,
+                "For long chats, builds and the Docker VM, you can let the app run in the background. "
+                        + "Android or the device maker may still stop the process when memory is low. "
+                        + "If you have problems, also check background restrictions in App info.",
+                state.batteryExempt ? "Battery settings" : "Allow background activity",
                 () -> {
                     if (state.batteryExempt) launch(PermissionGuide.batteryListIntent(), PermissionGuide.appSettingsIntent(this));
                     else launch(PermissionGuide.batterySettingsIntent(this), PermissionGuide.batteryListIntent());
                 }, null);
 
-        section("Narzędzia agenta");
-        String access = state.notificationAccessConnected ? "Włączony"
-                : state.notificationAccess ? "Włączony · oczekiwanie na połączenie" : "Wyłączony · opcjonalny";
-        card(R.drawable.ms_notifications_active, "Dostęp do powiadomień", access,
+        section("Agent tools");
+        String access = state.notificationAccessConnected ? "On"
+                : state.notificationAccess ? "On · waiting for connection" : "Off · optional";
+        card(R.drawable.ms_notifications_active, "Notification access", access,
                 state.notificationAccessConnected ? OK : state.notificationAccess ? WARN : FAINT,
-                "Agent może odczytać tytuł i treść powiadomień, otworzyć je, nacisnąć ich przycisk lub je zamknąć, "
-                        + "gdy poprosisz o to w rozmowie. Treść powiadomień nigdy nie jest dla agenta poleceniem.",
-                state.notificationAccess ? "Ustawienia dostępu do powiadomień" : "Włącz dostęp do powiadomień",
+                "The agent can read the title and content of notifications, open them, press their button, or dismiss them, "
+                        + "when you ask in chat. Notification content is never treated as a command by the agent.",
+                state.notificationAccess ? "Notification access settings" : "Enable notification access",
                 () -> launch(PermissionGuide.notificationAccessIntent(this), PermissionGuide.notificationAccessListIntent()),
                 state.notificationAccess || Build.VERSION.SDK_INT < 33 ? null : restrictedNote(
-                        "Android może oznaczyć to ustawienie jako ograniczone dla aplikacji z pliku APK. "
-                                + "Wtedy w Informacjach o aplikacji wybierz w menu z trzema kropkami "
-                                + "Zezwól na ustawienia z ograniczeniami."));
+                        "Android may mark this setting as restricted for apps installed from an APK file. "
+                                + "In that case, in App info, open the three-dot menu and choose "
+                                + "Allow restricted settings."));
         boolean located = state.locationCoarse;
-        card(R.drawable.ms_location_on, "Lokalizacja",
-                state.locationFine ? "Dokładna" : located ? "Przybliżona" : "Wyłączona · opcjonalna", located ? OK : FAINT,
-                "Agent sprawdzi położenie telefonu, gdy poprosisz np. o pogodę lub trasę w okolicy. "
-                        + "Działa tylko przy otwartej aplikacji. Android zapyta, czy udostępnić dokładną, czy przybliżoną lokalizację.",
-                located ? "Ustawienia lokalizacji" : "Zezwól na lokalizację",
+        card(R.drawable.ms_location_on, "Location",
+                state.locationFine ? "Precise" : located ? "Approximate" : "Off · optional", located ? OK : FAINT,
+                "The agent checks the phone's location when you ask, e.g., for the weather or a nearby route. "
+                        + "Works only while the app is open. Android will ask whether to share precise or approximate location.",
+                located ? "Location settings" : "Allow location",
                 () -> requestRuntime("location_requested", new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST, located), null);
-        card(R.drawable.ms_photo_library, "Zdjęcia", state.photos ? "Dozwolone" : "Wyłączone · opcjonalne",
+        card(R.drawable.ms_photo_library, "Photos", state.photos ? "Allowed" : "Off · optional",
                 state.photos ? OK : FAINT,
-                "Agent może przejrzeć najnowsze zdjęcia z galerii i skopiować wybrane do swojego katalogu roboczego. "
-                        + "Robienie zdjęć aparatem nie wymaga tej zgody: zdjęcie zawsze robisz sam.",
-                state.photos ? "Ustawienia zdjęć" : "Zezwól na dostęp do zdjęć",
+                "The agent can browse the latest gallery photos and copy selected ones to its working directory. "
+                        + "Taking photos with the camera doesn't need this permission: you always take the photo yourself.",
+                state.photos ? "Photo settings" : "Allow photo access",
                 () -> requestRuntime("photos_requested", new String[]{MediaTools.photoPermission()}, PHOTOS_REQUEST,
                         state.photos), null);
-        card(R.drawable.ms_install_mobile, "Instalowanie aplikacji", state.installApps ? "Dozwolone" : "Wyłączone · opcjonalne",
+        card(R.drawable.ms_install_mobile, "Install apps", state.installApps ? "Allowed" : "Off · optional",
                 state.installApps ? OK : FAINT,
-                "Pozwala otworzyć instalator Androida dla aplikacji zbudowanych przez agenta. "
-                        + "Każdą instalację i aktualizację potwierdzasz sam w oknie Androida.",
-                state.installApps ? "Ustawienia instalowania" : "Zezwól na instalowanie",
+                "Lets the agent open the Android installer for apps it builds. "
+                        + "You confirm every install and update yourself in an Android dialog.",
+                state.installApps ? "Install settings" : "Allow installing",
                 () -> launch(PermissionGuide.installAppsIntent(this), PermissionGuide.appSettingsIntent(this)), null);
-        card(R.drawable.ms_settings, "Zmiana ustawień systemu", state.writeSettings ? "Dozwolona" : "Wyłączona · opcjonalna",
+        card(R.drawable.ms_settings, "Change system settings", state.writeSettings ? "Allowed" : "Off · optional",
                 state.writeSettings ? OK : FAINT,
-                "Potrzebna tylko narzędziom, które zmieniają na przykład jasność ekranu. "
-                        + "Nie daje dostępu do haseł ani do ustawień chronionych przez Androida.",
-                state.writeSettings ? "Ustawienia systemowe aplikacji" : "Zezwól na zmianę ustawień",
+                "Needed only by tools that change things like screen brightness. "
+                        + "It does not grant access to passwords or to settings protected by Android.",
+                state.writeSettings ? "App system settings" : "Allow changing settings",
                 () -> launch(PermissionGuide.writeSettingsIntent(this), PermissionGuide.appSettingsIntent(this)), null);
 
         TextView footer = paragraph(cards,
-                "Pliki i USB: zgoda pojawia się dopiero po wybraniu folderu albo konkretnego urządzenia. "
-                        + "Nie trzeba udostępniać całej pamięci telefonu. "
-                        + "Terminal i rozmowy nie wymagają roota ani zgody na instalowanie innych aplikacji.", FAINT);
+                "Files and USB: permission is requested only after you choose a folder or a specific device. "
+                        + "You do not need to share the entire phone storage. "
+                        + "The terminal and chats need neither root nor permission to install other apps.", FAINT);
         footer.setPadding(dp(this, 4), dp(this, 10), dp(this, 4), 0);
         if (!entered) {
             entered = true;
@@ -181,7 +181,7 @@ public class PermissionsActivity extends Screen {
                 try { startActivity(fallback); return; }
                 catch (RuntimeException ignored) {}
             }
-            Toast.makeText(this, "Te ustawienia nie są dostępne. Otwórz informacje o androidagent w ustawieniach Androida.",
+            Toast.makeText(this, "These settings are unavailable. Open androidagent app info in Android settings.",
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -257,7 +257,7 @@ public class PermissionsActivity extends Screen {
         TextView note = text(this, text, 12, MUTED);
         note.setLineSpacing(dp(this, 2), 1);
         box.addView(note, full());
-        Button details = actionButton("Informacje o aplikacji", false);
+        Button details = actionButton("App info", false);
         details.setTextSize(13);
         details.setOnClickListener(v -> launch(PermissionGuide.appSettingsIntent(this), null));
         LinearLayout.LayoutParams params = wrap();

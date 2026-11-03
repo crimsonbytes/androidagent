@@ -35,7 +35,7 @@ final class AgentRegressionChecks {
             hub.stop(session);
             check(!session.running && session.status.isEmpty(), "Failed Stop left the chat permanently running");
             check(session.streamText.isEmpty() && session.messages.stream().anyMatch(m -> m.text.equals("Partial reply before the failure")), "Failed Stop lost the received text");
-            check(session.messages.stream().anyMatch(m -> m.kind == Bubble.Kind.ERROR && m.text.contains("polecenie Stop nie dotarło do klienta")), "Stop failure was presented as successful termination");
+            check(session.messages.stream().anyMatch(m -> m.kind == Bubble.Kind.ERROR && m.text.contains("the Stop command did not reach the client")), "Stop failure was presented as successful termination");
         } finally {
             hub.delete(session);
             context.getSharedPreferences("buddy_sessions", Context.MODE_PRIVATE).edit().clear().commit();
@@ -58,7 +58,7 @@ final class AgentRegressionChecks {
             check(session.running, "Old Stop callback ended the new request");
             hub.onEvent(event(session, "buddy_done", "after-app-restart"));
             check(!session.running, "Rejected duplicate request remains running");
-            check(session.messages.stream().anyMatch(m -> m.text.contains("Wyślij wiadomość ponownie")), "Recovery gives no retry guidance");
+            check(session.messages.stream().anyMatch(m -> m.text.contains("Send your message again")), "Recovery gives no retry guidance");
         } finally {
             hub.delete(session);
             context.getSharedPreferences("buddy_sessions", Context.MODE_PRIVATE).edit().clear().commit();
@@ -80,7 +80,7 @@ final class AgentRegressionChecks {
             check(commands.size() == 1 && "ask".equals(commands.get(0)[0]), "No launch was attempted");
             check(McpHost.get(app).principal(commands.get(0)[7]) == null, "Failed start retained a live run credential");
             hub.adopt("codex", "saved-conversation-id", "Cannot adopt");
-            check(hub.sessions.current.messages.stream().noneMatch(m -> m.kind == Bubble.Kind.STEP && m.text.startsWith("Kontynuuję")), "Failed adoption claims that resume succeeded");
+            check(hub.sessions.current.messages.stream().noneMatch(m -> m.kind == Bubble.Kind.STEP && m.text.startsWith("Resuming")), "Failed adoption claims that resume succeeded");
         } finally {
             hub.delete(session);
             context.getSharedPreferences("buddy_sessions", Context.MODE_PRIVATE).edit().clear().commit();
@@ -228,10 +228,10 @@ final class AgentRegressionChecks {
             check(bash.meta.optString("result").startsWith("line 1") && bash.meta.optString("result").endsWith("line 20"), "Result is not the first 20 lines: " + bash.meta);
             check(listener.updated.size() == 1 && listener.updated.get(0) == bash, "Result did not notify onMessageUpdated");
 
-            JSONArray blocks = new JSONArray().put(new JSONObject().put("type", "text").put("text", "Brak elementu"))
+            JSONArray blocks = new JSONArray().put(new JSONObject().put("type", "text").put("text", "Element not found"))
                     .put(new JSONObject().put("type", "image").put("source", new JSONObject().put("data", "AAAA")));
             hub.onEvent(toolResult(session, "tool-run", "toolu_phone", blocks, true));
-            check("error".equals(phone.meta.optString("state")) && "Brak elementu\n[obraz]".equals(phone.meta.optString("result"))
+            check("error".equals(phone.meta.optString("state")) && "Element not found\n[image]".equals(phone.meta.optString("result"))
                     && phone.meta.optInt("lines") == 2, "Error result: " + phone.meta);
             check(!ChatHub.THINKING.equals(session.status), "Status reset while a tool is still running");
 
@@ -242,7 +242,7 @@ final class AgentRegressionChecks {
 
             Sessions.Msg saved = null;
             for (Sessions.Msg m : new Sessions(context).find(session.id).messages) if (m.meta != null && "toolu_phone".equals(m.meta.optString("id"))) saved = m;
-            check(saved != null && "error".equals(saved.meta.optString("state")) && "Brak elementu\n[obraz]".equals(saved.meta.optString("result")), "Tool result was not persisted");
+            check(saved != null && "error".equals(saved.meta.optString("state")) && "Element not found\n[image]".equals(saved.meta.optString("result")), "Tool result was not persisted");
 
             hub.onEvent(event(session, "buddy_done", "tool-run"));
             check(!session.running && "ok".equals(read.meta.optString("state")), "Completion left a tool call running: " + read.meta);
@@ -253,7 +253,7 @@ final class AgentRegressionChecks {
             hub.onEvent(toolUse(session, "stopped-run", "toolu_wait", "mcp__phone__confirm", new JSONObject().put("text", "Wysłać?")));
             hub.onEvent(event(session, "buddy_stopped", "stopped-run"));
             Sessions.Msg waiting = step(session, "toolu_wait");
-            check("error".equals(waiting.meta.optString("state")) && "Przerwano".equals(waiting.meta.optString("result")), "Stop left a tool call running: " + waiting.meta);
+            check("error".equals(waiting.meta.optString("state")) && "Interrupted".equals(waiting.meta.optString("result")), "Stop left a tool call running: " + waiting.meta);
 
             session.running = true;
             session.callbackRun = "todo-run";
@@ -263,7 +263,7 @@ final class AgentRegressionChecks {
                     .put(new JSONObject().put("content", "Zainstalować").put("status", "pending"));
             hub.onEvent(toolUse(session, "todo-run", "toolu_todo", "TodoWrite", new JSONObject().put("todos", todos)));
             Sessions.Msg plan = step(session, "toolu_todo");
-            check("3 zadania".equals(plan.meta.optString("args")) && plan.meta.optString("result").startsWith("[x] Utworzyć projekt"), "Plan: " + plan.meta);
+            check("3 tasks".equals(plan.meta.optString("args")) && plan.meta.optString("result").startsWith("[x] Utworzyć projekt"), "Plan: " + plan.meta);
             hub.onEvent(toolResult(session, "todo-run", "toolu_todo", "Todos have been modified successfully.", false));
             check("ok".equals(plan.meta.optString("state")) && plan.meta.optString("result").contains("[ ] Zainstalować"), "Tool boilerplate replaced the plan: " + plan.meta);
             hub.stop(session);
@@ -282,7 +282,7 @@ final class AgentRegressionChecks {
         check("TODO · src/main".equals(ChatHub.toolArgs("Grep", new JSONObject().put("pattern", "TODO").put("path", "/w/app/src/main"))), "Grep pattern and path");
         check("https://example.com".equals(ChatHub.toolArgs("WebFetch", new JSONObject().put("url", "https://example.com").put("prompt", "x"))), "WebFetch url");
         check("Sprawdź testy".equals(ChatHub.toolArgs("Task", new JSONObject().put("description", "Sprawdź testy").put("prompt", "long"))), "Task description");
-        check("1 zadanie".equals(ChatHub.toolArgs("TodoWrite", new JSONObject().put("todos", new JSONArray().put(new JSONObject())))), "One task");
+        check("1 task".equals(ChatHub.toolArgs("TodoWrite", new JSONObject().put("todos", new JSONArray().put(new JSONObject())))), "One task");
         check("".equals(ChatHub.toolArgs("mcp__phone__device_status", new JSONObject())), "No arguments");
         StringBuilder longValue = new StringBuilder();
         for (int i = 0; i < 100; i++) longValue.append('x');
@@ -320,7 +320,7 @@ final class AgentRegressionChecks {
             session.lastEventAt = android.os.SystemClock.elapsedRealtime() - 61 * 1000L;
             stalls.invoke(hub);
             check(!session.running && session.status.isEmpty(), "Dead helper left the chat running");
-            check(session.messages.stream().anyMatch(m -> m.kind == Bubble.Kind.ERROR && m.text.equals("Proces agenta zakończył się bez odpowiedzi.")), "No stall error");
+            check(session.messages.stream().anyMatch(m -> m.kind == Bubble.Kind.ERROR && m.text.equals("The agent process ended without a response.")), "No stall error");
             check("error".equals(step(session, "toolu_long").meta.optString("state")), "Stalled tool call still running");
             check(commands.stream().anyMatch(c -> "stop".equals(c[0]) && "watched-run".equals(c[2])), "Helper run state was not cleaned up");
         } finally {
@@ -404,7 +404,7 @@ final class AgentRegressionChecks {
             }
             Sessions.Session next = hub.create("claude");
             String error = hub.send(next, "Kolejne zadanie");
-            check(("Za dużo równoległych rozmów (maks. " + ChatHub.MAX_RUNNING + "). Zatrzymaj jedną z nich.").equals(error), "Limit message: " + error);
+            check(("Too many parallel chats (max " + ChatHub.MAX_RUNNING + "). Stop one of them.").equals(error), "Limit message: " + error);
             check(next.messages.isEmpty() && !next.running, "Refused message was kept");
             check(hub.send(next, "/status") == null, "Local /status was refused by the running limit");
         } finally {

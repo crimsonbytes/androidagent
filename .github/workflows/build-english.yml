@@ -1,0 +1,198 @@
+name: Build English APK
+
+# Builds the English-translated androidagent 0.5.0 APK. The prebuilt runtime assets and
+# native libraries are taken from the official v0.5.0 release; the Java code, resources
+# and helper scripts come from this branch.
+#
+# Optional repository secrets for a stable signing key (needed to update in place later):
+#   KEYSTORE_B64       base64 of a .jks keystore with key alias "buddy"
+#   KEYSTORE_PASSWORD  its store/key password
+# Without them, each run signs with a new throwaway key.
+
+on:
+  push:
+    branches: [english]
+  workflow_dispatch:
+    inputs:
+      screenshots:
+        description: 'Also capture the README screenshots on an emulator'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write   # only used to push screenshots to the ci/english-screenshots branch
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Android SDK packages
+        run: bash tools/ci-android-sdk.sh 'platforms;android-36' 'build-tools;35.0.0'
+
+      - name: Download the official v0.5.0 APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/base"
+          gh release download v0.5.0 --repo mateuszsury/androidagent --pattern '*.apk' --dir "$RUNNER_TEMP/base"
+          ls -l "$RUNNER_TEMP/base"
+          sha256sum "$RUNNER_TEMP"/base/*.apk
+
+      - name: Prepare signing key
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          echo "KEYSTORE=$RUNNER_TEMP/keys/release.jks" >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/keys"
+          if [ -n "$KEYSTORE_B64" ] && [ -n "$KEYSTORE_PASSWORD" ]; then
+            printf '%s' "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/keys/release.jks"
+            echo "Using the keystore from repository secrets."
+          else
+            echo "::warning::No KEYSTORE_B64/KEYSTORE_PASSWORD secrets; signing with a throwaway key."
+            echo "KEYSTORE_PASSWORD=$(head -c 24 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 24)" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build
+        env:
+          KEYSTORE_PASSWORD_SECRET: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_PASSWORD_SECRET" ]; then export KEYSTORE_PASSWORD="$KEYSTORE_PASSWORD_SECRET"; fi
+          bash tools/build-english.sh "$(ls "$RUNNER_TEMP"/base/*.apk | head -1)"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: androidagent-0.5.0-en
+          path: build-en/androidagent-*-en.apk
+          if-no-files-found: error
+          compression-level: 0
+
+      # README screenshots: on demand (workflow_dispatch input, or "[screenshots]" in the
+      # pushed commit message). Same job, so the test APK shares the app's signing key.
+      - name: Start an Android 15 emulator
+        if: inputs.screenshots || contains(github.event.head_commit.message, '[screenshots]')
+        timeout-minutes: 20
+        run: |
+          sudo chmod 666 /dev/kvm
+          bash tools/ci-android-sdk.sh 'platform-tools' 'emulator' 'system-images;android-35;google_apis;x86_64'
+          export ANDROID_AVD_HOME="$RUNNER_TEMP/avd"; mkdir -p "$ANDROID_AVD_HOME"
+          echo no | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager" create avd --force --name shots --package 'system-images;android-35;google_apis;x86_64' --device pixel_3a
+          "$ANDROID_SDK_ROOT/emulator/emulator" -list-avds
+          "$ANDROID_SDK_ROOT/emulator/emulator" -avd shots -port 5554 -no-window -no-audio -no-boot-anim -no-snapshot -no-metrics -gpu swiftshader_indirect -memory 4096 -accel on > "$RUNNER_TEMP/emulator.log" 2>&1 &
+          if ! timeout 420 adb wait-for-device || ! timeout 600 bash -c 'until [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d "\r")" = 1 ]; do sleep 3; done'; then
+            echo "Emulator did not boot"; tail -80 "$RUNNER_TEMP/emulator.log"; exit 1
+          fi
+          adb shell settings put global window_animation_scale 0
+          adb shell settings put global transition_animation_scale 0
+          adb shell settings put global animator_duration_scale 0
+          adb shell input keyevent 82
+          sleep 30
+
+      - name: Capture screenshots
+        if: inputs.screenshots || contains(github.event.head_commit.message, '[screenshots]')
+        timeout-minutes: 40
+        env:
+          ANDROID_SERIAL: emulator-5554
+          KEYSTORE_PASSWORD_SECRET: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_PASSWORD_SECRET" ]; then export KEYSTORE_PASSWORD="$KEYSTORE_PASSWORD_SECRET"; fi
+          bash tools/english-screenshots.sh build-en/screenshots
+
+      - uses: actions/upload-artifact@v4
+        if: always() && (inputs.screenshots || contains(github.event.head_commit.message, '[screenshots]'))
+        with:
+          name: screenshots-en
+          path: build-en/screenshots/
+          if-no-files-found: warn
+
+      # Also publish the PNGs on a scratch branch, for environments that can reach git but
+      # not the artifact storage host.
+      - name: Push screenshots to ci/english-screenshots
+        if: inputs.screenshots || contains(github.event.head_commit.message, '[screenshots]')
+        run: |
+          cd build-en/screenshots
+          git init -q -b ci/english-screenshots
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -qm "English screenshots from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:ci/english-screenshots
+
+  # Maintenance: refresh dependency pins that upstream mirrors have dropped (Termux removes
+  # old package versions). Runs when "[refresh-locks]" is in the pushed commit message. It
+  # runs the same preparation as the Android build, refreshes only a lock whose download
+  # fails, checks the result and publishes the changed tracked files on ci/lock-refresh.
+  refresh-locks:
+    if: contains(github.event.head_commit.message, '[refresh-locks]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare runtimes, refreshing stale pins
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -u
+          R=lock-refresh-report.txt; : > "$R"
+          note() { echo "$*" | tee -a "$R"; }
+          sudo apt-get update -q && sudo apt-get install -y -q dpkg binutils patchelf jq
+          python3 -m pip install -q -r requirements-dev.txt
+          bash tools/ci-android-sdk.sh 'ndk;29.0.14206865'
+          if python3 tools/prepare-qemu.py > qemu.log 2>&1; then note "qemu: pinned downloads OK"
+          else
+            note "qemu: pinned download failed: $(grep -m1 -E 'Error|error' qemu.log)"
+            python3 tools/prepare-qemu.py --update-lock && note "qemu: lock refreshed" || note "qemu: REFRESH FAILED"
+          fi
+          if python3 tools/prepare-terminal.py > terminal.log 2>&1; then note "terminal: pinned downloads OK"
+          else
+            note "terminal: pinned download failed: $(grep -m1 -E 'Error|error' terminal.log)"
+            if python3 tools/prepare-terminal.py --update-lock; then
+              COMMIT=$(jq -r .recipes_commit terminal/runtime-lock.json)
+              sed -i -E "s#(termux-packages/tree/)[0-9a-f]{40}(/scripts/bootstrap)#\1$COMMIT\2#" terminal/SOURCES.md
+              cp terminal/SOURCES.md app/src/main/assets/terminal/SOURCES.txt
+              note "terminal: lock refreshed (recipes $COMMIT)"
+            else note "terminal: REFRESH FAILED"; fi
+          fi
+          ANDROID_NDK_ROOT="$ANDROID_HOME/ndk/29.0.14206865" bash tools/build-usb-native.sh > usb.log 2>&1 && note "usb native: OK" || { note "usb native: FAILED"; tail -20 usb.log >> "$R"; }
+          for a in x86_64 aarch64; do
+            bash tools/build-docker-guest.sh $a > guest-$a.log 2>&1 && note "docker guest $a: OK" || { note "docker guest $a: FAILED"; tail -30 guest-$a.log >> "$R"; }
+          done
+          python3 tools/check-docker-assets.py >> "$R" 2>&1 && note "check-docker-assets: OK" || note "check-docker-assets: FAILED"
+          python3 tools/check-terminal-assets.py >> "$R" 2>&1 && note "check-terminal-assets: OK" || note "check-terminal-assets: FAILED"
+          python3 -m unittest discover -s tests -p 'test_*.py' > unit.log 2>&1 && note "host tests: OK" || { note "host tests: FAILED"; tail -40 unit.log >> "$R"; }
+          note "--- QEMU recipe (for docker/SOURCES.md)"
+          for p in qemu-system-x86-64-headless qemu-system-aarch64-headless; do
+            gh api "repos/termux/termux-packages/commits?path=packages/$p&per_page=1" --jq '.[0].sha' 2>/dev/null | sed "s/^/$p last commit: /" | tee -a "$R" || true
+          done
+          curl -fsSL https://raw.githubusercontent.com/termux/termux-packages/master/packages/qemu-system-x86-64-headless/build.sh 2>/dev/null | grep -E '^TERMUX_PKG_(VERSION|SRCURL|SHA256)=' | tee -a "$R" || true
+          gh api "repos/termux/termux-packages/commits?per_page=1" --jq '.[0].sha' 2>/dev/null | sed 's/^/termux-packages head: /' | tee -a "$R" || true
+          note "--- changed tracked files"; git status --short --untracked-files=no | tee -a "$R"
+      - name: Publish the refreshed files on ci/lock-refresh
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -q -B ci/lock-refresh
+          git add -u
+          git add -f lock-refresh-report.txt
+          git commit -qm "Lock refresh from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:ci/lock-refresh

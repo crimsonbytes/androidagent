@@ -42,7 +42,7 @@ public class DockerTaskActivity extends Screen {
         LinearLayout root = column(this);
         root.setBackgroundColor(BG);
         root.setFitsSystemWindows(true);
-        root.addView(topBar(this, "Docker task", "~/zadania/#" + (task.length() > 8 ? task.substring(0, 8) : task)), full());
+        root.addView(topBar(this, "Docker task", "~/tasks/#" + (task.length() > 8 ? task.substring(0, 8) : task)), full());
         ScrollView scroll = new ScrollView(this);
         LinearLayout body = ToolUi.body(this);
 

@@ -1,11 +1,11 @@
 {
   "version": 1,
   "archive": "runtime.zip",
-  "sha256": "eb24e5b9b63a26818656a20314d79d006f0ed6c3fb00bc1ff858f36fe95c93be",
-  "bytes": 95627513,
+  "sha256": "0519df355b0e0f0364615a055b1cd442b8574580731fb913cbec1bf21b355b8f",
+  "bytes": 95702447,
   "abi": "arm64-v8a",
   "prefix": "/data/data/com.termux/files/usr",
-  "bootstrap_release": "bootstrap-2026.10.25-r1+apt.android-7",
+  "bootstrap_release": "bootstrap-2026.11.01-r1+apt.android-7",
   "symlinks": [
     {
       "path": "usr/bin/[",
@@ -785,11 +785,11 @@
     },
     {
       "path": "usr/lib/libexpat.so",
-      "target": "libexpat.so.1.13.0"
+      "target": "libexpat.so.1.13.1"
     },
     {
       "path": "usr/lib/libexpat.so.1",
-      "target": "libexpat.so.1.13.0"
+      "target": "libexpat.so.1.13.1"
     },
     {
       "path": "usr/lib/libform.so",
@@ -2068,10 +2068,6 @@
       "target": "../../../lib/node_modules/npm/man/man1/npm-access.1.gz"
     },
     {
-      "path": "usr/share/man/man1/npm-adduser.1.gz",
-      "target": "../../../lib/node_modules/npm/man/man1/npm-adduser.1.gz"
-    },
-    {
       "path": "usr/share/man/man1/npm-approve-scripts.1.gz",
       "target": "../../../lib/node_modules/npm/man/man1/npm-approve-scripts.1.gz"
     },
@@ -2220,6 +2216,10 @@
       "target": "../../../lib/node_modules/npm/man/man1/npm-pack.1.gz"
     },
     {
+      "path": "usr/share/man/man1/npm-patch.1.gz",
+      "target": "../../../lib/node_modules/npm/man/man1/npm-patch.1.gz"
+    },
+    {
       "path": "usr/share/man/man1/npm-ping.1.gz",
       "target": "../../../lib/node_modules/npm/man/man1/npm-ping.1.gz"
     },
@@ -2280,20 +2280,8 @@
       "target": "../../../lib/node_modules/npm/man/man1/npm-set.1.gz"
     },
     {
-      "path": "usr/share/man/man1/npm-shrinkwrap.1.gz",
-      "target": "../../../lib/node_modules/npm/man/man1/npm-shrinkwrap.1.gz"
-    },
-    {
       "path": "usr/share/man/man1/npm-stage.1.gz",
       "target": "../../../lib/node_modules/npm/man/man1/npm-stage.1.gz"
-    },
-    {
-      "path": "usr/share/man/man1/npm-star.1.gz",
-      "target": "../../../lib/node_modules/npm/man/man1/npm-star.1.gz"
-    },
-    {
-      "path": "usr/share/man/man1/npm-stars.1.gz",
-      "target": "../../../lib/node_modules/npm/man/man1/npm-stars.1.gz"
     },
     {
       "path": "usr/share/man/man1/npm-start.1.gz",
@@ -2330,10 +2318,6 @@
     {
       "path": "usr/share/man/man1/npm-unpublish.1.gz",
       "target": "../../../lib/node_modules/npm/man/man1/npm-unpublish.1.gz"
-    },
-    {
-      "path": "usr/share/man/man1/npm-unstar.1.gz",
-      "target": "../../../lib/node_modules/npm/man/man1/npm-unstar.1.gz"
     },
     {
       "path": "usr/share/man/man1/npm-update.1.gz",
@@ -5972,6 +5956,10 @@
       "target": "border_set.3ncurses.gz"
     },
     {
+      "path": "usr/share/man/man5/npm-extension.5.gz",
+      "target": "../../../lib/node_modules/npm/man/man5/npm-extension.5.gz"
+    },
+    {
       "path": "usr/share/man/man5/npm-folders.5.gz",
       "target": "../../../lib/node_modules/npm/man/man5/npm-folders.5.gz"
     },
@@ -5986,10 +5974,6 @@
     {
       "path": "usr/share/man/man5/npm-json.5.gz",
       "target": "../../../lib/node_modules/npm/man/man5/npm-json.5.gz"
-    },
-    {
-      "path": "usr/share/man/man5/npm-shrinkwrap-json.5.gz",
-      "target": "../../../lib/node_modules/npm/man/man5/npm-shrinkwrap-json.5.gz"
     },
     {
       "path": "usr/share/man/man5/npmrc.5.gz",
@@ -6448,7 +6432,7 @@
     "usr/lib/libcrypto.so.3",
     "usr/lib/libcurl.so",
     "usr/lib/libdrop_ambient.so",
-    "usr/lib/libexpat.so.1.13.0",
+    "usr/lib/libexpat.so.1.13.1",
     "usr/lib/libffi.so",
     "usr/lib/libformw.so.6.5",
     "usr/lib/libgcrypt.so",
@@ -6737,8 +6721,8 @@
     },
     "libaaterm_proot.so": {
       "source": "bin/proot",
-      "sha256": "fdf4911e2f2e4c8b94d346d39796966776c5ef0379c1bf902a56cc728fe64836",
-      "source_sha256": "bc3e5416748276374c513eaad1c6cabedc94246fdf2dd58fa6531374e481fa09",
+      "sha256": "f887dc195a6cfb1cb993b1d3a6b265637250698262c0257917bf588f393e930f",
+      "source_sha256": "3621937c1c5a98d0d39ca599af573a6bc15128690606d535e8b05da00cec4f41",
       "bytes": 331073
     },
     "libaaterm_talloc.so": {
@@ -6779,7 +6763,7 @@
     "libcap-ng": "2:0.9.6",
     "libcrypt": "0.2-6",
     "libcurl": "8.23.0",
-    "libexpat": "2.9.0",
+    "libexpat": "2.10.0",
     "libffi": "3.8.0",
     "libgmp": "6.3.0-2",
     "libiconv": "1.19",
@@ -6787,22 +6771,22 @@
     "liblzma": "5.8.4",
     "libmount": "2.42.4",
     "libmpfr": "4.2.2",
-    "libnghttp2": "1.70.0",
-    "libnghttp3": "1.18.0",
-    "libngtcp2": "1.25.0",
+    "libnghttp2": "1.71.0",
+    "libnghttp3": "1.19.0",
+    "libngtcp2": "1.26.0",
     "libsmartcols": "2.42.4",
-    "libsqlite": "3.54.1",
+    "libsqlite": "3.54.1-1",
     "libssh2": "1.11.1-2",
     "libtalloc": "2.5.0",
     "ncurses": "6.6.20260307+really6.5.20250830",
     "ncurses-ui-libs": "6.6.20260307+really6.5.20250830",
-    "nodejs-lts": "24.22.1",
-    "npm": "11.21.1",
+    "nodejs-lts": "24.22.2",
+    "npm": "12.2.1",
     "oniguruma": "6.9.10-1",
     "openssl": "1:3.6.5",
     "pcre2": "10.49",
     "procps": "4.0.7-2",
-    "proot": "5.1.107.101",
+    "proot": "5.1.107.102",
     "psmisc": "23.7-1",
     "python": "3.14.8",
     "python-pip": "26.2.2-2",
@@ -6828,7 +6812,7 @@
     "bash": "5.3.20",
     "bzip2": "1.0.8-8",
     "ca-certificates": "1:2026.10.20-1",
-    "command-not-found": "3.5.0-16",
+    "command-not-found": "3.5.0-17",
     "coreutils": "9.12",
     "curl": "8.23.0",
     "dash": "0.5.13.5",
@@ -6878,7 +6862,7 @@
     "libtasn1": "4.21.0",
     "libtirpc": "1.3.8",
     "libunbound": "1.26.2",
-    "libunistring": "1.4.2",
+    "libunistring": "1.5",
     "lsof": "4.99.7",
     "nano": "9.3",
     "ncurses": "6.6.20260307+really6.5.20250830",

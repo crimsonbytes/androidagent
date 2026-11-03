@@ -129,7 +129,7 @@
   },
   "libjpeg.so": {
     "source": "lib/libjpeg.so.8.3.2",
-    "sha256": "877b65272c91b388b0c1a405dcf4da0bd657f18aaebabc87d01a5470633479e6"
+    "sha256": "4b68887ff478085b0bbbc1972b7b2de2368a12daab688a37a115547ec13bb1a5"
   },
   "liblz4.so": {
     "source": "lib/liblz4.so",
@@ -161,19 +161,19 @@
   },
   "libnghttp2.so": {
     "source": "lib/libnghttp2.so",
-    "sha256": "84023f6cdae8c8890049d2ec09cc62b11a8e7298c70d611a20088e17091f6390"
+    "sha256": "3fbd1d956e8f7def0d44cc47d7b62ca25c05645428fa43f708ca19f72ebd68a4"
   },
   "libnghttp3.so": {
     "source": "lib/libnghttp3.so",
-    "sha256": "0b32401ceb4e394e7ddadfbcb39a47be9a3943abaa9fdd42dafdefcecaedcfce"
+    "sha256": "8b53af0555b8414bb2e88df00bb4181f808df0b0145624f665015a90e8009b20"
   },
   "libngtcp2.so": {
     "source": "lib/libngtcp2.so",
-    "sha256": "eb263a3582ca4a4cd7bee6b13e841821fba547e94c9acce10f8793d3c68d3dba"
+    "sha256": "1cd028988fd1500726f119d27b47f3e98fc5928ecc8578c96581f42b72aae0a7"
   },
   "libngtcp2_crypto_ossl.so": {
     "source": "lib/libngtcp2_crypto_ossl.so",
-    "sha256": "813e745967566f79f7091a408529253f5f18f8ce9be3bac11b05f053e71b7939"
+    "sha256": "e149a01d236874df130ac8b58acc8d3e94d08240a484b25f34b64f9e2c9f7a4b"
   },
   "libogg.so": {
     "source": "lib/libogg.so",
@@ -213,11 +213,11 @@
   },
   "libqemu.so": {
     "source": "bin/qemu-system-x86_64",
-    "sha256": "a113c2cf9d8bdbfe323e6f4d4d7de4b5016c7c014ab3d32cd29450a31c8d7a92"
+    "sha256": "6af7b3197715eaeeb232a9289289c8c33a0694704798b972edd893afc5227ad6"
   },
   "libqemu_img.so": {
     "source": "bin/qemu-img",
-    "sha256": "d131533ea31db02269d96a4af5e3a12c6fbf6e52517c6cf29a4d1e5f0878bb5c"
+    "sha256": "62be391b59a4378261dd7524277bc208a41f9bf91ce8e550199f83be45e4ac5d"
   },
   "libsamplerate.so": {
     "source": "lib/libsamplerate.so",
@@ -229,7 +229,7 @@
   },
   "libslirp.so": {
     "source": "lib/libslirp.so",
-    "sha256": "2ab76719663f9bbfd04534a83c08a91f37e1942158c18d0eaeae803218462307"
+    "sha256": "2464ef0b51b61295524f1436b8c96af6f3e6483e5245ae36a85c5428f87e101b"
   },
   "libsndfile.so": {
     "source": "lib/libsndfile.so",
@@ -257,7 +257,7 @@
   },
   "libunistring.so": {
     "source": "lib/libunistring.so",
-    "sha256": "c164eeb4e82e3a8fc003a887e9b431da0a9410be2e4b6b7ad8e3ac030adc2895"
+    "sha256": "bb4782f06877d3a3f33b098bdf8e57f239aed0bcbd23732e3de5e57651153c23"
   },
   "libusb-1.0.so": {
     "source": "lib/libusb-1.0.so",

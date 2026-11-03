@@ -242,7 +242,7 @@ final class ChatHub {
         ses.running = false;
         ses.status = "";
         settleSteps(ses, false, "Interrupted");
-        if (deliveryError == null) add(ses, Bubble.Kind.STEP, "Zatrzymano.");
+        if (deliveryError == null) add(ses, Bubble.Kind.STEP, "Stopped.");
         else add(ses, Bubble.Kind.ERROR, "Access to phone tools was ended, but the Stop command did not reach the client: "
                 + deliveryError + " Check the processes in the built-in environment.");
         changed();
@@ -408,7 +408,7 @@ final class ChatHub {
                 McpHost.get(app).revoke(ses.id);
                 ses.status = "";
                 settleSteps(ses, false, "Interrupted");
-                add(ses, Bubble.Kind.STEP, "Zatrzymano.");
+                add(ses, Bubble.Kind.STEP, "Stopped.");
                 break;
             case "buddy_done":
                 flushStream(ses);

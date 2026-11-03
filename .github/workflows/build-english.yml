@@ -13,6 +13,11 @@ on:
   push:
     branches: [english]
   workflow_dispatch:
+    inputs:
+      screenshots:
+        description: 'Also capture the README screenshots on an emulator'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -73,3 +78,39 @@ jobs:
           path: build-en/androidagent-*-en.apk
           if-no-files-found: error
           compression-level: 0
+
+      # README screenshots: on demand (workflow_dispatch input, or "[screenshots]" in the
+      # pushed commit message). Same job, so the test APK shares the app's signing key.
+      - name: Start an Android 15 emulator
+        if: inputs.screenshots || contains(github.event.head_commit.message, '[screenshots]')
+        timeout-minutes: 20
+        run: |
+          sudo chmod 666 /dev/kvm
+          bash tools/ci-android-sdk.sh 'platform-tools' 'emulator' 'system-images;android-35;google_apis;x86_64'
+          echo no | avdmanager create avd --force --name shots --package 'system-images;android-35;google_apis;x86_64' --device pixel_3a
+          "$ANDROID_SDK_ROOT/emulator/emulator" -avd shots -port 5554 -no-window -no-audio -no-boot-anim -no-snapshot -no-metrics -gpu swiftshader_indirect -memory 4096 -accel on > "$RUNNER_TEMP/emulator.log" 2>&1 &
+          if ! timeout 420 adb wait-for-device || ! timeout 600 bash -c 'until [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d "\r")" = 1 ]; do sleep 3; done'; then
+            echo "Emulator did not boot"; tail -80 "$RUNNER_TEMP/emulator.log"; exit 1
+          fi
+          adb shell settings put global window_animation_scale 0
+          adb shell settings put global transition_animation_scale 0
+          adb shell settings put global animator_duration_scale 0
+          adb shell input keyevent 82
+          sleep 30
+
+      - name: Capture screenshots
+        if: inputs.screenshots || contains(github.event.head_commit.message, '[screenshots]')
+        timeout-minutes: 40
+        env:
+          ANDROID_SERIAL: emulator-5554
+          KEYSTORE_PASSWORD_SECRET: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_PASSWORD_SECRET" ]; then export KEYSTORE_PASSWORD="$KEYSTORE_PASSWORD_SECRET"; fi
+          bash tools/english-screenshots.sh build-en/screenshots
+
+      - uses: actions/upload-artifact@v4
+        if: always() && (inputs.screenshots || contains(github.event.head_commit.message, '[screenshots]'))
+        with:
+          name: screenshots-en
+          path: build-en/screenshots/
+          if-no-files-found: warn

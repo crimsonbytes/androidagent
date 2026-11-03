@@ -2,9 +2,9 @@
   "version": 3,
   "disk_gb": 8,
   "files": {
-    "base.qcow2.gz": "15cba8897a6aa153e5a6b0646ee2548490a917033a385df651903ac53fdd3aa9",
+    "base.qcow2.gz": "a247e4edf4b2008a2f8575a120c3b5525347bf0628f0e9fe8eab143d18c4ba8f",
     "vmlinuz-virt": "0c41150f2c75a1edf0456ffeb54880837fd9cba86cbf3a351c4a1c94b6ab7978",
-    "initramfs-virt": "88f91e9a0ab87d0f46133693557bd37203f5d5738f9c0d120f761346d723f501"
+    "initramfs-virt": "5a229b93bcdc4057dd90ba942a6d608fd38b2c29775a3f0da474e4ffc5b72109"
   },
   "runtime_revision": 3,
   "migration": "same-base-and-kernel-owned-runtime-in-initramfs",

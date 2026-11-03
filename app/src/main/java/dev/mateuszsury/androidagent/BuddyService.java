@@ -230,7 +230,7 @@ public class BuddyService extends AccessibilityService {
     void takeBackControl() {
         main.post(() -> {
             McpHost.get(this).emergencyStop();
-            android.widget.Toast.makeText(this, "Zatrzymano. Telefon znów jest Twój.", android.widget.Toast.LENGTH_SHORT).show();
+            android.widget.Toast.makeText(this, "Stopped. The phone is yours again.", android.widget.Toast.LENGTH_SHORT).show();
         });
     }
 

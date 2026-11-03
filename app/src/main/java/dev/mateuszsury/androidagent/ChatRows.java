@@ -32,7 +32,7 @@ final class ChatRows {
     /** Result lines shown under a tool call before "… +N linii" (a task plan shows more). */
     static final int PREVIEW = 3, TODO_PREVIEW = 8;
     /** The result ChatHub gives calls that were cut short by Stop. */
-    static final String INTERRUPTED = "Przerwano";
+    static final String INTERRUPTED = "Interrupted";
 
     /**
      * A marker gutter and a content column. After layout the marker moves onto the content's first
@@ -107,7 +107,7 @@ final class ChatRows {
     /** "1 linia", "3 linie", "12 linii", "22 linie". */
     static String lines(int n) {
         int ones = n % 10, tens = n % 100;
-        String word = n == 1 ? "linia" : ones >= 2 && ones <= 4 && (tens < 12 || tens > 14) ? "linie" : "linii";
+        String word = n == 1 ? "line" : ones >= 2 && ones <= 4 && (tens < 12 || tens > 14) ? "lines" : "lines";
         return n + " " + word;
     }
 
@@ -359,7 +359,7 @@ final class ChatRows {
 
         private static String moreLabel(int hidden, int total, int stored, boolean expanded) {
             if (!expanded) return "… +" + lines(hidden);
-            return stored < hidden ? "zwiń · łącznie " + lines(total) : "zwiń";
+            return stored < hidden ? "collapse · total " + lines(total) : "collapse";
         }
 
         private static String join(List<String> lines, int from, int to) {

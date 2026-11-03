@@ -48,19 +48,19 @@ public final class RuntimeActivity extends Screen {
         LinearLayout root = column(this);
         root.setBackgroundColor(BG);
         root.setFitsSystemWindows(true);
-        root.addView(topBar(this, "Środowisko i konta", "~/runtime · bash · python · node · git"), full());
+        root.addView(topBar(this, "Environment and accounts", "~/runtime · bash · python · node · git"), full());
         ScrollView scroll = new ScrollView(this);
         LinearLayout body = ToolUi.body(this);
         scroll.addView(body);
         root.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1));
 
-        TextView intro = ToolUi.note(this, "Terminal, Python, Node.js, Git i most narzędzi są w tej aplikacji. Środowisko "
-                + "przygotowuje się automatycznie. Oficjalni klienci pobierają się osobno przez internet; logujesz się własnym kontem.", 14);
+        TextView intro = ToolUi.note(this, "Terminal, Python, Node.js, Git and the tool bridge are in this app. The environment "
+                + "sets itself up automatically. Official clients download separately over the internet; you sign in with your own account.", 14);
         intro.setPadding(dp(this, 20), dp(this, 10), dp(this, 20), dp(this, 14));
         body.addView(intro, full());
 
         // ------------------------------------------------------------ hero: environment status
-        LinearLayout hero = terminalBox(this, "środowisko", ACCENT);
+        LinearLayout hero = terminalBox(this, "environment", ACCENT);
         LinearLayout head = row(this);
         head.setGravity(Gravity.TOP);
         stateDot = toolDot(this, FAINT);
@@ -86,13 +86,13 @@ public final class RuntimeActivity extends Screen {
         details.setLineSpacing(dp(this, 2), 1f);
         details.setPadding(0, dp(this, 10), 0, 0);
         hero.addView(details, full());
-        prepare = button(this, "Przygotuj wybranych agentów", true);
+        prepare = button(this, "Set up selected agents", true);
         prepare.setOnClickListener(v -> {
             try { runtime.prepare(); } catch (Exception e) { error(e); }
             render();
         });
         hero.addView(prepare, ToolUi.buttonParams(this, 14));
-        cancel = button(this, "Anuluj przygotowanie", false);
+        cancel = button(this, "Cancel setup", false);
         cancel.setOnClickListener(v -> {
             runtime.cancelSetup();
             render();
@@ -103,7 +103,7 @@ public final class RuntimeActivity extends Screen {
         body.addView(hero, heroP);
 
         // ------------------------------------------------------------ clients
-        body.addView(sectionLabel(this, "Klienci agentów"), full());
+        body.addView(sectionLabel(this, "Agent clients"), full());
         String wanted = Prefs.agents(this);
         for (int i = 0; i < BACKENDS.length; i++) {
             final int index = i;
@@ -122,7 +122,7 @@ public final class RuntimeActivity extends Screen {
             badges[i] = badge(this, "", FAINT);
             top.addView(badges[i], wrap());
             card.addView(top, full());
-            picks[i] = ToolUi.checkBox(this, "Uwzględnij w przygotowaniu");
+            picks[i] = ToolUi.checkBox(this, "Include in setup");
             picks[i].setTextColor(MUTED);
             picks[i].setTextSize(13);
             picks[i].setChecked("both".equals(wanted) || backend.equals(wanted));
@@ -130,12 +130,12 @@ public final class RuntimeActivity extends Screen {
             LinearLayout.LayoutParams cp = full();
             cp.topMargin = dp(this, 8);
             card.addView(picks[i], cp);
-            installs[i] = button(this, "Zainstaluj " + NAMES[i], false);
+            installs[i] = button(this, "Install " + NAMES[i], false);
             installs[i].setOnClickListener(v -> {
                 try { runtime.installClient(backend); } catch (Exception e) { error(e); }
                 render();
             });
-            logins[i] = button(this, "Zaloguj " + NAMES[i], false);
+            logins[i] = button(this, "Sign in to " + NAMES[i], false);
             logins[i].setOnClickListener(v -> {
                 try { TerminalActivity.openLogin(this, backend); } catch (Exception e) { error(e); }
             });
@@ -146,17 +146,17 @@ public final class RuntimeActivity extends Screen {
         }
 
         // ------------------------------------------------------------ tools
-        body.addView(sectionLabel(this, "Narzędzia"), full());
+        body.addView(sectionLabel(this, "Tools"), full());
         LinearLayout tools = ToolUi.group(this);
-        terminal = new ToolUi.Row(this, R.drawable.ms_terminal, "Otwórz terminal", "bash · pełna sesja z klawiaturą", true)
+        terminal = new ToolUi.Row(this, R.drawable.ms_terminal, "Open terminal", "bash · full session with keyboard", true)
                 .onClick(v -> TerminalActivity.openShell(this));
-        files = new ToolUi.Row(this, R.drawable.ms_folder, "Pliki środowiska", "~/ · projekty i katalog domowy", true)
+        files = new ToolUi.Row(this, R.drawable.ms_folder, "Environment files", "~/ · projects and home directory", true)
                 .onClick(v -> startActivity(new Intent(this, RuntimeFilesActivity.class)));
-        ToolUi.Row permissions = new ToolUi.Row(this, R.drawable.ms_shield_person, "Uprawnienia telefonu", "zgody Androida dla agentów", true)
+        ToolUi.Row permissions = new ToolUi.Row(this, R.drawable.ms_shield_person, "Phone permissions", "Android permissions for agents", true)
                 .onClick(v -> PermissionGuide.open(this));
-        ToolUi.Row log = new ToolUi.Row(this, R.drawable.ms_menu, "Dziennik przygotowania", "setup.log", true)
+        ToolUi.Row log = new ToolUi.Row(this, R.drawable.ms_menu, "Setup log", "setup.log", true)
                 .onClick(v -> showLog());
-        ToolUi.Row sources = new ToolUi.Row(this, R.drawable.ms_description, "Źródła i licencje środowiska", "SOURCES.txt", true)
+        ToolUi.Row sources = new ToolUi.Row(this, R.drawable.ms_description, "Environment sources and licenses", "SOURCES.txt", true)
                 .onClick(v -> showSources());
         ToolUi.add(tools, terminal.view);
         ToolUi.add(tools, files.view);
@@ -164,8 +164,8 @@ public final class RuntimeActivity extends Screen {
         ToolUi.add(tools, log.view);
         ToolUi.add(tools, sources.view);
         body.addView(tools, cardParams(this));
-        TextView foot = ToolUi.note(this, "Automatyczna konfiguracja nie loguje Cię do konta. Zgody systemowe udzielasz w "
-                + "ustawieniach Androida. Terminal działa z uprawnieniami androidagent; nie ma roota.", 12);
+        TextView foot = ToolUi.note(this, "Automatic setup does not sign you in to your account. You grant system permissions in "
+                + "Android settings. The terminal runs with androidagent's permissions; there is no root.", 12);
         foot.setTextColor(FAINT);
         foot.setPadding(dp(this, 20), dp(this, 6), dp(this, 20), 0);
         body.addView(foot, full());
@@ -180,7 +180,7 @@ public final class RuntimeActivity extends Screen {
         if (!codex && !claude) {
             picks[index].setChecked(true);
             Motion.shake(picks[index]);
-            Toast.makeText(this, "Wybierz co najmniej jednego agenta", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Select at least one agent", Toast.LENGTH_SHORT).show();
             return;
         }
         Prefs.setAgents(this, codex && claude ? "both" : codex ? "codex" : "claude");
@@ -207,7 +207,7 @@ public final class RuntimeActivity extends Screen {
         stateDot.setColor(color);
         stateDot.setPulsing(busy);
         ToolUi.setText(details, error.isEmpty()
-                ? (busy ? "Możesz wrócić do rozmów. Przygotowanie trwa w tle." : "Terminal: " + (ready ? "gotowy" : "przygotowanie wymagane"))
+                ? (busy ? "You can return to your chats. Setup continues in the background." : "Terminal: " + (ready ? "ready" : "setup required"))
                 : error);
         details.setTextColor(error.isEmpty() ? MUTED : ERR);
         int value = runtime.progress();
@@ -215,7 +215,7 @@ public final class RuntimeActivity extends Screen {
         ToolUi.setText(percent, value + "%");
         ToolUi.setVisible(progressRow, busy);
         ToolUi.setEnabled(prepare, !busy);
-        ToolUi.setText(prepare, error.isEmpty() ? "Przygotuj wybranych agentów" : "Ponów przygotowanie");
+        ToolUi.setText(prepare, error.isEmpty() ? "Set up selected agents" : "Retry setup");
         ToolUi.setVisible(cancel, busy);
         for (int i = 0; i < 2; i++) {
             boolean installed = runtime.agentInstalled(BACKENDS[i]);
@@ -223,11 +223,11 @@ public final class RuntimeActivity extends Screen {
             ToolUi.setVisible(installs[i], !installed);
             ToolUi.setVisible(logins[i], installed);
             ToolUi.setEnabled(installs[i], ready && !busy && !installed);
-            ToolUi.setText(installs[i], installed ? "Klient zainstalowany" : "Zainstaluj " + NAMES[i]);
+            ToolUi.setText(installs[i], installed ? "Client installed" : "Install " + NAMES[i]);
             ToolUi.setEnabled(logins[i], installed && !busy);
-            ToolUi.setText(logins[i], signed ? "Otwórz logowanie · konto połączone" : "Zaloguj " + NAMES[i]);
+            ToolUi.setText(logins[i], signed ? "Open sign-in · account connected" : "Sign in to " + NAMES[i]);
             int badgeColor = signed ? OK : installed ? ACCENT_TEXT : FAINT;
-            ToolUi.setText(badges[i], signed ? "połączone" : installed ? "zainstalowany" : "brak");
+            ToolUi.setText(badges[i], signed ? "connected" : installed ? "installed" : "not installed");
             if (badges[i].getCurrentTextColor() != badgeColor) {
                 badges[i].setTextColor(badgeColor);
                 badges[i].setBackground(rounded(this, Theme.withAlpha(badgeColor, 0x22), 6));
@@ -244,10 +244,10 @@ public final class RuntimeActivity extends Screen {
     private void showLog() {
         LinearLayout content = column(this);
         String log = runtime.setupLog();
-        ToolUi.logPanel(content, log.isEmpty() ? "Brak wpisów." : log, ToolUi.screenDp(this, 0.55f), true);
-        Button close = button(this, "Zamknij", false);
+        ToolUi.logPanel(content, log.isEmpty() ? "No entries." : log, ToolUi.screenDp(this, 0.55f), true);
+        Button close = button(this, "Close", false);
         content.addView(close, ToolUi.buttonParams(this, 14));
-        Dialog d = ToolUi.sheet(this, "Przygotowanie środowiska", "Dziennik ostatnich kroków konfiguracji.", content);
+        Dialog d = ToolUi.sheet(this, "Environment setup", "Log of the latest setup steps.", content);
         close.setOnClickListener(v -> d.dismiss());
         d.show();
     }
@@ -258,16 +258,16 @@ public final class RuntimeActivity extends Screen {
             byte[] buffer = new byte[8192];
             int count;
             while ((count = input.read(buffer)) != -1) {
-                if (content.size() + count > 256 * 1024) throw new java.io.IOException("Dokument źródeł przekracza limit");
+                if (content.size() + count > 256 * 1024) throw new java.io.IOException("Sources document exceeds the limit");
                 content.write(buffer, 0, count);
             }
             LinearLayout box = column(this);
             TextView text = ToolUi.logPanel(box, new String(content.toByteArray(), java.nio.charset.StandardCharsets.UTF_8),
                     ToolUi.screenDp(this, 0.55f), false);
             Linkify.addLinks(text, Linkify.WEB_URLS);
-            Button close = button(this, "Zamknij", false);
+            Button close = button(this, "Close", false);
             box.addView(close, ToolUi.buttonParams(this, 14));
-            Dialog d = ToolUi.sheet(this, "Źródła i licencje", null, box);
+            Dialog d = ToolUi.sheet(this, "Sources and licenses", null, box);
             close.setOnClickListener(v -> d.dismiss());
             d.show();
         } catch (Exception exception) {

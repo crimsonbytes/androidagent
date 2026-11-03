@@ -61,7 +61,7 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     LinearLayout bar = row(this);
     bar.setPadding(dp(this, 4), dp(this, compactHeight ? 2 : 6), dp(this, 4), dp(this, compactHeight ? 2 : 4));
     FrameLayout historyBox = new FrameLayout(this);
-    ImageButton history = iconButton(this, R.drawable.ms_menu, "Historia rozmów");
+    ImageButton history = iconButton(this, R.drawable.ms_menu, "Chat history");
     history.setOnClickListener(v -> history());
     historyBox.addView(history, new FrameLayout.LayoutParams(dp(this, 48), dp(this, 48)));
     historyBadge = new View(this);
@@ -94,7 +94,7 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     connectionText.setPadding(dp(this, 7), 0, dp(this, 2), 0);
     connection.addView(connectionText);
     connection.addView(icon(this, R.drawable.ms_expand_more, MUTED, 16));
-    connection.setContentDescription("Wybierz agenta");
+    connection.setContentDescription("Choose agent");
     connection.setOnClickListener(v -> chooseAgent());
     connection.setForeground(getDrawable(ripple(this, false)));
     connection.setClipToOutline(true);
@@ -105,7 +105,7 @@ public class MainActivity extends Screen implements ChatHub.Listener {
       bar.addView(connection, pp);
     }
 
-    ImageButton settings = iconButton(this, R.drawable.ms_tune, "Ustawienia");
+    ImageButton settings = iconButton(this, R.drawable.ms_tune, "Settings");
     settings.setOnClickListener(v -> startActivity(new Intent(this, SetupActivity.class)));
     bar.addView(settings, new LinearLayout.LayoutParams(dp(this, 48), dp(this, 48)));
     root.addView(bar, full());
@@ -130,47 +130,47 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     LinearLayout hero = welcome();
     LinearLayout cards = column(this);
     if (!compactHeight) {
-      TextView label = sectionLabel(this, "Na skróty");
+      TextView label = sectionLabel(this, "Shortcuts");
       label.setPadding(dp(this, 4), dp(this, 22), 0, dp(this, 10));
       cards.addView(label, full());
     }
     cards.addView(
         suggestion(
             R.drawable.ms_phone,
-            "Sprawdź telefon",
-            "Bateria, pamięć i połączenie",
+            "Check phone",
+            "Battery, memory, and connection",
             () -> startActivity(new Intent(this, DeviceActivity.class))),
         rowParams());
     View command =
-        suggestion(R.drawable.ms_terminal, "Uruchom komendę", "", this::openCommand);
+        suggestion(R.drawable.ms_terminal, "Run command", "", this::openCommand);
     commandDetail = (TextView) ((LinearLayout) ((LinearLayout) command).getChildAt(1)).getChildAt(1);
     cards.addView(command, rowParams());
     cards.addView(
         suggestion(
             R.drawable.ms_build_circle,
             "Docker",
-            "Buduj aplikacje i sprzątaj środowiska",
+            "Build apps and clean up environments",
             () -> startActivity(new Intent(this, DockerActivity.class))),
         rowParams());
     cards.addView(
         suggestion(
             R.drawable.ms_refresh,
-            "Usługi w tle",
-            "Serwery WWW i procesy działające po rozmowie",
+            "Background services",
+            "Web servers and processes that run after the chat",
             () -> startActivity(new Intent(this, ServicesActivity.class))),
         rowParams());
     cards.addView(
         suggestion(
             R.drawable.ms_chat_bubble,
-            "Zleć zadanie agentowi",
-            "Czytaj ekran, działaj w aplikacjach",
-            () -> openChat("Sprawdź, co jest na ekranie telefonu, i opisz dostępne działania.")),
+            "Give the agent a task",
+            "Read the screen, act in apps",
+            () -> openChat("Check what's on the phone screen and describe the available actions.")),
         rowParams());
     cards.addView(
         suggestion(
             R.drawable.ic_remote,
-            "Urządzenia USB",
-            "UART, ESP, drugi Android i nośniki",
+            "USB devices",
+            "UART, ESP, second Android and storage",
             () -> startActivity(new Intent(this, UsbActivity.class))),
         rowParams());
 
@@ -199,7 +199,7 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     glyph.setPadding(0, 0, 0, dp(this, 2));
     composer.addView(glyph);
     prompt = new EditText(this);
-    prompt.setHint("Napisz do agenta");
+    prompt.setHint("Message the agent");
     prompt.setHintTextColor(FAINT);
     prompt.setTextColor(TEXT);
     prompt.setTextSize(15);
@@ -221,10 +221,10 @@ public class MainActivity extends Screen implements ChatHub.Listener {
             composer.setBackground(
                 outlined(this, CARD, 14, focused ? Theme.withAlpha(ACCENT, 0xB0) : OUTLINE, 1)));
     composer.addView(prompt, weight1());
-    ImageButton plus = iconButton(this, R.drawable.ms_add, "Nowa rozmowa z załącznikiem", MUTED);
+    ImageButton plus = iconButton(this, R.drawable.ms_add, "New chat with attachment", MUTED);
     plus.setOnClickListener(v -> openChat("", true));
     composer.addView(plus, new LinearLayout.LayoutParams(dp(this, 40), dp(this, 40)));
-    ImageButton send = iconButton(this, R.drawable.ms_arrow_upward, "Rozpocznij rozmowę", ON_ACCENT);
+    ImageButton send = iconButton(this, R.drawable.ms_arrow_upward, "Start chat", ON_ACCENT);
     send.setBackground(oval(ACCENT));
     send.setOnClickListener(v -> openChat(prompt.getText().toString()));
     Motion.press(send);
@@ -254,7 +254,7 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     Spark spark = new Spark(this).color(ACCENT);
     int size = compactHeight ? 18 : 22;
     head.addView(spark, new LinearLayout.LayoutParams(dp(this, size), dp(this, size)));
-    TextView heading = title(this, "Co dziś zrobimy?", compactHeight ? 20 : 24);
+    TextView heading = title(this, "What are we doing today?", compactHeight ? 20 : 24);
     heading.setAccessibilityHeading(true);
     heading.setPadding(dp(this, 12), 0, 0, 0);
     head.addView(heading, weight1());
@@ -262,13 +262,13 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     int indent = size + 12;
     boolean full = !compactHeight || twoPane;
     if (full) {
-      TextView sub = text(this, "Twój agent. Twój telefon.\nOd pomysłu do wykonania.", 14, MUTED);
+      TextView sub = text(this, "Your agent. Your phone.\nFrom idea to done.", 14, MUTED);
       sub.setLineSpacing(dp(this, 2), 1f);
       sub.setPadding(dp(this, indent), dp(this, 6), 0, 0);
       hero.addView(sub, full());
       LinearLayout hints = column(this);
       hints.setPadding(dp(this, indent), dp(this, 14), 0, 0);
-      TextView status = hint("/status", " — stan telefonu bez logowania", ACCENT_TEXT, MUTED);
+      TextView status = hint("/status", " — phone status without sign-in", ACCENT_TEXT, MUTED);
       status.setBackgroundResource(ripple(this, false));
       status.setOnClickListener(v -> openChat("/status"));
       hints.addView(status, full());
@@ -349,13 +349,13 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     for (Sessions.Session s : hub.sessions.all) if (!s.messages.isEmpty()) count++;
     LinearLayout head = row(this);
     LinearLayout titles = column(this);
-    TextView heading = title(this, "Twoje rozmowy", 20);
+    TextView heading = title(this, "Your chats", 20);
     heading.setAccessibilityHeading(true);
     titles.addView(heading);
-    titles.addView(monoText(this, count == 0 ? "brak zapisanych" : count + " " + plural(count), 11, FAINT));
+    titles.addView(monoText(this, count == 0 ? "none saved" : count + " " + plural(count), 11, FAINT));
     head.addView(titles, weight1());
-    TextView sessions = barAction(this, "Sesje →");
-    sessions.setContentDescription("Aktywne sesje");
+    TextView sessions = barAction(this, "Sessions →");
+    sessions.setContentDescription("Active sessions");
     sessions.setOnClickListener(
         v -> {
           sheet[0].dismiss();
@@ -364,7 +364,7 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     head.addView(sessions);
     content.addView(head, full());
 
-    Button fresh = button(this, "+  Nowa rozmowa", true);
+    Button fresh = button(this, "+  New chat", true);
     fresh.setOnClickListener(
         v -> {
           sheet[0].dismiss();
@@ -389,9 +389,9 @@ public class MainActivity extends Screen implements ChatHub.Listener {
           v -> {
             confirmSheet(
                 this,
-                "Usunąć rozmowę?",
+                "Delete chat?",
                 chatTitle(s),
-                "Usuń",
+                "Delete",
                 true,
                 () -> {
                   hub.delete(s);
@@ -402,9 +402,9 @@ public class MainActivity extends Screen implements ChatHub.Listener {
       items.addView(item, full());
     }
     if (items.getChildCount() == 0) {
-      items.addView(emptyState(this, "Brak rozmów", "Tu pojawią się Twoje rozmowy."), full());
+      items.addView(emptyState(this, "No chats", "Your chats will appear here."), full());
     } else {
-      TextView tip = monoText(this, "przytrzymaj, aby usunąć", 11, FAINT);
+      TextView tip = monoText(this, "hold to delete", 11, FAINT);
       tip.setGravity(Gravity.CENTER);
       tip.setPadding(0, dp(this, 10), 0, 0);
       items.addView(tip, full());
@@ -428,7 +428,7 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     if (!s.unread && !s.running) t.setTypeface(sans(this, 500));
     col.addView(t);
     String meta = s.brainName() + (s.model.isEmpty() ? "" : " · " + s.model);
-    if (s.running) meta += " · pracuje";
+    if (s.running) meta += " · working";
     TextView m = single(monoText(this, meta, 11, s.running ? ACCENT_TEXT : FAINT));
     m.setPadding(0, dp(this, 2), 0, 0);
     col.addView(m);
@@ -454,19 +454,19 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     r.addView(end, wrap());
     r.setContentDescription(
         chatTitle(s) + ", " + s.brainName() + ", " + ago(s.updated)
-            + (s.running ? ", pracuje" : s.unread ? ", nieprzeczytana" : ""));
+            + (s.running ? ", working" : s.unread ? ", unread" : ""));
     return r;
   }
 
   private static String chatTitle(Sessions.Session s) {
-    return s.title.isEmpty() ? "Nowa rozmowa · " + s.brainName() : s.title;
+    return s.title.isEmpty() ? "New chat · " + s.brainName() : s.title;
   }
 
   private static String plural(int n) {
     int tens = n % 100, ones = n % 10;
-    if (n == 1) return "rozmowa";
-    if (ones >= 2 && ones <= 4 && (tens < 12 || tens > 14)) return "rozmowy";
-    return "rozmów";
+    if (n == 1) return "chat";
+    if (ones >= 2 && ones <= 4 && (tens < 12 || tens > 14)) return "chats";
+    return "chats";
   }
 
   // ------------------------------------------------------------------ agent state
@@ -479,18 +479,18 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     int color;
     boolean busy = false;
     if (new SetupState(this).canRun() || SetupState.agentReady(this, backend)) {
-      state = "gotowy";
+      state = "ready";
       color = OK;
     } else if (runtime.busy()) {
-      state = "przygotowanie " + runtime.progress() + "%";
+      state = "preparing " + runtime.progress() + "%";
       color = FAINT;
       busy = true;
     } else if (SetupState.agentInstalled(this, backend)) {
       boolean known = Prefs.helperStatus(this) != null;
-      state = known ? "zaloguj się" : "sprawdzanie";
+      state = known ? "sign in" : "checking";
       color = known ? WARN : FAINT;
     } else {
-      state = "konfiguracja";
+      state = "setup";
       color = WARN;
     }
     boolean attention = hub.sessions.anyUnread() || hub.runningCount() > 0;
@@ -502,21 +502,21 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     connectionDot.setPulsing(busy);
     connection.setBackground(
         outlined(this, Theme.withAlpha(color, 0x14), 20, Theme.withAlpha(color, 0x48), 1));
-    prompt.setHint("Napisz do " + agent);
+    prompt.setHint("Message " + agent);
     historyBadge.setVisibility(attention ? View.VISIBLE : View.GONE);
-    commandDetail.setText(runtime.ready() ? "Wbudowany terminal bash" : "Szybka komenda powłoki telefonu");
+    commandDetail.setText(runtime.ready() ? "Built-in bash terminal" : "Quick phone shell command");
   }
 
   private void chooseAgent() {
     LinearLayout content = column(this);
-    TextView heading = title(this, "Wybierz agenta", 20);
+    TextView heading = title(this, "Choose agent", 20);
     heading.setAccessibilityHeading(true);
     content.addView(heading);
     TextView detail =
         text(
             this,
-            "Nowe rozmowy użyją wybranego agenta. Historia każdej rozmowy pozostaje przy swoim"
-                + " agencie.",
+            "New chats will use the selected agent. Each chat's history stays with its"
+                + " agent.",
             13,
             MUTED);
     detail.setPadding(0, dp(this, 6), 0, dp(this, 14));
@@ -524,7 +524,7 @@ public class MainActivity extends Screen implements ChatHub.Listener {
     final Dialog[] sheet = {null};
     String current = Prefs.backend(this);
     for (String[] option :
-        new String[][] {{"claude", "Claude Code", "konto Claude"}, {"codex", "Codex", "konto ChatGPT"}}) {
+        new String[][] {{"claude", "Claude Code", "Claude account"}, {"codex", "Codex", "ChatGPT account"}}) {
       boolean on = option[0].equals(current);
       LinearLayout choice = row(this);
       choice.setPadding(dp(this, 12), dp(this, 11), dp(this, 12), dp(this, 11));
@@ -546,7 +546,7 @@ public class MainActivity extends Screen implements ChatHub.Listener {
           single(
               monoText(
                   this,
-                  option[2] + " · " + (ready ? "zalogowany" : installed ? "wymaga logowania" : "nieprzygotowany"),
+                  option[2] + " · " + (ready ? "signed in" : installed ? "sign-in required" : "not set up"),
                   11,
                   ready ? OK : installed ? WARN : FAINT));
       st.setPadding(0, dp(this, 2), 0, 0);
@@ -569,7 +569,7 @@ public class MainActivity extends Screen implements ChatHub.Listener {
       p.bottomMargin = dp(this, 8);
       content.addView(choice, p);
     }
-    Button setup = button(this, "Konfiguruj agentów", false);
+    Button setup = button(this, "Set up agents", false);
     setup.setOnClickListener(
         v -> {
           sheet[0].dismiss();
@@ -625,9 +625,9 @@ public class MainActivity extends Screen implements ChatHub.Listener {
   static String ago(long t) {
     long s = Math.max(0, (System.currentTimeMillis() - t) / 1000);
     return s < 60
-        ? "teraz"
+        ? "now"
         : s < 3600
             ? s / 60 + " min"
-            : s < 86400 ? s / 3600 + " godz." : s < 172800 ? "1 dzień" : s / 86400 + " dni";
+            : s < 86400 ? s / 3600 + " h" : s < 172800 ? "1 day" : s / 86400 + " days";
   }
 }

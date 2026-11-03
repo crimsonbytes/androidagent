@@ -16,7 +16,7 @@ public final class HiddenNotice extends BroadcastReceiver {
 
     static void show(Context c) {
         NotificationManager nm = c.getSystemService(NotificationManager.class);
-        nm.createNotificationChannel(new NotificationChannel(CHANNEL, "Ukryty dymek",
+        nm.createNotificationChannel(new NotificationChannel(CHANNEL, "Hidden bubble",
                 NotificationManager.IMPORTANCE_LOW));
         PendingIntent showBubble = PendingIntent.getBroadcast(c, 0,
                 new Intent(c, HiddenNotice.class).setAction(ACTION_SHOW),
@@ -26,11 +26,11 @@ public final class HiddenNotice extends BroadcastReceiver {
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         Notification n = new Notification.Builder(c, CHANNEL)
                 .setSmallIcon(R.drawable.ic_launcher_monochrome)
-                .setContentTitle("androidagent jest ukryty")
-                .setContentText("Stuknij, aby znów pokazać dymek.")
+                .setContentTitle("androidagent is hidden")
+                .setContentText("Tap to show the bubble again.")
                 .setColor(Ui.ACCENT)
                 .setContentIntent(showBubble)
-                .addAction(new Notification.Action.Builder(null, "Otwórz rozmowy", openApp).build())
+                .addAction(new Notification.Action.Builder(null, "Open chats", openApp).build())
                 .setOngoing(false)
                 .setAutoCancel(true)
                 .build();

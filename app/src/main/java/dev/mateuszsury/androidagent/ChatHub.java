@@ -37,7 +37,7 @@ final class ChatHub {
 
     /** Chats that may work at the same time; the embedded runtime sizes its request pool from it. */
     static final int MAX_RUNNING = 6;
-    static final String THINKING = "Myślę…", WORKING = "Pracuję…";
+    static final String THINKING = "Thinking…", WORKING = "Working…";
     private static final long NO_RESPONSE_MS = 30000;
     /** Stall watchdog: how often it looks, how long a run whose helper process has ended may
      *  stay silent (late callbacks), and the much longer limit when liveness is unknown. */
@@ -81,7 +81,7 @@ final class ChatHub {
             changed();
             return s;
         }
-        add(s, Bubble.Kind.STEP, "Kontynuuję wcześniejszą sesję " + s.brainName() + ". Jeśli jest nadal otwarta w terminalu, najpierw ją tam zamknij.");
+        add(s, Bubble.Kind.STEP, "Resuming earlier session " + s.brainName() + ". If it is still open in a terminal, close it there first.");
         changed();
         return s;
     }
@@ -172,7 +172,7 @@ final class ChatHub {
 
     /** Sends a message with attachments (ids from Attachments); the helper fetches them before the agent runs. */
     String send(final Sessions.Session ses, String text, List<String> files) {
-        if (ses.running) return "Ta rozmowa nadal pracuje. Zatrzymaj ją albo napisz w innej rozmowie.";
+        if (ses.running) return "This chat is still working. Stop it or write in another chat.";
         if ("/status".equals(text.trim())) {
             add(ses, Bubble.Kind.USER, text);
             try { add(ses, Bubble.Kind.BUDDY, DeviceState.summary(app)); }
@@ -182,13 +182,13 @@ final class ChatHub {
         }
         // Each working chat holds one runtime request slot; a queued request would only time out.
         if (sessions.runningCount() >= MAX_RUNNING)
-            return "Za dużo równoległych rozmów (maks. " + MAX_RUNNING + "). Zatrzymaj jedną z nich.";
-        if (!McpHost.get(app).running()) return "Otwórz wbudowane środowisko, aby uruchomić most narzędzi. Sterowanie ekranem jest opcjonalne.";
+            return "Too many parallel chats (max " + MAX_RUNNING + "). Stop one of them.";
+        if (!McpHost.get(app).running()) return "Open the built-in environment to start the tool bridge. Screen control is optional.";
         if (!SetupState.helperCurrent(app) || !SetupState.agentReady(app, ses.backend))
-            return "Przygotuj " + ses.brainName() + " we wbudowanym środowisku i zaloguj się do własnego konta. /status działa lokalnie bez modelu.";
+            return "Set up " + ses.brainName() + " in the built-in environment and sign in to your own account. /status works locally without a model.";
         boolean hasFiles = files != null && !files.isEmpty();
         if (text.isEmpty() && !hasFiles) return null;
-        String forAgent = text.isEmpty() && hasFiles ? "Zobacz, co załączam." : text;
+        String forAgent = text.isEmpty() && hasFiles ? "Take a look at what I attached." : text;
         McpHost.get(app).allowControl();
         // The helper echoes this identifier on every callback. A stopped run may still have
         // an HTTP request in flight when the next request in the same chat begins.
@@ -210,7 +210,7 @@ final class ChatHub {
         main.postDelayed(() -> {
             if (ses.running && id == ses.runId && !ses.runAcknowledged) {
                 stop(ses);
-                add(ses, Bubble.Kind.ERROR, "Brak odpowiedzi klienta. Otwórz panel środowiska w androidagent i sprawdź jego stan oraz logowanie.");
+                add(ses, Bubble.Kind.ERROR, "No response from the client. Open the environment panel in androidagent and check its status and sign-in.");
                 changed();
             }
         }, NO_RESPONSE_MS);
@@ -241,10 +241,10 @@ final class ChatHub {
         flushStream(ses);
         ses.running = false;
         ses.status = "";
-        settleSteps(ses, false, "Przerwano");
-        if (deliveryError == null) add(ses, Bubble.Kind.STEP, "Zatrzymano.");
-        else add(ses, Bubble.Kind.ERROR, "Dostęp do narzędzi telefonu został zakończony, ale polecenie Stop nie dotarło do klienta: "
-                + deliveryError + " Sprawdź procesy we wbudowanym środowisku.");
+        settleSteps(ses, false, "Interrupted");
+        if (deliveryError == null) add(ses, Bubble.Kind.STEP, "Stopped.");
+        else add(ses, Bubble.Kind.ERROR, "Access to phone tools was ended, but the Stop command did not reach the client: "
+                + deliveryError + " Check the processes in the built-in environment.");
         changed();
     }
 
@@ -381,7 +381,7 @@ final class ChatHub {
                 }
                 if (error) {
                     settleSteps(ses, false, null);
-                    add(ses, Bubble.Kind.ERROR, r.isEmpty() ? ses.brainName() + " przerwał pracę." : r);
+                    add(ses, Bubble.Kind.ERROR, r.isEmpty() ? ses.brainName() + " stopped working." : r);
                 } else if (!ses.gotText && !r.isEmpty()) {
                     reply(ses, r);
                 }
@@ -389,16 +389,16 @@ final class ChatHub {
             }
             case "buddy_error":
                 flushStream(ses);
-                add(ses, Bubble.Kind.ERROR, ev.optString("text", "Coś poszło nie tak."));
+                add(ses, Bubble.Kind.ERROR, ev.optString("text", "Something went wrong."));
                 String activeRun = ev.optString("active_run");
                 if (activeRun.matches("[A-Za-z0-9_-]{1,64}") && !activeRun.equals(ses.callbackRun)) {
                     // The app process may have restarted while its helper survived.
                     // Cancel that exact old run; its late callbacks cannot finish this one.
                     try {
                         commands.run("stop", ses.id, activeRun);
-                        add(ses, Bubble.Kind.STEP, "Poproszono klienta o zatrzymanie poprzedniego zadania. Wyślij wiadomość ponownie po jego zakończeniu.");
+                        add(ses, Bubble.Kind.STEP, "The client was asked to stop the previous task. Send your message again once it finishes.");
                     } catch (Exception e) {
-                        add(ses, Bubble.Kind.ERROR, "Nie udało się zatrzymać poprzedniego zadania klienta: " + e.getMessage());
+                        add(ses, Bubble.Kind.ERROR, "Could not stop the client's previous task: " + e.getMessage());
                     }
                 }
                 break;
@@ -407,8 +407,8 @@ final class ChatHub {
                 ses.running = false;
                 McpHost.get(app).revoke(ses.id);
                 ses.status = "";
-                settleSteps(ses, false, "Przerwano");
-                add(ses, Bubble.Kind.STEP, "Zatrzymano.");
+                settleSteps(ses, false, "Interrupted");
+                add(ses, Bubble.Kind.STEP, "Stopped.");
                 break;
             case "buddy_done":
                 flushStream(ses);
@@ -462,7 +462,7 @@ final class ChatHub {
             for (Sessions.Session s : sessions.all)
                 if (s.running && (latest == null || s.lastEventAt > latest.lastEventAt)) latest = s;
             String st = latest == null || latest.status.isEmpty() ? WORKING : latest.status;
-            return n > 1 ? n + " " + Sessions.plural(n, "rozmowa", "rozmowy", "rozmów") + " · " + st : st;
+            return n > 1 ? n + " " + Sessions.plural(n, "chat", "chats", "chats") + " · " + st : st;
         }
         return flash;
     }
@@ -541,17 +541,17 @@ final class ChatHub {
         }
         // The agent finished its turn and only the completion callback was lost.
         boolean completed = processGone && ses.resultSeen && ses.lastError.isEmpty();
-        settleSteps(ses, completed, completed ? null : "Przerwano");
+        settleSteps(ses, completed, completed ? null : "Interrupted");
         if (completed) {
             if (!ses.lastReply.isEmpty()) {
                 Prefs.setHadReply(app);
                 flash(ses.lastReply);
             }
         } else if (processGone) {
-            add(ses, Bubble.Kind.ERROR, "Proces agenta zakończył się bez odpowiedzi.");
+            add(ses, Bubble.Kind.ERROR, "The agent process ended without a response.");
         } else {
-            add(ses, Bubble.Kind.ERROR, "Agent nie dał znaku życia od " + (UNKNOWN_SILENCE_MS / 60000)
-                    + " minut, więc zadanie zostało zatrzymane. Wyślij wiadomość ponownie, aby kontynuować.");
+            add(ses, Bubble.Kind.ERROR, "The agent has shown no sign of life for " + (UNKNOWN_SILENCE_MS / 60000)
+                    + " minutes, so the task was stopped. Send the message again to continue.");
         }
     }
 
@@ -674,7 +674,7 @@ final class ChatHub {
             else if (item instanceof JSONObject) {
                 String type = ((JSONObject) item).optString("type");
                 if ("text".equals(type)) part = ((JSONObject) item).optString("text");
-                else if ("image".equals(type)) part = "[obraz]";
+                else if ("image".equals(type)) part = "[image]";
             }
             if (part == null) continue;
             if (text.length() > 0) text.append('\n');
@@ -791,7 +791,7 @@ final class ChatHub {
             case "TodoWrite": {
                 JSONArray todos = in.optJSONArray("todos");
                 int n = todos == null ? 0 : todos.length();
-                s = n + " " + Sessions.plural(n, "zadanie", "zadania", "zadań");
+                s = n + " " + Sessions.plural(n, "task", "tasks", "tasks");
                 break;
             }
             default:
@@ -844,65 +844,65 @@ final class ChatHub {
             if (separator > 0) n = name.substring(separator + 2);
         }
         switch (n) {
-            case "read_screen": return "Czytam ekran";
-            case "screenshot": return "Robię zrzut ekranu";
-            case "tap": return in.has("element") ? "Dotykam elementu " + in.optInt("element") : "Dotykam " + in.optInt("x") + "," + in.optInt("y");
-            case "long_press": return "Przytrzymuję";
-            case "type_text": return "Wpisuję „" + clip(in.optString("text"), 40) + "”";
-            case "scroll": return "Przewijam " + direction(in.optString("direction"));
-            case "swipe": return "Przesuwam palcem";
-            case "press": return "Naciskam " + button(in.optString("button"));
-            case "open_app": return "Otwieram " + in.optString("app");
-            case "list_apps": return "Sprawdzam aplikacje";
-            case "open_url": return "Otwieram " + clip(in.optString("url"), 40);
-            case "device_status": return "Sprawdzam stan telefonu";
-            case "run_command": return "Uruchamiam: " + clip(in.optString("command"), 40);
+            case "read_screen": return "Reading screen";
+            case "screenshot": return "Taking a screenshot";
+            case "tap": return in.has("element") ? "Tapping element " + in.optInt("element") : "Tapping " + in.optInt("x") + "," + in.optInt("y");
+            case "long_press": return "Long-pressing";
+            case "type_text": return "Typing “" + clip(in.optString("text"), 40) + "”";
+            case "scroll": return "Scrolling " + direction(in.optString("direction"));
+            case "swipe": return "Swiping";
+            case "press": return "Pressing " + button(in.optString("button"));
+            case "open_app": return "Opening " + in.optString("app");
+            case "list_apps": return "Checking apps";
+            case "open_url": return "Opening " + clip(in.optString("url"), 40);
+            case "device_status": return "Checking phone status";
+            case "run_command": return "Running: " + clip(in.optString("command"), 40);
             case "wait":
             case "ToolSearch":
                 return null;
-            case "TodoWrite": return "Aktualizuję listę zadań";
-            case "confirm": return "Proszę o Twoją zgodę";
+            case "TodoWrite": return "Updating the task list";
+            case "confirm": return "Asking for your approval";
             case "notify": {
                 String text = in.optString("text").trim();
-                return text.isEmpty() ? "Wysyłam powiadomienie" : text;
+                return text.isEmpty() ? "Sending notification" : text;
             }
-            case "WebSearch": return "Szukam w sieci: " + clip(in.optString("query"), 40);
-            case "WebFetch": return "Czytam " + clip(in.optString("url"), 40);
-            case "Bash": return in.has("command") ? "Uruchamiam: " + clip(in.optString("command"), 40) : "Uruchamiam polecenie";
+            case "WebSearch": return "Searching the web: " + clip(in.optString("query"), 40);
+            case "WebFetch": return "Reading " + clip(in.optString("url"), 40);
+            case "Bash": return in.has("command") ? "Running: " + clip(in.optString("command"), 40) : "Running command";
             case "Edit":
-            case "MultiEdit": return in.has("file_path") ? "Edytuję " + clip(baseName(in.optString("file_path")), 40) : "Edytuję pliki";
-            case "Write": return in.has("file_path") ? "Zapisuję " + clip(baseName(in.optString("file_path")), 40) : "Zapisuję pliki";
-            case "NotebookEdit": return "Edytuję notatnik " + clip(baseName(in.optString("notebook_path", in.optString("file_path"))), 40);
-            case "Read": return in.has("file_path") ? "Czytam " + clip(baseName(in.optString("file_path")), 40) : "Czytam plik";
-            case "Grep": return "Przeszukuję pliki: " + clip(in.optString("pattern"), 40);
-            case "Glob": return "Szukam plików: " + clip(in.optString("pattern"), 40);
+            case "MultiEdit": return in.has("file_path") ? "Editing " + clip(baseName(in.optString("file_path")), 40) : "Editing files";
+            case "Write": return in.has("file_path") ? "Writing " + clip(baseName(in.optString("file_path")), 40) : "Writing files";
+            case "NotebookEdit": return "Editing notebook " + clip(baseName(in.optString("notebook_path", in.optString("file_path"))), 40);
+            case "Read": return in.has("file_path") ? "Reading " + clip(baseName(in.optString("file_path")), 40) : "Reading file";
+            case "Grep": return "Searching files: " + clip(in.optString("pattern"), 40);
+            case "Glob": return "Finding files: " + clip(in.optString("pattern"), 40);
             case "Task":
             case "Agent": {
                 String what = in.optString("description").trim();
-                return what.isEmpty() ? "Zlecam podzadanie" : "Zlecam podzadanie: " + clip(what, 40);
+                return what.isEmpty() ? "Delegating a subtask" : "Delegating a subtask: " + clip(what, 40);
             }
-            case "Skill": return "Używam umiejętności " + clip(in.optString("skill", in.optString("command")), 40);
-            default: return "Używam " + n;
+            case "Skill": return "Using skill " + clip(in.optString("skill", in.optString("command")), 40);
+            default: return "Using " + n;
         }
     }
 
     private static String direction(String d) {
         switch (d) {
-            case "up": return "w górę";
-            case "down": return "w dół";
-            case "left": return "w lewo";
-            case "right": return "w prawo";
+            case "up": return "up";
+            case "down": return "down";
+            case "left": return "left";
+            case "right": return "right";
             default: return d;
         }
     }
 
     private static String button(String b) {
         switch (b) {
-            case "back": return "Wstecz";
-            case "home": return "Ekran główny";
-            case "recents": return "Ostatnie aplikacje";
-            case "notifications": return "Powiadomienia";
-            case "quick_settings": return "Szybkie ustawienia";
+            case "back": return "Back";
+            case "home": return "Home screen";
+            case "recents": return "Recent apps";
+            case "notifications": return "Notifications";
+            case "quick_settings": return "Quick settings";
             default: return b;
         }
     }

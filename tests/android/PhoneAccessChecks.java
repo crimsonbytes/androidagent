@@ -88,11 +88,11 @@ final class PhoneAccessChecks {
         instrumentation.runOnMainSync(() -> {
             try {
                 View root = screen.getWindow().getDecorView();
-                for (String label : new String[]{"Dostęp do powiadomień", "Lokalizacja", "Zdjęcia", "Instalowanie aplikacji",
-                        "Zmiana ustawień systemu"})
+                for (String label : new String[]{"Notification access", "Location", "Photos", "Install apps",
+                        "Change system settings"})
                     require(find(root, label) != null, "Missing permission row " + label);
                 View access = find(root, PermissionGuide.read(screen).notificationAccess
-                        ? "Ustawienia dostępu do powiadomień" : "Włącz dostęp do powiadomień");
+                        ? "Notification access settings" : "Enable notification access");
                 require(access instanceof Button && ((Button) access).getEllipsize() == null, "Notification access button");
             } catch (Throwable t) {
                 error[0] = t;

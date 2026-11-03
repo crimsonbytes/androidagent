@@ -53,7 +53,7 @@ public class DockerRuntimeTests extends Instrumentation {
     }
     void shot(String name)throws Exception{SystemClock.sleep(500);Bitmap image=ui.takeScreenshot();try(OutputStream out=new FileOutputStream(new File(evidence,name+".png"))){image.compress(Bitmap.CompressFormat.PNG,100,out);}image.recycle();}
     void navigationContrast()throws Exception{
-        final int[] box=new int[4];runOnMainSync(()->{View back=find(screen.getWindow().getDecorView(),"Wróć");check(back!=null,"Back button missing");back.getLocationOnScreen(box);box[2]=back.getWidth();box[3]=back.getHeight();});
+        final int[] box=new int[4];runOnMainSync(()->{View back=find(screen.getWindow().getDecorView(),"Back");check(back!=null,"Back button missing");back.getLocationOnScreen(box);box[2]=back.getWidth();box[3]=back.getHeight();});
         SystemClock.sleep(500);Bitmap bitmap=ui.takeScreenshot();int contrasting=0;
         for(int y=box[1];y<Math.min(bitmap.getHeight(),box[1]+box[3]);y++)for(int x=box[0];x<Math.min(bitmap.getWidth(),box[0]+box[2]);x++){
             int pixel=bitmap.getPixel(x,y);int brightness=(android.graphics.Color.red(pixel)+android.graphics.Color.green(pixel)+android.graphics.Color.blue(pixel))/3;
@@ -164,13 +164,13 @@ public class DockerRuntimeTests extends Instrumentation {
         if(!test("VM: dedicated emulator workspace and stop guard",()->{
             DockerVm vm=DockerVm.get(app);check(!vm.alive(),"An existing VM is running; stop it before this destructive emulator suite");if(!reuseCache)vm.reset();
         }))return;
-        test("UI: Docker dashboard without model account",()->{launch(DockerActivity.class);check(find(screen.getWindow().getDecorView(),"Uruchom środowisko")!=null,"Start button");shot("01-docker-dashboard");});
+        test("UI: Docker dashboard without model account",()->{launch(DockerActivity.class);check(find(screen.getWindow().getDecorView(),"Start environment")!=null,"Start button");shot("01-docker-dashboard");});
         if(!test("MCP: real accessibility server connected",()->{
             reconnectAccessibility();
         }))return;
         if(!test("VM: user starts real Linux Docker Engine",()->{
-            runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Pamięć środowiska Docker")).setSelection(0));
-            click("Uruchom środowisko");waitReady();
+            runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Docker environment memory")).setSelection(0));
+            click("Start environment");waitReady();
             // No network call, screenshot or sleep before the durability test kills
             // this first boot: those delays could let an unsynced import reach disk.
             JSONObject state=DockerVm.get(app).status();check(state.getBoolean("ready"),state.toString());
@@ -194,8 +194,8 @@ public class DockerRuntimeTests extends Instrumentation {
             android.system.StructStat stopped=android.system.Os.stat(overlay.getAbsolutePath());
             check(stopped.st_ino==original.st_ino&&stopped.st_dev==original.st_dev,"Forced stop replaced the working disk");
             launch(DockerActivity.class);
-            runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Pamięć środowiska Docker")).setSelection(0));
-            click("Uruchom środowisko");waitReady();
+            runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Docker environment memory")).setSelection(0));
+            click("Start environment");waitReady();
             android.system.StructStat restarted=android.system.Os.stat(overlay.getAbsolutePath());
             check(restarted.st_ino==original.st_ino&&restarted.st_dev==original.st_dev,"Restart replaced the working disk");
             JSONObject state=call("docker_status",args());check(state.getBoolean("ready"),state.toString());
@@ -231,7 +231,7 @@ public class DockerRuntimeTests extends Instrumentation {
             JSONObject result=waitJob(job);check("succeeded".equals(result.optString("state")),result.toString());
             waitPreview();
             launch(new Intent(app,DockerTaskActivity.class).putExtra("task",task));
-            ActivityMonitor monitor=addMonitor(DockerPreviewActivity.class.getName(),null,false);click("Otwórz podgląd");
+            ActivityMonitor monitor=addMonitor(DockerPreviewActivity.class.getName(),null,false);click("Open preview");
             Activity opened=waitForMonitorWithTimeout(monitor,30000);removeMonitor(monitor);
             check(opened instanceof DockerPreviewActivity,"Native preview did not open");
             DockerPreviewActivity page=(DockerPreviewActivity)opened;
@@ -272,10 +272,10 @@ public class DockerRuntimeTests extends Instrumentation {
         test("UART Docker: actual guest/container route, scoped token and baud/DTR/RTS/break (serial fixture)",this::serialBridgeTest);
         test("UI: editor keeps draft across rotation",()->{
             launch(new Intent(app,DockerTaskActivity.class).putExtra("task",task));
-            runOnMainSync(()->((EditText)find(screen.getWindow().getDecorView(),"Treść pliku")).setText("DRAFT_AFTER_ROTATION"));
+            runOnMainSync(()->((EditText)find(screen.getWindow().getDecorView(),"File content")).setText("DRAFT_AFTER_ROTATION"));
             ActivityMonitor monitor=addMonitor(DockerTaskActivity.class.getName(),null,false);runOnMainSync(()->screen.recreate());
             Activity recreated=waitForMonitorWithTimeout(monitor,15000);removeMonitor(monitor);check(recreated!=null,"Activity recreation");screen=recreated;waitForIdleSync();
-            check(((EditText)find(screen.getWindow().getDecorView(),"Treść pliku")).getText().toString().equals("DRAFT_AFTER_ROTATION"),"Draft lost");shot("03-docker-task");
+            check(((EditText)find(screen.getWindow().getDecorView(),"File content")).getText().toString().equals("DRAFT_AFTER_ROTATION"),"Draft lost");shot("03-docker-task");
         });
         test("Cancel: real running command and container stopped",()->{
             check("succeeded".equals(waitJob(call("docker_run",args("task",task,"memory_mb",128)).getString("id")).optString("state")),"Cannot start the dedicated cancellation container");
@@ -292,7 +292,7 @@ public class DockerRuntimeTests extends Instrumentation {
         });
         test("VM: graceful stop and restart preserves second task",()->{
             DockerVm.get(app).stop(true);check(!DockerVm.get(app).alive(),"VM still running");app.stopService(new Intent(app,DockerService.class));
-            SystemClock.sleep(1000);launch(DockerActivity.class);click("Uruchom środowisko");waitReady();
+            SystemClock.sleep(1000);launch(DockerActivity.class);click("Start environment");waitReady();
             check(call("docker_files",args("task",other)).toString().contains("keep.txt"),"Task not persisted");SystemClock.sleep(2000);shot("04-docker-persisted");
         });
         test("Stop: user revokes control and terminates QEMU",()->{
@@ -459,20 +459,20 @@ public class DockerRuntimeTests extends Instrumentation {
         attachmentRegressions();
         test("UI: readable memory selector in light theme",()->{
             runOnMainSync(()->{Prefs.setThemeMode(app,"light");Theme.changed(app);});launch(DockerActivity.class);
-            Spinner s=(Spinner)find(screen.getWindow().getDecorView(),"Pamięć środowiska Docker");
+            Spinner s=(Spinner)find(screen.getWindow().getDecorView(),"Docker environment memory");
             check(((TextView)s.getSelectedView()).getCurrentTextColor()==Ui.TEXT,"Invisible selected memory");navigationContrast();shot("01-docker-light");
         });
         test("UI: memory selection survives rotation",()->{
-            runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Pamięć środowiska Docker")).setSelection(0));
+            runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Docker environment memory")).setSelection(0));
             ActivityMonitor monitor=addMonitor(DockerActivity.class.getName(),null,false);runOnMainSync(()->screen.recreate());
             Activity recreated=waitForMonitorWithTimeout(monitor,15000);removeMonitor(monitor);check(recreated!=null,"Activity recreation");screen=recreated;waitForIdleSync();
-            check(((Spinner)find(screen.getWindow().getDecorView(),"Pamięć środowiska Docker")).getSelectedItemPosition()==0,"Selection reset");
+            check(((Spinner)find(screen.getWindow().getDecorView(),"Docker environment memory")).getSelectedItemPosition()==0,"Selection reset");
         });
         test("UI: two CPU selection remains readable after rotation",()->{
-            runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Procesory środowiska Docker")).setSelection(1));
+            runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Docker environment CPUs")).setSelection(1));
             ActivityMonitor monitor=addMonitor(DockerActivity.class.getName(),null,false);runOnMainSync(()->screen.recreate());
             Activity recreated=waitForMonitorWithTimeout(monitor,15000);removeMonitor(monitor);check(recreated!=null,"Activity recreation");screen=recreated;waitForIdleSync();
-            Spinner cores=(Spinner)find(screen.getWindow().getDecorView(),"Procesory środowiska Docker");
+            Spinner cores=(Spinner)find(screen.getWindow().getDecorView(),"Docker environment CPUs");
             check(cores!=null&&cores.getSelectedItemPosition()==1,"CPU selection reset");
             TextView label=(TextView)cores.getSelectedView();
             check(label!=null&&label.getText().toString().contains("2")&&label.getCurrentTextColor()==Ui.TEXT,"CPU selector label is unreadable");
@@ -480,14 +480,14 @@ public class DockerRuntimeTests extends Instrumentation {
         });
         test("UI: readable memory selector in dark theme",()->{
             runOnMainSync(()->{Prefs.setThemeMode(app,"dark");Theme.changed(app);});launch(DockerActivity.class);
-            Spinner s=(Spinner)find(screen.getWindow().getDecorView(),"Pamięć środowiska Docker");
+            Spinner s=(Spinner)find(screen.getWindow().getDecorView(),"Docker environment memory");
             check(Ui.DARK&&((TextView)s.getSelectedView()).getCurrentTextColor()==Ui.TEXT,"Dark selector unreadable");navigationContrast();shot("02-docker-dark");
             runOnMainSync(()->{Prefs.setThemeMode(app,"light");Theme.changed(app);});
         });
         test("QEMU: final APK clock arguments and stop during boot",()->{
             DockerVm vm=DockerVm.get(app);
             check(!new File(vm.directory,"user.qcow2").exists(),"This targeted test requires a fresh dedicated Docker disk");
-            launch(DockerActivity.class);runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Procesory środowiska Docker")).setSelection(1));click("Uruchom środowisko");
+            launch(DockerActivity.class);runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Docker environment CPUs")).setSelection(1));click("Start environment");
             long until=SystemClock.elapsedRealtime()+30000;while(!vm.alive()&&SystemClock.elapsedRealtime()<until)SystemClock.sleep(250);
             check(vm.alive(),vm.detail);SystemClock.sleep(500);String pid=read(new FileInputStream(new File(vm.directory,"vm.pid"))).trim();
             String cmd=read(new FileInputStream("/proc/"+pid+"/cmdline"));
@@ -496,10 +496,10 @@ public class DockerRuntimeTests extends Instrumentation {
             check(actualTwoCpus,"Actual QEMU command did not receive selected -smp 2");
             check(cmd.contains("-icount")==vm.emulatedAndroid,"Incorrect clock arguments on actual QEMU process");
             if(vm.emulatedAndroid)check(cmd.contains("shift=3,align=off,sleep=on"),"Incorrect emulator clock scale");
-            until=SystemClock.elapsedRealtime()+10000;while(find(screen.getWindow().getDecorView(),"Zatrzymaj środowisko")==null&&SystemClock.elapsedRealtime()<until)SystemClock.sleep(250);
-            click("Zatrzymaj środowisko");until=SystemClock.elapsedRealtime()+30000;
+            until=SystemClock.elapsedRealtime()+10000;while(find(screen.getWindow().getDecorView(),"Stop environment")==null&&SystemClock.elapsedRealtime()<until)SystemClock.sleep(250);
+            click("Stop environment");until=SystemClock.elapsedRealtime()+30000;
             while(vm.alive()&&SystemClock.elapsedRealtime()<until)SystemClock.sleep(250);
-            check(!vm.alive(),"Stop did not terminate booting QEMU");runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Procesory środowiska Docker")).setSelection(0));vm.reset();
+            check(!vm.alive(),"Stop did not terminate booting QEMU");runOnMainSync(()->((Spinner)find(screen.getWindow().getDecorView(),"Docker environment CPUs")).setSelection(0));vm.reset();
         });
         stopRaceRegression();
     }

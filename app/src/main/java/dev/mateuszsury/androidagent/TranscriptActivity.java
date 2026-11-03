@@ -30,13 +30,13 @@ public class TranscriptActivity extends Screen implements ChatHub.MonitorListene
         agent = getIntent().getStringExtra("agent");
         id = getIntent().getStringExtra("id");
         title = getIntent().getStringExtra("title");
-        if (title == null || title.trim().isEmpty()) title = "Sesja bez tytułu";
+        if (title == null || title.trim().isEmpty()) title = "Untitled session";
         String cwd = getIntent().getStringExtra("cwd");
 
         LinearLayout root = column(this);
         root.setBackgroundColor(BG);
         root.setFitsSystemWindows(true);
-        TextView readOnly = badge(this, "tylko odczyt", MUTED);
+        TextView readOnly = badge(this, "read-only", MUTED);
         LinearLayout.LayoutParams rp = wrap();
         rp.rightMargin = dp(this, 8);
         readOnly.setLayoutParams(rp);
@@ -54,7 +54,7 @@ public class TranscriptActivity extends Screen implements ChatHub.MonitorListene
         boolean canContinue = id != null && id.matches("[A-Za-z0-9-]{8,64}");
         if (canContinue) {
             root.addView(divider(this), new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(this, 1)));
-            Button cont = button(this, "Kontynuuj w androidagent", true);
+            Button cont = button(this, "Continue in androidagent", true);
             cont.setTextSize(15);
             cont.setOnClickListener(v -> withToolHost(() -> {
                 Sessions.Session s = hub.adopt(agent, id, title);
@@ -73,7 +73,7 @@ public class TranscriptActivity extends Screen implements ChatHub.MonitorListene
         LinearLayout r = row(this);
         r.setPadding(dp(this, 4), dp(this, 16), 0, dp(this, 8));
         r.addView(new Spark(this).color(ACCENT), new LinearLayout.LayoutParams(dp(this, 15), dp(this, 15)));
-        TextView t = monoText(this, "Wczytywanie transkrypcji…", 13, ACCENT_TEXT);
+        TextView t = monoText(this, "Loading transcript…", 13, ACCENT_TEXT);
         t.setPadding(dp(this, 10), 0, 0, 0);
         r.addView(t);
         return r;
@@ -93,10 +93,10 @@ public class TranscriptActivity extends Screen implements ChatHub.MonitorListene
         hub.monitor = this;
         if (!EmbeddedRuntime.get(this).ready()) {
             messages.removeAllViews();
-            LinearLayout empty = emptyState(this, "Środowisko nie jest gotowe",
-                    "Przygotuj wbudowane środowisko w panelu Środowisko i konta, aby odczytać tę sesję.");
+            LinearLayout empty = emptyState(this, "Environment not ready",
+                    "Set up the built-in environment in the Environment and accounts panel to read this session.");
             messages.addView(empty, full());
-            Button open = button(this, "Otwórz środowisko", false);
+            Button open = button(this, "Open environment", false);
             open.setOnClickListener(v -> EmbeddedRuntime.open(this));
             LinearLayout.LayoutParams op = wrap();
             op.gravity = Gravity.CENTER_HORIZONTAL;
@@ -116,7 +116,7 @@ public class TranscriptActivity extends Screen implements ChatHub.MonitorListene
             r.setGravity(Gravity.TOP);
             r.setPadding(0, dp(this, 16), 0, 0);
             r.addView(toolDot(this, ERR));
-            TextView t = text(this, e.getMessage() == null ? "Nie udało się odczytać sesji." : e.getMessage(), 14, ERR);
+            TextView t = text(this, e.getMessage() == null ? "Could not read the session." : e.getMessage(), 14, ERR);
             t.setPadding(dp(this, 8), 0, 0, 0);
             r.addView(t, weight1());
             messages.addView(r, full());
@@ -135,11 +135,11 @@ public class TranscriptActivity extends Screen implements ChatHub.MonitorListene
         messages.removeAllViews();
         JSONArray list = ev.optJSONArray("messages");
         if (list == null || list.length() == 0) {
-            messages.addView(emptyState(this, "Brak czytelnych wiadomości", "Ta sesja nie zawiera wiadomości do wyświetlenia."), full());
+            messages.addView(emptyState(this, "No readable messages", "This session has no messages to display."), full());
             return;
         }
         int n = list.length();
-        messages.addView(note("ostatnie " + n + " " + plural(n)), full());
+        messages.addView(note("last " + n + " " + plural(n)), full());
         for (int i = 0; i < n; i++) {
             JSONObject m = list.optJSONObject(i);
             if (m == null) continue;
@@ -185,6 +185,6 @@ public class TranscriptActivity extends Screen implements ChatHub.MonitorListene
     }
 
     private static String plural(int n) {
-        return n == 1 ? "wiadomość" : "wiadomości";
+        return n == 1 ? "message" : "messages";
     }
 }

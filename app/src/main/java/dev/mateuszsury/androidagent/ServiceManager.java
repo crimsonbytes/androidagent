@@ -61,7 +61,7 @@ import java.util.regex.Pattern;
  * {@code files/services/NAME.log} (512 KB × 2).
  */
 final class ServiceManager {
-    static final String NOT_PREPARED = "Środowisko nie jest przygotowane";
+    static final String NOT_PREPARED = "The environment is not prepared";
     static final String DEFAULT_CWD = "~/.buddy/work";
     static final String STARTING = "starting", RUNNING = "running", EXITED = "exited", FAILED = "failed",
             STOPPED = "stopped";
@@ -90,16 +90,16 @@ final class ServiceManager {
         void validate() {
             validateName(name);
             if (command == null || command.trim().isEmpty())
-                throw new IllegalArgumentException("Command is empty. (Wpisz komendę usługi.)");
+                throw new IllegalArgumentException("Command is empty. (Enter the service command.)");
             if (command.length() > MAX_COMMAND || command.indexOf('\0') >= 0)
-                throw new IllegalArgumentException("Command is too long or contains NUL. (Komenda jest za długa.)");
+                throw new IllegalArgumentException("Command is too long or contains NUL. (Command is too long.)");
             if (cwd == null || cwd.trim().isEmpty()) cwd = DEFAULT_CWD;
             cwd = cwd.trim();
             if (cwd.length() > 512 || cwd.indexOf('\0') >= 0)
-                throw new IllegalArgumentException("Working directory path is invalid. (Nieprawidłowy katalog.)");
+                throw new IllegalArgumentException("Working directory path is invalid. (Invalid directory.)");
             if (port != 0 && (port < 1024 || port > 65535))
                 throw new IllegalArgumentException("Port must be 1024–65535: ports below 1024 need root. "
-                        + "(Port musi być w zakresie 1024–65535.)");
+                        + "(Port must be in the range 1024–65535.)");
             if (!RESTART_NEVER.equals(restart) && !RESTART_ON_FAILURE.equals(restart))
                 throw new IllegalArgumentException("restart must be \"never\" or \"on-failure\".");
             if (env.size() > 32) throw new IllegalArgumentException("At most 32 environment variables.");
@@ -126,12 +126,12 @@ final class ServiceManager {
         /** The exact text the owner approves (the command is last and verbatim). */
         String approvalText(boolean replacing) {
             StringBuilder s = new StringBuilder();
-            s.append(replacing ? "Zastąpić i uruchomić usługę w tle „" : "Uruchomić usługę w tle „").append(name).append("”?\n\n");
-            s.append("Będzie działać po zakończeniu pracy agenta, aż ją zatrzymasz (Usługi w tle).\n");
-            s.append("Katalog: ").append(cwd).append('\n');
+            s.append(replacing ? "Replace and start background service “" : "Start background service “").append(name).append("”?\n\n");
+            s.append("It will keep running after the agent finishes, until you stop it (Background services).\n");
+            s.append("Directory: ").append(cwd).append('\n');
             s.append("Port: ").append(port == 0 ? "—" : String.valueOf(port));
-            s.append(" · autostart: ").append(autostart ? "tak" : "nie");
-            s.append(" · restart: ").append(RESTART_ON_FAILURE.equals(restart) ? "po błędzie" : "nie").append('\n');
+            s.append(" · autostart: ").append(autostart ? "yes" : "no");
+            s.append(" · restart: ").append(RESTART_ON_FAILURE.equals(restart) ? "on failure" : "no").append('\n');
             for (Map.Entry<String, String> e : env.entrySet()) s.append(e.getKey()).append('=').append(e.getValue()).append('\n');
             s.append('\n').append(command);
             return s.toString();
@@ -264,7 +264,7 @@ final class ServiceManager {
     static void validateName(String name) {
         if (name == null || !NAME.matcher(name).matches())
             throw new IllegalArgumentException("Invalid service name \"" + name + "\": use 1–32 characters a-z, 0-9 "
-                    + "and '-', e.g. \"web\". (Nazwa: małe litery, cyfry i „-”.)");
+                    + "and '-', e.g. \"web\". (Name: lowercase letters, digits and “-”.)");
     }
 
     void addListener(Listener l) {
@@ -366,9 +366,9 @@ final class ServiceManager {
         synchronized (this) {
             Service s = services.get(d.name);
             if (s != null && (s.process != null || STARTING.equals(s.state) || RUNNING.equals(s.state)))
-                throw new IllegalStateException("Service \"" + d.name + "\" is running; stop it first. (Usługa już działa.)");
+                throw new IllegalStateException("Service \"" + d.name + "\" is running; stop it first. (Service already running.)");
             if (s == null && services.size() >= MAX_SERVICES)
-                throw new IllegalStateException("At most " + MAX_SERVICES + " services; remove an unused one. (Limit usług.)");
+                throw new IllegalStateException("At most " + MAX_SERVICES + " services; remove an unused one. (Service limit.)");
             if (s == null) {
                 s = new Service();
                 s.created = System.currentTimeMillis();
@@ -429,7 +429,7 @@ final class ServiceManager {
         }
         changed();
         if (p == null) return;
-        s.log.line("── zatrzymywanie · " + clock(System.currentTimeMillis()) + " ──");
+        s.log.line("── stopping · " + clock(System.currentTimeMillis()) + " ──");
         terminate(s, p);
     }
 
@@ -507,7 +507,7 @@ final class ServiceManager {
                 for (String n : names) {
                     Service s = services.get(n);
                     s.state = FAILED;
-                    s.error = NOT_PREPARED + " · autostart wstrzymany";
+                    s.error = NOT_PREPARED + " · autostart paused";
                 }
                 restored = false;
             } else {
@@ -531,7 +531,7 @@ final class ServiceManager {
                     Service s = services.get(n);
                     if (s != null && STARTING.equals(s.state) && s.process == null) {
                         s.state = STOPPED;
-                        s.error = "Autostart czeka na otwarcie aplikacji";
+                        s.error = "Autostart waiting for the app to open";
                     }
                 }
             }
@@ -611,7 +611,7 @@ final class ServiceManager {
                 s.state = FAILED;
                 s.error = message;
             }
-            s.log.line("── błąd uruchomienia · " + message + " ──");
+            s.log.line("── start error · " + message + " ──");
         } finally {
             changed();
         }
@@ -653,14 +653,14 @@ final class ServiceManager {
                 s.stopping = false;
                 s.state = STOPPED;
                 s.error = "";
-                banner = "── zatrzymano · po " + duration(ran) + " ──";
+                banner = "── stopped · after " + duration(ran) + " ──";
             } else if (RESTART_ON_FAILURE.equals(s.def.restart) && code != 0) {
                 long now = SystemClock.elapsedRealtime();
                 while (!s.restartTimes.isEmpty() && now - s.restartTimes.peekFirst() > RESTART_WINDOW_MS) s.restartTimes.pollFirst();
                 if (s.restartTimes.size() >= MAX_RESTARTS) {
                     s.state = FAILED;
-                    s.error = "Zbyt wiele awarii: " + MAX_RESTARTS + " ponownych uruchomień w 10 min. Sprawdź logi.";
-                    banner = "── koniec · kod " + code + " · limit ponownych uruchomień ──";
+                    s.error = "Too many crashes: " + MAX_RESTARTS + " restarts in 10 min. Check the logs.";
+                    banner = "── exited · code " + code + " · restart limit ──";
                 } else {
                     long delay = 1000L << s.restartTimes.size(); // 1, 2, 4, 8, 16 s
                     s.restartTimes.addLast(now);
@@ -670,12 +670,12 @@ final class ServiceManager {
                     s.restartAt = now + delay;
                     long next = ++s.generation;
                     s.pendingRestart = timer.schedule(() -> async(() -> relaunch(s, next)), delay, TimeUnit.MILLISECONDS);
-                    banner = "── koniec · kod " + code + " · ponowne uruchomienie za " + delay / 1000 + " s ──";
+                    banner = "── exited · code " + code + " · restarting in " + delay / 1000 + " s ──";
                 }
             } else {
                 s.state = EXITED;
                 s.error = last;
-                banner = "── koniec · kod " + code + " · po " + duration(ran) + " ──";
+                banner = "── exited · code " + code + " · after " + duration(ran) + " ──";
             }
         }
         s.log.line(banner);
@@ -1000,7 +1000,7 @@ final class ServiceManager {
             foregroundError = "";
             return true;
         } catch (RuntimeException e) {
-            foregroundError = "Android nie pozwolił pokazać powiadomienia usług w tle. Otwórz aplikację, aby je przywrócić.";
+            foregroundError = "Android did not allow the background services notification. Open the app to restore it.";
             return false;
         }
     }
@@ -1012,7 +1012,7 @@ final class ServiceManager {
         Service s = services.get(name);
         if (s == null)
             throw new IllegalArgumentException("Unknown service \"" + name + "\". Use service_list to see names. "
-                    + "(Nie ma usługi „" + name + "”.)");
+                    + "(No service named “" + name + "”.)");
         return s;
     }
 
@@ -1039,7 +1039,7 @@ final class ServiceManager {
         if (s.restartAt > 0) st.restartInMs = Math.max(0, s.restartAt - SystemClock.elapsedRealtime());
         int port = st.mainPort();
         if (port != 0) {
-            st.urls.add(new String[]{"http://127.0.0.1:" + port, "telefon"});
+            st.urls.add(new String[]{"http://127.0.0.1:" + port, "phone"});
             for (NetAddresses.Address a : NetAddresses.lan(network)) st.urls.add(new String[]{"http://" + a.ip + ":" + port, a.label()});
         }
         return st;
@@ -1192,6 +1192,6 @@ final class ServiceManager {
     /** "1 działa", "2 działają", "5 działa" — Polish agreement for a count of running services. */
     static String runningLabel(int n) {
         int tens = n % 100, ones = n % 10;
-        return n + (n != 1 && ones >= 2 && ones <= 4 && (tens < 12 || tens > 14) ? " działają" : " działa");
+        return n + (n != 1 && ones >= 2 && ones <= 4 && (tens < 12 || tens > 14) ? " running" : " running");
     }
 }

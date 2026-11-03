@@ -48,7 +48,7 @@ public class WebViewRenderingTests extends Instrumentation {
             });
             test("WebView: refresh retains origin storage", () -> {
                 js("localStorage.setItem('androidagent-webview-test'," + JSONObject.quote(runId) + ")");
-                click("Odśwież"); ready();
+                click("Refresh"); ready();
                 check(JSONObject.quote(runId).equals(js("localStorage.getItem('androidagent-webview-test')")), "Storage lost on refresh");
             });
             test("WebView: activity recreation preserves a working preview", () -> {
@@ -66,7 +66,7 @@ public class WebViewRenderingTests extends Instrumentation {
                 runOnMainSync(() -> page.web.loadUrl("http://127.0.0.1:" + DockerVm.PREVIEW_PORT + "/missing"));
                 await("document.body&&document.body.textContent.indexOf('Aplikacja jeszcze nie odpowiada')>=0", "Missing error page");
             });
-            test("WebView: refresh recovers after the server returns", () -> { startServer(); click("Odśwież"); ready(); });
+            test("WebView: refresh recovers after the server returns", () -> { startServer(); click("Refresh"); ready(); });
             test("WebView: close and reopen preserve usable state", () -> {
                 js("localStorage.removeItem('androidagent-webview-test')");
                 runOnMainSync(() -> page.finish()); waitForIdleSync(); open(); ready();
@@ -129,9 +129,9 @@ public class WebViewRenderingTests extends Instrumentation {
         // readiness or the presence of a View in the hierarchy.
         Rect back = new Rect(), refresh = new Rect(), title = new Rect();
         runOnMainSync(() -> {
-            View b = find(page.getWindow().getDecorView(), "Wróć");
-            View r = find(page.getWindow().getDecorView(), "Odśwież");
-            View t = find(page.getWindow().getDecorView(), "Podgląd aplikacji");
+            View b = find(page.getWindow().getDecorView(), "Back");
+            View r = find(page.getWindow().getDecorView(), "Refresh");
+            View t = find(page.getWindow().getDecorView(), "App preview");
             check(b != null && r != null && t != null, "Missing native preview controls");
             check(b.getGlobalVisibleRect(back) && r.getGlobalVisibleRect(refresh) && t.getGlobalVisibleRect(title), "Native preview controls are hidden");
             check(back.width() == b.getWidth() && back.height() == b.getHeight()

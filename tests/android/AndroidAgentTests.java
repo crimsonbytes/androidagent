@@ -530,7 +530,7 @@ public class AndroidAgentTests extends Instrumentation {
   private Activity openHomeChat() {
     ActivityMonitor monitor = addMonitor(ChatActivity.class.getName(), null, false);
     try {
-      click("Rozpocznij rozmowę");
+      click("Start chat");
       Activity opened = waitForMonitorWithTimeout(monitor, 15000);
       check(opened != null, "Home did not open chat");
       current = opened;
@@ -639,8 +639,8 @@ public class AndroidAgentTests extends Instrumentation {
         "home: conversation-first UI",
         () -> {
           launch(MainActivity.class);
-          check(find("Co dziś zrobimy?") != null, "Home heading");
-          check(find("Historia rozmów") != null, "History affordance");
+          check(find("What are we doing today?") != null, "Home heading");
+          check(find("Chat history") != null, "History affordance");
           shot("01-home-light");
         });
     test("appearance: native light dialog and custom text stay readable",
@@ -752,7 +752,7 @@ public class AndroidAgentTests extends Instrumentation {
         "device UI: metrics and command controls",
         () -> {
           launch(DeviceActivity.class);
-          check(find("Bateria") != null && find("Komenda powłoki") != null, "Missing controls");
+          check(find("Battery") != null && find("Shell command") != null, "Missing controls");
           shot("02-device");
         });
     test(
@@ -761,7 +761,7 @@ public class AndroidAgentTests extends Instrumentation {
           main(
               () ->
                   edit(current.getWindow().getDecorView()).setText("printf 'ANDROIDAGENT_UI_OK'"));
-          click("Uruchom komendę");
+          click("Run command");
           long until = SystemClock.elapsedRealtime() + 15000;
           while (SystemClock.elapsedRealtime() < until
               && find("$ printf 'ANDROIDAGENT_UI_OK'\n\nANDROIDAGENT_UI_OK\n\n[exit 0]") == null)
@@ -778,9 +778,9 @@ public class AndroidAgentTests extends Instrumentation {
           main(() -> session[0] = ChatHub.get(app).create("codex"));
           launch(new Intent(app, ChatActivity.class).putExtra("id", session[0].id));
           main(() -> edit(current.getWindow().getDecorView()).setText("/status"));
-          click("Wyślij");
+          click("Send");
           check(session[0].messages.size() == 2, "Expected user and real status reply");
-          check(session[0].messages.get(1).text.contains("Odczyt lokalny"), "Not labeled local");
+          check(session[0].messages.get(1).text.contains("Read locally"), "Not labeled local");
           shot("04-chat-status");
         });
     test(
@@ -814,7 +814,7 @@ public class AndroidAgentTests extends Instrumentation {
     test(
         "chat: real model picker opens",
         () -> {
-          click("Wybierz model");
+          click("Choose model");
           SystemClock.sleep(500);
           check(
               ui.getRootInActiveWindow().findAccessibilityNodeInfosByText("Model Codex").size() > 0,
@@ -826,10 +826,10 @@ public class AndroidAgentTests extends Instrumentation {
     test(
         "chat: attachments sheet opens",
         () -> {
-          click("Dodaj zdjęcie lub plik");
+          click("Add photo or file");
           SystemClock.sleep(500);
           check(
-              ui.getRootInActiveWindow().findAccessibilityNodeInfosByText("Dodaj załącznik").size()
+              ui.getRootInActiveWindow().findAccessibilityNodeInfosByText("Add attachment").size()
                   > 0,
               "Attachments sheet missing");
           shot("05-attachments");
@@ -846,7 +846,7 @@ public class AndroidAgentTests extends Instrumentation {
                           session[0],
                           Bubble.Kind.BUDDY,
                           "Test renderera kodu:\n```python\n    return 42\n```"));
-          click("Kopiuj kod");
+          click("Copy code");
           main(
               () -> {
                 android.content.ClipData clip =
@@ -880,7 +880,7 @@ public class AndroidAgentTests extends Instrumentation {
         () -> {
           launch(OnboardingActivity.class);
           check(
-              find("Poznaj androidagent") != null && find("Zaczynamy") != null,
+              find("Meet androidagent") != null && find("Get started") != null,
               "Onboarding missing");
           shot("07-setup");
         });
@@ -969,8 +969,8 @@ public class AndroidAgentTests extends Instrumentation {
           do {
             SystemClock.sleep(250);
             screen = toolText(tool("read_screen", new JSONObject()));
-          } while (!screen.contains("Co dziś zrobimy?") && SystemClock.elapsedRealtime() < until);
-          check(screen.contains("Co dziś zrobimy?"), "Screen tree missing native UI: " + screen);
+          } while (!screen.contains("What are we doing today?") && SystemClock.elapsedRealtime() < until);
+          check(screen.contains("What are we doing today?"), "Screen tree missing native UI: " + screen);
         });
     test(
         "MCP: actual tap focuses command field",
@@ -1033,10 +1033,10 @@ public class AndroidAgentTests extends Instrumentation {
           String screen;
           do {
             screen = toolText(tool("read_screen", new JSONObject()));
-            if (screen.contains("Twój telefon")) break;
+            if (screen.contains("Your phone")) break;
             SystemClock.sleep(100);
           } while (SystemClock.elapsedRealtime() < readyUntil);
-          check(screen.contains("Twój telefon"), "Device screen is not active: " + screen);
+          check(screen.contains("Your phone"), "Device screen is not active: " + screen);
           tool("scroll", new JSONObject().put("direction", "down"));
           final int[] offset = {0};
           long scrollUntil = SystemClock.elapsedRealtime() + 5000;
@@ -1127,7 +1127,7 @@ public class AndroidAgentTests extends Instrumentation {
                 ApprovedCommands.get(app).pendingForChat(session[0].id).summary
                     .contains("touch should-not-exist.txt"),
                 "Approval does not identify exact command");
-            click("Odrzuć");
+            click("Deny");
             check(toolText(f.get(5, TimeUnit.SECONDS)).contains("DENIED"), "Denial not returned");
             check(
                 !new File(LocalShell.workspace(app), "should-not-exist.txt").exists(),
@@ -1156,7 +1156,7 @@ public class AndroidAgentTests extends Instrumentation {
                         !BuddyService.get().bubble().approvalOverlayVisible(),
                         "Overlay obscures native chat approval"));
             shot("09-command-approval");
-            click("Zatwierdź");
+            click("Approve");
             check(
                 toolText(f.get(10, TimeUnit.SECONDS)).contains("MCP_APPROVED"),
                 "Approved command missing output");
@@ -1201,11 +1201,11 @@ public class AndroidAgentTests extends Instrumentation {
         "Claude UI: choose backend on home",
         () -> {
           launch(MainActivity.class);
-          click("Wybierz agenta");
+          click("Choose agent");
           dialogClick("Claude Code");
           check("claude".equals(Prefs.backend(app)), "Backend selection not saved");
           check(
-              "Napisz do Claude Code"
+              "Message Claude Code"
                   .contentEquals(edit(current.getWindow().getDecorView()).getHint()),
               "Composer uses wrong backend");
           shot("10-home-claude");
@@ -1223,7 +1223,7 @@ public class AndroidAgentTests extends Instrumentation {
     test(
         "Claude UI: real model picker selects Sonnet alias",
         () -> {
-          click("Wybierz model");
+          click("Choose model");
           check(
               ui.getRootInActiveWindow()
                       .findAccessibilityNodeInfosByText("Model Claude Code")
@@ -1239,9 +1239,9 @@ public class AndroidAgentTests extends Instrumentation {
         "Claude UI: local status and unsigned model gate",
         () -> {
           main(() -> edit(current.getWindow().getDecorView()).setText("/status"));
-          click("Wyślij");
+          click("Send");
           check(
-              claude[0].messages.stream().anyMatch(m -> m.text.contains("Odczyt lokalny")),
+              claude[0].messages.stream().anyMatch(m -> m.text.contains("Read locally")),
               "Claude lost local diagnostics");
           int before = claude[0].messages.size();
           final String[] error = {null};
@@ -1257,7 +1257,7 @@ public class AndroidAgentTests extends Instrumentation {
         "Claude UI: backend switch keeps histories separate",
         () -> {
           launch(MainActivity.class);
-          click("Wybierz agenta");
+          click("Choose agent");
           dialogClick("Codex");
           openHomeChat();
           Sessions.Session codex = ChatHub.get(app).sessions.current;
@@ -1283,7 +1283,7 @@ public class AndroidAgentTests extends Instrumentation {
           do {
             main(
                 () -> {
-                  View v = find("Odpowiedź na żywo");
+                  View v = find("Live response");
                   live[0] =
                       v instanceof Markdown.Content && ((Markdown.Content) v).getChildCount() > 0
                           ? ((Markdown.Content) v).source()
@@ -1312,7 +1312,7 @@ public class AndroidAgentTests extends Instrumentation {
                   + " gęślą\"}");
           event(claude[0], "{\"type\":\"buddy_done\"}");
           check(
-              claude[0].streamText.isEmpty() && find("Odpowiedź na żywo") == null,
+              claude[0].streamText.isEmpty() && find("Live response") == null,
               "Partial view remains");
           long count =
               new Sessions(app)
@@ -1402,7 +1402,7 @@ public class AndroidAgentTests extends Instrumentation {
     main(() -> uiChat[0] = ChatHub.get(app).create("codex"));
     launch(new Intent(app, ChatActivity.class).putExtra("id", uiChat[0].id));
     main(() -> edit(current.getWindow().getDecorView()).setText("/status"));
-    click("Wyślij");
+    click("Send");
     test("chat UI: long tool histories retain bounded rows and recent messages",
         () -> UiRegressionChecks.toolLogRemainsBounded(this, current));
     test("chat UI: attachment import survives recreation and gates Send",
@@ -1427,14 +1427,14 @@ public class AndroidAgentTests extends Instrumentation {
         SystemClock.sleep(700);
         launch(MainActivity.class);
         main(() -> {
-          View send = find("Rozpocznij rozmowę");
+          View send = find("Start chat");
           android.graphics.Rect visible = new android.graphics.Rect();
           check(send != null && send.getGlobalVisibleRect(visible)
               && visible.height() == send.getHeight(), "Composer action clipped in landscape");
-          View heading = find("Co dziś zrobimy?");
+          View heading = find("What are we doing today?");
           check(heading != null && heading.getGlobalVisibleRect(visible)
               && visible.height() == heading.getHeight(), "Home heading clipped in landscape");
-          View firstAction = find("Sprawdź telefon");
+          View firstAction = find("Check phone");
           check(firstAction != null, "First device action missing");
           View card = (View) firstAction.getParent().getParent();
           check(card.getGlobalVisibleRect(visible) && visible.height() == card.getHeight(),

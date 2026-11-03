@@ -48,7 +48,7 @@ public class DockerMigrationTests extends Instrumentation {
             fixture.previous.getJSONObject("files").put("base.qcow2.gz", "incompatible");
             write(new File(fixture.vm.directory, "installed-manifest"), fixture.previous.toString());
             try { fixture.install(0); throw new AssertionError("Incompatible backing accepted"); }
-            catch (IOException expected) { check(expected.getMessage().contains("bazę dysku"), "Wrong rejection"); }
+            catch (IOException expected) { check(expected.getMessage().contains("disk base"), "Wrong rejection"); }
             check("old-backing".equals(read(new File(fixture.vm.directory, "base.qcow2"))), "Backing changed after rejection");
             check("old-user-data".equals(read(new File(fixture.vm.directory, "user.qcow2"))), "User disk changed after rejection");
             check("old-initramfs".equals(read(new File(fixture.vm.directory, "initramfs-virt"))), "Runtime changed after rejection");
@@ -57,7 +57,7 @@ public class DockerMigrationTests extends Instrumentation {
             Fixture fixture = fixture("unknown");
             check(new File(fixture.vm.directory, "installed-manifest").delete(), "Cannot remove fixture marker");
             try { fixture.install(0); throw new AssertionError("Unknown disk accepted"); }
-            catch (IOException expected) { check(expected.getMessage().contains("potwierdzić wersji"), "Wrong rejection"); }
+            catch (IOException expected) { check(expected.getMessage().contains("confirm the saved disk version"), "Wrong rejection"); }
             check("old-user-data".equals(read(new File(fixture.vm.directory, "user.qcow2"))), "Unknown disk changed");
             check("retained-export".equals(read(fixture.export)), "Unknown disk export changed");
         });

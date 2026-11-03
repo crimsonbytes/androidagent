@@ -260,7 +260,7 @@ mkdir -p "$S"
 event() { jq -cn --arg type "$1" --arg text "${2:-}" --arg s "$SID" --arg r "$RUN" --arg active "${3:-}" \
   '{type:$type,text:$text,buddy_session:$s,buddy_run:$r} + (if $active != "" then {active_run:$active} else {} end)' | post; }
 # Tool results reach the app as text only: image data and the CLI's raw tool_use_result copy are
-# dropped, so a screenshot does not post megabytes of base64 for a "[obraz]" placeholder.
+# dropped, so a screenshot does not post megabytes of base64 for a "[image]" placeholder.
 tag() { jq -c --arg s "$SID" --arg r "$RUN" '(if .type == "user" then del(.tool_use_result)
     | (.message.content[]? | objects | select(.type == "tool_result") | .content | arrays | .[] | objects
        | select(.type == "image")) |= {type:"image"} else . end) + {buddy_session:$s,buddy_run:$r}' 2>/dev/null; }
@@ -277,7 +277,7 @@ if ! mkdir "$S/run-lock" 2>/dev/null; then
     rmdir "$S/run-lock" 2>/dev/null || true
     mkdir "$S/run-lock" 2>/dev/null || exit 1
   else
-    event buddy_error "Poprzednie zadanie w tej rozmowie nadal trwa." "$(cat "$S/run" 2>/dev/null)"
+    event buddy_error "The previous task in this chat is still running." "$(cat "$S/run" 2>/dev/null)"
     event buddy_done
     exit 0
   fi
@@ -303,7 +303,7 @@ find "$S" -maxdepth 1 -name 'cancel-*' -mtime +1 -delete 2>/dev/null || true
 
 if ! have "$BACKEND"; then
   if [ "${ANDROIDAGENT_EMBEDDED:-0}" = 1 ]; then
-    event buddy_error "Wybrany klient nie jest zainstalowany. Otwórz panel środowiska w androidagent."
+    event buddy_error "The selected client isn't installed. Open the environment panel in androidagent."
   else
     event buddy_error "The selected agent isn't installed in Termux."
   fi
@@ -318,16 +318,16 @@ if [ -n "${FILES:-}" ]; then
   IFS=, read -ra ids <<< "$FILES"
   for id in "${ids[@]}"; do
     if ! [[ "$id" =~ ^[A-Za-z0-9._-]{1,120}$ && "$id" != *..* && "$id" != . ]]; then
-      event buddy_error "Nieprawidłowy identyfikator załącznika. Dołącz plik ponownie."
+      event buddy_error "Invalid attachment ID. Attach the file again."
       exit 0
     fi
-    DOWNLOAD_TMP=$(mktemp "$S/.attachment.XXXXXX") || { event buddy_error "Nie można przygotować pliku załącznika."; exit 0; }
+    DOWNLOAD_TMP=$(mktemp "$S/.attachment.XXXXXX") || { event buddy_error "Can't prepare the attachment file."; exit 0; }
     if curl -s -f -m 120 -H "Authorization: Bearer $TOKEN" "$URL/file/$id" -o "$DOWNLOAD_TMP" && mv -T -- "$DOWNLOAD_TMP" "$S/files/$id"; then
       DOWNLOAD_TMP=""
       ATT+=("$S/files/$id")
       case "${id,,}" in *.jpg|*.jpeg|*.png|*.webp|*.gif) IMGS+=("$S/files/$id") ;; esac
     else
-      event buddy_error "Nie udało się pobrać załącznika ${id#*_} z aplikacji."
+      event buddy_error "Couldn't get attachment ${id#*_} from the app."
       exit 0
     fi
   done
@@ -424,7 +424,7 @@ stream_codex() {
       elif .type == "item.completed" and .item.type == "mcp_tool_call" then
         result($id;
           (if .item.error != null then (.item.error.message // "error")
-           else [.item.result.content[]? | if .type == "text" then (.text // "") elif .type == "image" then "[obraz]" else empty end]
+           else [.item.result.content[]? | if .type == "text" then (.text // "") elif .type == "image" then "[image]" else empty end]
                 | join("\n") end);
           (.item.error != null or .item.status == "failed"))
       elif .type == "item.started" and .item.type == "command_execution" then
@@ -452,9 +452,9 @@ stream_codex() {
       elif .type == "turn.completed" then
         {type:"result", subtype:"success", result:""}
       elif .type == "turn.failed" then
-        {type:"result", subtype:"error", is_error:true, result:("Codex: " + (.error.message // "zadanie nie powiodło się"))}
+        {type:"result", subtype:"error", is_error:true, result:("Codex: " + (.error.message // "task failed"))}
       elif .type == "error" then
-        {type:"buddy_error", text:("Codex: " + (.message // "błąd"))}
+        {type:"buddy_error", text:("Codex: " + (.message // "error"))}
       else empty end) | . + {buddy_session:$s,buddy_run:$r}' 2>/dev/null | while IFS= read -r ev; do printf '%s' "$ev" | post; done
   done
 }
@@ -463,7 +463,7 @@ stream_codex() {
 (
   if [ "$BACKEND" = codex ]; then
     if ! have codex; then
-      if [ "${ANDROIDAGENT_EMBEDDED:-0}" = 1 ]; then event buddy_error "Codex nie jest zainstalowany. Otwórz panel środowiska w androidagent."
+      if [ "${ANDROIDAGENT_EMBEDDED:-0}" = 1 ]; then event buddy_error "Codex isn't installed. Open the environment panel in androidagent."
       else event buddy_error "Codex isn't installed in Termux."; fi
       exit 0
     fi
@@ -472,7 +472,7 @@ stream_codex() {
     name=Codex
   else
     if ! have claude; then
-      if [ "${ANDROIDAGENT_EMBEDDED:-0}" = 1 ]; then event buddy_error "Claude Code nie jest zainstalowany. Otwórz panel środowiska w androidagent."
+      if [ "${ANDROIDAGENT_EMBEDDED:-0}" = 1 ]; then event buddy_error "Claude Code isn't installed. Open the environment panel in androidagent."
       else event buddy_error "Claude Code isn't installed in Termux."; fi
       exit 0
     fi
@@ -484,7 +484,7 @@ stream_codex() {
   # discards context and can repeat side effects from a partially completed turn.
   if [ "$status" -ne 0 ]; then
     detail=$(tail -c 400 "$S/last-error.log" 2>/dev/null)
-    event buddy_error "$name zakończył się błędem (kod $status)${detail:+: $detail}"
+    event buddy_error "$name exited with an error (code $status)${detail:+: $detail}"
   fi
 ) &
 wait $! 2>/dev/null

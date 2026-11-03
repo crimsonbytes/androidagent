@@ -67,8 +67,8 @@ final class ApprovedCommands {
             this.generic = generic;
             this.devOnly = devOnly;
             // The agent's own text is shown verbatim; only external callers get a provenance line.
-            String provenance = owner.startsWith("chat:") ? "" : "Żądanie zewnętrznego narzędzia.\n\n";
-            String question = generic ? "" : "Wykonać dokładnie tę komendę w lokalnym katalogu androidagent?\n\n";
+            String provenance = owner.startsWith("chat:") ? "" : "External tool request.\n\n";
+            String question = generic ? "" : "Run exactly this command in the local androidagent directory?\n\n";
             summary = provenance + question + text;
             this.framing = provenance.length() + question.length() + Math.max(0, Math.min(framing, text.length()));
         }
@@ -91,11 +91,11 @@ final class ApprovedCommands {
     /** Native instrumentation can supply its real host-issued run credential without HTTP thread locals. */
     JSONObject run(String caller, String command, String credential) throws Exception {
         if (Looper.myLooper() == Looper.getMainLooper())
-            throw new IllegalStateException("Komenda wymaga osobnego wątku narzędzia.");
-        if (!Prefs.devMode(app)) throw new IllegalStateException("Włącz tryb programisty w ustawieniach androidagent.");
-        if (command == null || command.trim().isEmpty()) throw new IllegalArgumentException("Wpisz komendę");
-        if (command.length() > 8192) throw new IllegalArgumentException("Komenda jest za długa");
-        if (caller == null) throw new IllegalArgumentException("Brak właściciela komendy");
+            throw new IllegalStateException("The command requires a separate tool thread.");
+        if (!Prefs.devMode(app)) throw new IllegalStateException("Turn on developer mode in androidagent settings.");
+        if (command == null || command.trim().isEmpty()) throw new IllegalArgumentException("Enter a command");
+        if (command.length() > 8192) throw new IllegalArgumentException("Command is too long");
+        if (caller == null) throw new IllegalArgumentException("Command owner is missing");
         Pending pending = new Pending(caller, command, credential);
         register(pending);
         try {
@@ -141,11 +141,11 @@ final class ApprovedCommands {
 
     String confirm(String caller, String summary, String credential) throws Exception {
         if (Looper.myLooper() == Looper.getMainLooper())
-            throw new IllegalStateException("Prośba o zgodę wymaga osobnego wątku narzędzia.");
+            throw new IllegalStateException("An approval request requires a separate tool thread.");
         if (summary == null || summary.trim().isEmpty())
             throw new IllegalArgumentException("summary is required: describe exactly what you are about to do.");
         if (summary.length() > 8192) throw new IllegalArgumentException("summary is too long (max 8192 characters).");
-        if (caller == null) throw new IllegalArgumentException("Brak właściciela prośby");
+        if (caller == null) throw new IllegalArgumentException("Request has no owner");
         Pending pending = new Pending(caller, summary, credential, true, false, 0);
         register(pending);
         try {
@@ -186,9 +186,9 @@ final class ApprovedCommands {
 
     boolean approve(String caller, String question, int framing, String credential) throws Exception {
         if (Looper.myLooper() == Looper.getMainLooper())
-            throw new IllegalStateException("Zgoda wymaga osobnego wątku narzędzia.");
-        if (!Prefs.devMode(app)) throw new IllegalStateException("Włącz tryb programisty w ustawieniach androidagent.");
-        if (caller == null) throw new IllegalArgumentException("Brak właściciela żądania");
+            throw new IllegalStateException("Approval requires a separate tool thread.");
+        if (!Prefs.devMode(app)) throw new IllegalStateException("Turn on developer mode in androidagent settings.");
+        if (caller == null) throw new IllegalArgumentException("Request has no owner");
         // Developer mode is re-checked while it waits, like run_command: turning it off cancels the request.
         Pending pending = new Pending(caller, question, credential, true, true, framing);
         register(pending);
@@ -210,7 +210,7 @@ final class ApprovedCommands {
         synchronized (this) {
             McpHost.get(app).requireCaller(pending.owner);
             if (!authorized(pending)) throw new SecurityException("This request's tool access has ended.");
-            if (requests.size() >= 32) throw new IllegalStateException("Za dużo oczekujących próśb. Zatrzymaj poprzednie zadania.");
+            if (requests.size() >= 32) throw new IllegalStateException("Too many pending requests. Stop earlier tasks.");
             requests.put(pending.id, pending);
         }
         changed();
@@ -366,7 +366,7 @@ final class ApprovedCommands {
             String body = first.summary.length() > 600 ? first.summary.substring(0, 599) + "…" : first.summary;
             Notification n = new Notification.Builder(app, ACTION_CHANNEL)
                     .setSmallIcon(R.drawable.ic_launcher_monochrome)
-                    .setContentTitle(first.generic ? "Agent czeka na Twoją zgodę" : "Agent chce wykonać komendę")
+                    .setContentTitle(first.generic ? "Agent is waiting for your approval" : "Agent wants to run a command")
                     .setContentText(body)
                     .setStyle(new Notification.BigTextStyle().bigText(body))
                     .setCategory(Notification.CATEGORY_REMINDER)
@@ -381,9 +381,9 @@ final class ApprovedCommands {
     }
 
     static void createActionChannel(Context c) {
-        NotificationChannel channel = new NotificationChannel(ACTION_CHANNEL, "Agent · wymaga Twojej akcji",
+        NotificationChannel channel = new NotificationChannel(ACTION_CHANNEL, "Agent · needs your action",
                 NotificationManager.IMPORTANCE_HIGH);
-        channel.setDescription("Prośby agenta o zgodę i akcje, które musisz wykonać sam.");
+        channel.setDescription("Agent approval requests and actions you must perform yourself.");
         c.getSystemService(NotificationManager.class).createNotificationChannel(channel);
     }
 

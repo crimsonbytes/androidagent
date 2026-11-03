@@ -50,20 +50,20 @@ public class DeviceActivity extends Screen {
     LinearLayout root = column(this);
     root.setBackgroundColor(BG);
     root.setFitsSystemWindows(true);
-    TextView refresh = barAction(this, "Odśwież");
+    TextView refresh = barAction(this, "Refresh");
     refresh.setOnClickListener(
         v -> {
           signature = "";
           refresh();
           Motion.pop(v, 0);
         });
-    root.addView(topBar(this, "Twój telefon", "~/telefon · odczyt lokalny", refresh), full());
+    root.addView(topBar(this, "Your phone", "~/phone · local readout", refresh), full());
     ScrollView scroll = new ScrollView(this);
     scroll.setClipToPadding(false);
     LinearLayout content = ToolUi.body(this);
 
     // ---------------------------------------------------------------- hero
-    LinearLayout hero = terminalBox(this, "urządzenie", ACCENT);
+    LinearLayout hero = terminalBox(this, "device", ACCENT);
     model = title(this, Build.MANUFACTURER + " " + Build.MODEL, 20);
     model.setTypeface(sans(this, 650));
     hero.addView(model, full());
@@ -77,7 +77,7 @@ public class DeviceActivity extends Screen {
     // ---------------------------------------------------------------- battery
     LinearLayout battery = card(this);
     LinearLayout head = row(this);
-    head.addView(ToolUi.caption(this, "Bateria"), weight1());
+    head.addView(ToolUi.caption(this, "Battery"), weight1());
     batteryState = badge(this, "", MUTED);
     head.addView(batteryState, wrap());
     battery.addView(head, full());
@@ -93,11 +93,11 @@ public class DeviceActivity extends Screen {
     LinearLayout pair = row(this);
     pair.setGravity(android.view.Gravity.TOP);
     LinearLayout ram = card(this), disk = card(this);
-    ramValue = metric(ram, "Pamięć RAM");
+    ramValue = metric(ram, "RAM");
     ramSub = sub(ram);
     ramMeter = new ToolUi.Meter(this, MUTED);
     ram.addView(ramMeter, ToolUi.meterParams(this, 6, 10));
-    diskValue = metric(disk, "Miejsce");
+    diskValue = metric(disk, "Storage");
     diskSub = sub(disk);
     diskMeter = new ToolUi.Meter(this, MUTED);
     disk.addView(diskMeter, ToolUi.meterParams(this, 6, 10));
@@ -109,10 +109,10 @@ public class DeviceActivity extends Screen {
 
     // ---------------------------------------------------------------- status rows
     LinearLayout statuses = ToolUi.group(this);
-    network = new ToolUi.Status(this, "Połączenie");
-    control = new ToolUi.Status(this, "Sterowanie ekranem");
-    runtime = new ToolUi.Status(this, "Środowisko agentów");
-    uptime = new ToolUi.Status(this, "Czas działania");
+    network = new ToolUi.Status(this, "Connection");
+    control = new ToolUi.Status(this, "Screen control");
+    runtime = new ToolUi.Status(this, "Agent environment");
+    uptime = new ToolUi.Status(this, "Uptime");
     ToolUi.add(statuses, network.view);
     ToolUi.add(statuses, control.view);
     ToolUi.add(statuses, runtime.view);
@@ -130,19 +130,19 @@ public class DeviceActivity extends Screen {
     TextView detail =
         ToolUi.note(
             this,
-            "Komendy wykonują się na telefonie z uprawnieniami androidagent. Pliki zapisujesz w"
-                + " jego katalogu roboczym. Pełny terminal i klienci agentów są dostępni we wbudowanym środowisku.",
+            "Commands run on the phone with androidagent's permissions. Files are saved in"
+                + " its working directory. The full terminal and agent clients are available in the built-in environment.",
             13);
     content.addView(detail, full());
 
-    TextView fieldLabel = ToolUi.caption(this, "Komenda powłoki");
+    TextView fieldLabel = ToolUi.caption(this, "Shell command");
     fieldLabel.setPadding(dp(this, 20), dp(this, 14), dp(this, 20), dp(this, 8));
     content.addView(fieldLabel, full());
-    command = input(this, "Komenda powłoki", true);
+    command = input(this, "Shell command", true);
     command.setSingleLine(true);
     command.setText("id; uname -a");
     command.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-    command.setContentDescription("Komenda powłoki");
+    command.setContentDescription("Shell command");
     command.setImeOptions(EditorInfo.IME_ACTION_GO | EditorInfo.IME_FLAG_NO_FULLSCREEN);
     command.setOnEditorActionListener(
         (v, action, event) -> {
@@ -180,7 +180,7 @@ public class DeviceActivity extends Screen {
     chipP.topMargin = dp(this, 10);
     content.addView(chipScroll, chipP);
 
-    run = button(this, "Uruchom komendę", true);
+    run = button(this, "Run command", true);
     run.setOnClickListener(
         v -> {
           if (busy) {
@@ -193,15 +193,15 @@ public class DeviceActivity extends Screen {
 
     output = terminalText(this, "");
     output.setMinHeight(dp(this, 140));
-    output.setText(style("$ Gotowy. Katalog: workspace/"));
+    output.setText(style("$ Ready. Directory: workspace/"));
     content.addView(output, sideParams(12));
-    TextView hint = monoText(this, "limit 10 s · wynik do 32 KB · bez roota", 11, FAINT);
+    TextView hint = monoText(this, "limit 10 s · output up to 32 KB · no root", 11, FAINT);
     hint.setPadding(dp(this, 20), dp(this, 8), dp(this, 20), dp(this, 6));
     content.addView(hint, full());
 
     LinearLayout more = ToolUi.group(this);
     ToolUi.Row setup =
-        new ToolUi.Row(this, R.drawable.ms_terminal, "Otwórz środowisko i klientów", "Pełny terminal · Codex · Claude Code", true)
+        new ToolUi.Row(this, R.drawable.ms_terminal, "Open environment and clients", "Full terminal · Codex · Claude Code", true)
             .onClick(v -> EmbeddedRuntime.open(this));
     ToolUi.add(more, setup.view);
     LinearLayout.LayoutParams moreP = cardParams(this);
@@ -267,30 +267,30 @@ public class DeviceActivity extends Screen {
       if (sig.equals(signature)) return;
       signature = sig;
       ToolUi.setText(model, s.getString("model"));
-      ToolUi.setText(system, "Android " + s.getString("android") + " · API " + s.getInt("api") + " · bez roota");
+      ToolUi.setText(system, "Android " + s.getString("android") + " · API " + s.getInt("api") + " · no root");
       int level = s.getInt("battery_percent");
       boolean charging = s.getBoolean("charging");
       int color = level < 0 ? FAINT : level < 20 ? ERR : level < 50 ? WARN : OK;
       ToolUi.setText(batteryValue, level < 0 ? "—" : level + "%");
-      ToolUi.setText(batteryState, charging ? "ładowanie" : "na baterii");
+      ToolUi.setText(batteryState, charging ? "charging" : "on battery");
       batteryState.setTextColor(charging ? OK : MUTED);
       batteryState.setBackground(rounded(this, Theme.withAlpha(charging ? OK : MUTED, 0x22), 6));
       batteryMeter.set(level < 0 ? 0 : level / 100f, color);
-      batteryMeter.setContentDescription("Bateria " + level + "%");
+      batteryMeter.setContentDescription("Battery " + level + "%");
       long ramFree = s.getLong("ram_available_bytes"), ramTotal = s.optLong("ram_total_bytes", 0);
       ToolUi.setText(ramValue, DeviceState.gb(ramFree));
-      ToolUi.setText(ramSub, ramTotal > 0 ? "wolne z " + DeviceState.gb(ramTotal) : "wolne");
+      ToolUi.setText(ramSub, ramTotal > 0 ? "free of " + DeviceState.gb(ramTotal) : "free");
       ramMeter.set(used(ramFree, ramTotal), usage(used(ramFree, ramTotal)));
       long diskFree = s.getLong("storage_available_bytes"), diskTotal = s.optLong("storage_total_bytes", 0);
       ToolUi.setText(diskValue, DeviceState.gb(diskFree));
-      ToolUi.setText(diskSub, diskTotal > 0 ? "wolne z " + DeviceState.gb(diskTotal) : "wolne");
+      ToolUi.setText(diskSub, diskTotal > 0 ? "free of " + DeviceState.gb(diskTotal) : "free");
       diskMeter.set(used(diskFree, diskTotal), usage(used(diskFree, diskTotal)));
       String net = s.getString("network");
       network.set(net, "offline".equals(net) ? ERR : OK);
       boolean screen = s.getBoolean("accessibility_connected");
-      control.set(screen ? "Aktywne" : "Wyłączone", screen ? OK : FAINT);
+      control.set(screen ? "Active" : "Off", screen ? OK : FAINT);
       boolean ready = s.getBoolean("runtime_ready"), preparing = s.getBoolean("runtime_busy");
-      runtime.set(ready ? "Gotowe" : preparing ? "Przygotowywanie" : "Nieprzygotowane", ready ? OK : preparing ? ACCENT : FAINT);
+      runtime.set(ready ? "Ready" : preparing ? "Preparing" : "Not set up", ready ? OK : preparing ? ACCENT : FAINT);
       runtime.dot.setPulsing(preparing);
       ToolUi.setVisible(error, false);
     } catch (Exception e) {
@@ -322,10 +322,10 @@ public class DeviceActivity extends Screen {
       boolean ok = full.startsWith("\n[exit 0]", exit) || full.startsWith("\n[exit 0 ", exit);
       sb.setSpan(new ForegroundColorSpan(AnsiText.PALETTE[ok ? 2 : 1]), exit + 1, full.length(), flags);
     }
-    int failed = full.indexOf("\n\nBłąd: ");
+    int failed = full.indexOf("\n\nError: ");
     if (failed >= 0) sb.setSpan(new ForegroundColorSpan(AnsiText.PALETTE[1]), failed + 2, full.length(), flags);
-    if (full.endsWith("Wykonywanie…"))
-      sb.setSpan(new ForegroundColorSpan(CODE_MUTED), full.length() - "Wykonywanie…".length(), full.length(), flags);
+    if (full.endsWith("Running…"))
+      sb.setSpan(new ForegroundColorSpan(CODE_MUTED), full.length() - "Running…".length(), full.length(), flags);
     return sb;
   }
 
@@ -336,11 +336,11 @@ public class DeviceActivity extends Screen {
       return;
     }
     busy = true;
-    run.setText("Zatrzymaj");
+    run.setText("Stop");
     run.setTextColor(ERR);
     run.setBackground(outlined(this, ERR_SOFT, 10, Theme.withAlpha(ERR, 0x40), 1));
     command.setEnabled(false);
-    output.setText(style("$ " + cmd + "\n\nWykonywanie…"));
+    output.setText(style("$ " + cmd + "\n\nRunning…"));
     shell = new LocalShell();
     LocalShell task = shell;
     new Thread(
@@ -349,7 +349,7 @@ public class DeviceActivity extends Screen {
               try {
                 result = task.run(getApplicationContext(), cmd).display();
               } catch (Exception e) {
-                result = "Błąd: " + e.getMessage();
+                result = "Error: " + e.getMessage();
               }
               final String done = result;
               runOnUiThread(
@@ -357,7 +357,7 @@ public class DeviceActivity extends Screen {
                     if (isDestroyed()) return;
                     busy = false;
                     command.setEnabled(true);
-                    run.setText("Uruchom komendę");
+                    run.setText("Run command");
                     run.setTextColor(ON_ACCENT);
                     run.setBackground(rounded(this, ACCENT, 10));
                     output.setText(style("$ " + cmd + "\n\n" + done));

@@ -134,7 +134,7 @@ final class PhoneTools implements ToolProviders.Provider {
         if (nm == null || !nm.areNotificationsEnabled()) return false;
         try {
             NotificationChannel ch = new NotificationChannel(STATUS_CHANNEL, "Agent", NotificationManager.IMPORTANCE_LOW);
-            ch.setDescription("Krótkie komunikaty o postępie od agenta (narzędzie notify).");
+            ch.setDescription("Short progress messages from the agent (notify tool).");
             nm.createNotificationChannel(ch);
             if (nm.getNotificationChannel(STATUS_CHANNEL).getImportance() == NotificationManager.IMPORTANCE_NONE) return false;
             String chat = caller != null && caller.startsWith("chat:") ? caller.substring(5) : null;
@@ -211,7 +211,7 @@ final class PhoneTools implements ToolProviders.Provider {
             boolean offered = offerLaunch(app, intent, what);
             throw new IllegalStateException("Android does not let androidagent open other screens while it is in the "
                     + "background and screen control (Accessibility) is off, so " + what + " was not opened. "
-                    + (offered ? "A notification \"Dotknij, aby otworzyć\" was posted: ask the user to tap it, or to "
+                    + (offered ? "A notification \"Tap to open\" was posted: ask the user to tap it, or to "
                     + "return to androidagent and let you retry."
                     : "Ask the user to return to the androidagent app (or enable screen control) and retry."));
         }
@@ -241,8 +241,8 @@ final class PhoneTools implements ToolProviders.Provider {
                     PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             Notification n = new Notification.Builder(app, ApprovedCommands.ACTION_CHANNEL)
                     .setSmallIcon(R.drawable.ic_launcher_monochrome)
-                    .setContentTitle("Agent chce otworzyć: " + what)
-                    .setContentText("Dotknij, aby otworzyć.")
+                    .setContentTitle("Agent wants to open: " + what)
+                    .setContentText("Tap to open.")
                     .setCategory(Notification.CATEGORY_REMINDER)
                     .setContentIntent(tap)
                     .setAutoCancel(true)
@@ -364,14 +364,14 @@ final class PhoneTools implements ToolProviders.Provider {
         long before = installedVersion(app, pkg);
         long need = minVersion > 0 ? minVersion : (before < 0 ? 0 : before + 1);
         BuddyService svc = BuddyService.get();
-        if (svc != null) svc.showStatus(before < 0 ? "Dotknij Zainstaluj, potem potwierdź" : "Dotknij Aktualizuj, potem potwierdź");
+        if (svc != null) svc.showStatus(before < 0 ? "Tap Install, then confirm" : "Tap Update, then confirm");
         DeviceTools.nudge(app);
         long start = System.currentTimeMillis(), lastSeen = start;
         while (System.currentTimeMillis() - start < timeoutS * 1000L) {
             long v = installedVersion(app, pkg);
             if (v >= 0 && v >= need) {
                 svc = BuddyService.get();
-                if (svc != null) svc.showStatus("Zainstalowano");
+                if (svc != null) svc.showStatus("Installed");
                 return "Installed " + pkg + " (versionCode " + v + "). The user confirmed the install.";
             }
             Boolean onScreen = installerOnScreen();

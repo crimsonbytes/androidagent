@@ -166,7 +166,7 @@ public final class EmbeddedRuntimeTests extends Instrumentation {
                 while (SystemClock.elapsedRealtime() < until && (AgentService.active || !host.running())) SystemClock.sleep(50);
                 check(!AgentService.active && host.running(), "Temporary listening host fixture was not established");
                 terminal = (TerminalActivity) startActivitySync(new Intent(app, TerminalActivity.class).putExtra("mode", "shell").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                awaitView(terminal, "Wyślij", 60000, true);
+                awaitView(terminal, "Send", 60000, true);
                 until = SystemClock.elapsedRealtime() + 15000;
                 while (SystemClock.elapsedRealtime() < until && !agentForeground()) SystemClock.sleep(50);
                 check(AgentService.active && agentForeground(), "Existing socket skipped the lasting AgentService foreground owner");
@@ -178,7 +178,7 @@ public final class EmbeddedRuntimeTests extends Instrumentation {
                     EditText input = (EditText) findInput(opened.getWindow().getDecorView());
                     check(input != null, "Terminal command input missing");
                     input.setText("printf '" + marker + "\\n'; exit 0");
-                    findLabel(opened.getWindow().getDecorView(), "Wyślij").performClick();
+                    findLabel(opened.getWindow().getDecorView(), "Send").performClick();
                 });
                 awaitText(terminal, marker, 60000);
                 awaitText(terminal, "[exit 0]", 60000);
@@ -191,13 +191,13 @@ public final class EmbeddedRuntimeTests extends Instrumentation {
             if (Build.VERSION.SDK_INT >= 33) ui.grantRuntimePermission(app.getPackageName(), android.Manifest.permission.POST_NOTIFICATIONS);
             TerminalActivity terminal = (TerminalActivity) startActivitySync(new Intent(app, TerminalActivity.class).putExtra("mode", "shell").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             try {
-                awaitView(terminal, "Wyślij", 60000, true);
+                awaitView(terminal, "Send", 60000, true);
                 String marker = "UI_TERMINAL_" + runId;
                 runOnMainSync(() -> {
                     EditText input = (EditText) findInput(terminal.getWindow().getDecorView());
                     check(input != null, "Terminal command input missing");
                     input.setText("printf '" + marker + "\\n'; exit 0");
-                    View send = findLabel(terminal.getWindow().getDecorView(), "Wyślij");
+                    View send = findLabel(terminal.getWindow().getDecorView(), "Send");
                     check(send != null && send.isEnabled(), "Terminal did not become interactive");
                     send.performClick();
                 });
@@ -350,17 +350,17 @@ public final class EmbeddedRuntimeTests extends Instrumentation {
                 // The verified-archive seam executes the real installer without
                 // the service's final UI state. Exercise that production worker
                 // from its button as well; verified clients need no download.
-                awaitView(settings, "Przygotuj wybranych agentów", 15000, true);
-                runOnMainSync(() -> findLabel(settings.getWindow().getDecorView(), "Przygotuj wybranych agentów").performClick());
-                awaitView(settings, "Wbudowany terminal gotowy", 30000, false);
+                awaitView(settings, "Set up selected agents", 15000, true);
+                runOnMainSync(() -> findLabel(settings.getWindow().getDecorView(), "Set up selected agents").performClick());
+                awaitView(settings, "Built-in terminal ready", 30000, false);
                 long until = SystemClock.elapsedRealtime() + 90000;
                 while (SystemClock.elapsedRealtime() < until && Prefs.helperCheckedAt(app) <= before) SystemClock.sleep(250);
                 check(Prefs.helperCheckedAt(app) > before, "Genuine helper ping did not reach the production callback server");
                 String installed = Prefs.helperStatus(app);
                 check(installed != null && installed.contains("codex") && installed.contains("claude"), "Callback did not report both actual clients: " + installed);
                 check("none".equals(Prefs.signedAgents(app)), "Setup claimed an account was signed in");
-                awaitView(settings, "Zaloguj Codex", 15000, true);
-                awaitView(settings, "Zaloguj Claude Code", 15000, true);
+                awaitView(settings, "Sign in to Codex", 15000, true);
+                awaitView(settings, "Sign in to Claude Code", 15000, true);
                 screenshot("runtime.png");
             } finally { runOnMainSync(settings::finish); waitForIdleSync(); }
         });

@@ -23,10 +23,10 @@ final class DeviceState {
             : nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
                 ? "Wi-Fi"
                 : nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                    ? "sieć komórkowa"
+                    ? "cellular network"
                     : nc.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
                         ? "Ethernet"
-                        : "połączono";
+                        : "connected";
     java.util.List<NetAddresses.Address> addresses = NetAddresses.read(c);
     org.json.JSONArray lan = new org.json.JSONArray();
     for (NetAddresses.Address a : NetAddresses.lan(addresses)) lan.put(a.ip);
@@ -54,7 +54,7 @@ final class DeviceState {
         .put("runtime_ready", EmbeddedRuntime.get(c).ready())
         .put("runtime_busy", EmbeddedRuntime.get(c).busy())
         .put("runtime_status", EmbeddedRuntime.get(c).status())
-        .put("shell_identity", "app UID " + android.os.Process.myUid() + " (bez roota)");
+        .put("shell_identity", "app UID " + android.os.Process.myUid() + " (no root)");
   }
 
   static String gb(long bytes) {
@@ -68,7 +68,7 @@ final class DeviceState {
       JSONObject a = all.getJSONObject(i);
       if (!a.optBoolean("lan")) continue;
       String type = a.optString("type");
-      s.append(s.length() == 0 ? "\nAdres w sieci lokalnej: " : ", ").append(a.optString("ip"))
+      s.append(s.length() == 0 ? "\nLocal network address: " : ", ").append(a.optString("ip"))
           .append(" (").append("wifi".equals(type) ? "Wi-Fi" : "hotspot".equals(type) ? "hotspot" : "Ethernet").append(')');
     }
     return s.toString();
@@ -79,26 +79,26 @@ final class DeviceState {
     return j.getString("model")
         + " · Android "
         + j.getString("android")
-        + "\n\nBateria: "
+        + "\n\nBattery: "
         + j.getInt("battery_percent")
         + "%"
-        + (j.getBoolean("charging") ? " · ładowanie" : "")
-        + "\nWolna pamięć RAM: "
+        + (j.getBoolean("charging") ? " · charging" : "")
+        + "\nFree RAM: "
         + gb(j.getLong("ram_available_bytes"))
         + " / "
         + gb(j.getLong("ram_total_bytes"))
-        + "\nWolne miejsce: "
+        + "\nFree space: "
         + gb(j.getLong("storage_available_bytes"))
-        + "\nSieć: "
+        + "\nNetwork: "
         + j.getString("network")
         + lanLine(j)
-        + "\nCzas działania: "
+        + "\nUptime: "
         + j.getLong("uptime_seconds") / 60
-        + " min\n\nSterowanie ekranem: "
-        + (j.getBoolean("accessibility_connected") ? "aktywne" : "wyłączone")
-        + "\nWbudowane środowisko: "
-        + (j.getBoolean("runtime_ready") ? "gotowe"
-            : j.getBoolean("runtime_busy") ? "przygotowywanie" : "wymaga przygotowania")
-        + "\n\nOdczyt lokalny · bez zapytania do modelu";
+        + " min\n\nScreen control: "
+        + (j.getBoolean("accessibility_connected") ? "active" : "off")
+        + "\nBuilt-in environment: "
+        + (j.getBoolean("runtime_ready") ? "ready"
+            : j.getBoolean("runtime_busy") ? "preparing" : "setup required")
+        + "\n\nRead locally · no model query";
   }
 }

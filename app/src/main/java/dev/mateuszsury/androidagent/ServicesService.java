@@ -107,7 +107,7 @@ public final class ServicesService extends Service {
 
     private Notification build(List<ServiceManager.Status> active) {
         NotificationManager nm = getSystemService(NotificationManager.class);
-        nm.createNotificationChannel(new NotificationChannel("services", "Usługi w tle", NotificationManager.IMPORTANCE_LOW));
+        nm.createNotificationChannel(new NotificationChannel("services", "Background services", NotificationManager.IMPORTANCE_LOW));
         PendingIntent open = PendingIntent.getActivity(this, NOTICE, new Intent(this, ServicesActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent stop = PendingIntent.getService(this, NOTICE + 1, new Intent(this, ServicesService.class).setAction(STOP_ALL),
@@ -118,21 +118,21 @@ public final class ServicesService extends Service {
             names.append(names.length() == 0 ? "" : " · ").append(st.def.name).append(port != 0 ? " :" + port : "");
             String url = st.urls.isEmpty() ? "" : st.urls.get(st.urls.size() - 1)[0];
             lines.append(lines.length() == 0 ? "" : "\n").append(st.def.name)
-                    .append(ServiceManager.STARTING.equals(st.state) ? " · uruchamianie" : "")
+                    .append(ServiceManager.STARTING.equals(st.state) ? " · starting" : "")
                     .append(url.isEmpty() ? "" : " · " + url);
         }
-        String title = active.isEmpty() ? "Usługi w tle" : "Usługi w tle: " + ServiceManager.runningLabel(active.size());
+        String title = active.isEmpty() ? "Background services" : "Background services: " + ServiceManager.runningLabel(active.size());
         return new Notification.Builder(this, "services")
                 .setSmallIcon(R.drawable.ms_terminal)
                 .setContentTitle(title)
-                .setContentText(names.length() == 0 ? "Zatrzymywanie…" : names.toString())
-                .setStyle(new Notification.BigTextStyle().bigText(lines.length() == 0 ? "Zatrzymywanie…" : lines.toString()))
+                .setContentText(names.length() == 0 ? "Stopping…" : names.toString())
+                .setStyle(new Notification.BigTextStyle().bigText(lines.length() == 0 ? "Stopping…" : lines.toString()))
                 .setContentIntent(open)
                 .setOngoing(true)
                 .setOnlyAlertOnce(true)
                 .setShowWhen(false)
                 .setCategory(Notification.CATEGORY_SERVICE)
-                .addAction(new Notification.Action.Builder(null, "Zatrzymaj wszystkie", stop).build())
+                .addAction(new Notification.Action.Builder(null, "Stop all", stop).build())
                 .build();
     }
 

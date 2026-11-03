@@ -15,7 +15,7 @@ final class LocalShell {
   static File workspace(Context c) {
     File f = new File(c.getFilesDir(), "workspace");
     if (!f.isDirectory() && !f.mkdirs())
-      throw new IllegalStateException("Nie można utworzyć katalogu roboczego");
+      throw new IllegalStateException("Cannot create the working directory");
     return f;
   }
 
@@ -31,13 +31,13 @@ final class LocalShell {
     }
 
     String display() {
-      return output + "\n\n[exit " + exitCode + (timedOut ? " · limit 10 s" : "") + "]";
+      return output + "\n\n[exit " + exitCode + (timedOut ? " · 10 s limit" : "") + "]";
     }
   }
 
   Result run(Context c, String command) throws Exception {
-    if (command.trim().isEmpty()) throw new IllegalArgumentException("Wpisz komendę");
-    if (command.length() > 8192) throw new IllegalArgumentException("Komenda jest za długa");
+    if (command.trim().isEmpty()) throw new IllegalArgumentException("Enter a command");
+    if (command.length() > 8192) throw new IllegalArgumentException("Command is too long");
     pidFile = File.createTempFile("shell-", ".pid", c.getCacheDir());
     ProcessBuilder pb =
         new ProcessBuilder(
@@ -83,7 +83,7 @@ final class LocalShell {
       synchronized (bytes) {
         output = new String(bytes.toByteArray(), StandardCharsets.UTF_8);
       }
-      if (truncated[0]) output += "\n[… wynik ograniczony do 32 KB]";
+      if (truncated[0]) output += "\n[… output truncated to 32 KB]";
       return new Result(output, !finished ? 124 : cancelled ? 130 : p.exitValue(), !finished);
     } finally {
       if (p != null && p.isAlive()) stop();

@@ -103,9 +103,9 @@ final class Spark extends View {
 
     /** Playful verbs, in the spirit of Claude Code's spinner. */
     static final String[] VERBS = {
-            "Myślę", "Kombinuję", "Analizuję", "Rozważam", "Główkuję", "Dumam", "Planuję", "Pichcę",
-            "Warzę", "Szlifuję", "Łączę kropki", "Przetwarzam", "Kminię", "Składam", "Wymyślam", "Przeliczam",
-            "Rozkminiam", "Klaruję", "Destyluję", "Tkam", "Doprawiam", "Mieszam", "Krystalizuję", "Ogarniam",
+            "Thinking", "Scheming", "Analyzing", "Considering", "Puzzling", "Musing", "Planning", "Cooking",
+            "Brewing", "Polishing", "Connecting dots", "Processing", "Pondering", "Assembling", "Inventing", "Calculating",
+            "Pondering", "Clarifying", "Distilling", "Weaving", "Seasoning", "Mixing", "Crystallizing", "Wrangling",
     };
 
     /**
@@ -145,7 +145,7 @@ final class Spark extends View {
             meta.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
             addView(meta, new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1));
             shimmer = new ShimmerAnimator(verb);
-            setContentDescription("Agent pracuje");
+            setContentDescription("Agent is working");
             update();
         }
 
@@ -185,7 +185,7 @@ final class Spark extends View {
         }
 
         private static boolean isGeneric(String s) {
-            return s.equals("Thinking…") || s.equals("Working…") || s.equals("Pracuję…") || s.equals("Myślę…");
+            return s.equals("Thinking…") || s.equals("Working…") || s.equals("Working…") || s.equals("Thinking…");
         }
 
         @Override protected void onAttachedToWindow() {

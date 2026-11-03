@@ -73,10 +73,10 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         LinearLayout root = column(this);
         root.setBackgroundColor(BG);
         root.setFitsSystemWindows(true);
-        LinearLayout live = RootHeader.live(this, "co 3 s", OK);
+        LinearLayout live = RootHeader.live(this, "every 3 s", OK);
         liveDot = (Ui.Dot) live.getChildAt(0);
-        live.setContentDescription("Odświeżanie co 3 sekundy");
-        root.addView(RootHeader.build(this, "Sesje", "procesy i historia agentów", live), full());
+        live.setContentDescription("Refreshing every 3 seconds");
+        root.addView(RootHeader.build(this, "Sessions", "agent processes and history", live), full());
         ScrollView scroll = new ScrollView(this);
         scroll.setVerticalScrollBarEnabled(false);
         LinearLayout list = column(this);
@@ -90,7 +90,7 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
 
         LinearLayout rh = row(this);
         rh.setPadding(0, 0, dp(this, 20), 0);
-        rh.addView(sectionLabel(this, "Działa teraz"));
+        rh.addView(sectionLabel(this, "Running now"));
         runCount = badge(this, "", OK);
         runCount.setVisibility(View.GONE);
         LinearLayout.LayoutParams rcp = wrap();
@@ -101,18 +101,18 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         running = column(this);
         running.setPadding(dp(this, 16), dp(this, 2), dp(this, 16), 0);
         list.addView(running, full());
-        running.addView(inlineNote("Sprawdzanie…", FAINT, true));
+        running.addView(inlineNote("Checking…", FAINT, true));
 
-        list.addView(sectionLabel(this, "Usługi w tle"));
+        list.addView(sectionLabel(this, "Background services"));
         services = servicesRow();
         LinearLayout.LayoutParams sp = full();
         sp.leftMargin = sp.rightMargin = dp(this, 16);
         list.addView(services, sp);
 
-        list.addView(sectionLabel(this, "Ostatnie"));
+        list.addView(sectionLabel(this, "Recent"));
         recent = column(this);
         list.addView(recent, full());
-        recent.addView(inlineNote("Wczytywanie…", FAINT, false));
+        recent.addView(inlineNote("Loading…", FAINT, false));
     }
 
     private LinearLayout services;
@@ -130,7 +130,7 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         r.addView(servicesDot);
         LinearLayout t = column(this);
         t.setPadding(dp(this, 10), 0, dp(this, 8), 0);
-        t.addView(single(title(this, "Serwery i procesy", 15)));
+        t.addView(single(title(this, "Servers and processes", 15)));
         servicesDetail = single(monoText(this, "", 12, MUTED));
         servicesDetail.setPadding(0, dp(this, 2), 0, 0);
         t.addView(servicesDetail);
@@ -145,8 +145,8 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
     private void updateServices() {
         if (servicesDetail == null) return;
         int total = ServiceManager.get(this).list().size(), active = ServiceManager.get(this).activeCount();
-        String detail = total == 0 ? "brak · agent może uruchomić np. serwer WWW"
-                : active + " działa · " + total + " " + (total == 1 ? "usługa" : total < 5 ? "usługi" : "usług");
+        String detail = total == 0 ? "none · the agent can start e.g. a web server"
+                : active + " running · " + total + " " + (total == 1 ? "service" : total < 5 ? "services" : "services");
         if (!detail.contentEquals(servicesDetail.getText())) servicesDetail.setText(detail);
         servicesDot.setColor(active > 0 ? OK : FAINT);
     }
@@ -195,7 +195,7 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         EmbeddedRuntime runtime = EmbeddedRuntime.get(this);
         String detail = !runtime.error().isEmpty() ? runtime.error()
                 : runtime.busy() ? runtime.status() + " · " + runtime.progress() + "%"
-                : "Przygotuj wbudowane środowisko w panelu Środowisko i konta.";
+                : "Set up the built-in environment in the Environment and accounts panel.";
         String signature = "env:" + detail;
         if (signature.equals(procsSignature)) return;
         procsSignature = signature;
@@ -204,10 +204,10 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         running.removeAllViews();
         LinearLayout card = card(this);
         card.setPadding(dp(this, 16), 0, dp(this, 16), dp(this, 16));
-        LinearLayout empty = emptyState(this, runtime.busy() ? "Środowisko się przygotowuje" : "Środowisko nie jest gotowe", detail);
+        LinearLayout empty = emptyState(this, runtime.busy() ? "Environment is being prepared" : "Environment not ready", detail);
         empty.setPadding(dp(this, 8), dp(this, 24), dp(this, 8), dp(this, 16));
         card.addView(empty, full());
-        Button open = button(this, runtime.busy() ? "Pokaż postęp" : "Otwórz środowisko", false);
+        Button open = button(this, runtime.busy() ? "Show progress" : "Open environment", false);
         open.setOnClickListener(v -> EmbeddedRuntime.open(this));
         card.addView(open, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(this, 44)));
         LinearLayout.LayoutParams cp = full();
@@ -217,7 +217,7 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         if (!"env".equals(recentSignature)) {
             recentSignature = "env";
             recent.removeAllViews();
-            recent.addView(inlineNote("Historia klientów będzie dostępna po przygotowaniu środowiska. Rozmowy androidagent pozostają zapisane.",
+            recent.addView(inlineNote("Client history will be available once the environment is set up. androidagent chats remain saved.",
                     FAINT, false));
         }
         updateCount(0);
@@ -306,7 +306,7 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         shownPids = new HashSet<>();
         clocks.clear();
         running.removeAllViews();
-        if (n == 0) running.addView(inlineNote("Nic teraz nie działa.", FAINT, false));
+        if (n == 0) running.addView(inlineNote("Nothing is running right now.", FAINT, false));
         for (final JSONObject p : sessions) {
             View card = processCard(p);
             LinearLayout.LayoutParams cp = full();
@@ -324,9 +324,9 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
             r.addView(icon(this, R.drawable.ms_terminal, FAINT, 18));
             LinearLayout col = column(this);
             col.setPadding(dp(this, 10), 0, 0, 0);
-            col.addView(text(this, "Usługa w tle Claude Code", 14, TEXT));
-            TextView meta = single(monoText(this, "pid " + d.optLong("pid") + " · od " + elapsed(d)
-                    + " · obsługuje sesje w tle", 12, FAINT));
+            col.addView(text(this, "Claude Code background service", 14, TEXT));
+            TextView meta = single(monoText(this, "pid " + d.optLong("pid") + " · up " + elapsed(d)
+                    + " · handles background sessions", 12, FAINT));
             meta.setPadding(0, dp(this, 2), 0, 0);
             col.addView(meta);
             r.addView(col, weight1());
@@ -357,9 +357,9 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         final boolean background = "background".equals(kind);
         String title = p.optString("title").trim();
         final String where = chat != null ? chat.label()
-                : !p.optString("buddy").isEmpty() ? "Usunięta rozmowa androidagent"
+                : !p.optString("buddy").isEmpty() ? "Deleted androidagent chat"
                 : !title.isEmpty() ? title
-                : background ? "Sesja w tle" : "Sesja w terminalu";
+                : background ? "Background session" : "Terminal session";
 
         LinearLayout card = card(this);
         LinearLayout first = row(this);
@@ -378,7 +378,7 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         LinearLayout tags = row(this);
         tags.setPadding(dp(this, 22), dp(this, 8), 0, 0);
         tags.addView(badge(this, "codex".equals(backend) ? "codex" : "claude-code", "codex".equals(backend) ? INFO : ACCENT_TEXT));
-        TextView kindTag = badge(this, chat != null ? "androidagent" : background ? "w tle" : "terminal", chat != null ? OK : MUTED);
+        TextView kindTag = badge(this, chat != null ? "androidagent" : background ? "background" : "terminal", chat != null ? OK : MUTED);
         LinearLayout.LayoutParams kp = wrap();
         kp.leftMargin = dp(this, 6);
         tags.addView(kindTag, kp);
@@ -395,7 +395,7 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         meta.setPadding(dp(this, 6), dp(this, 8), 0, 0);
         card.addView(meta, full());
         if (background && chat == null) {
-            TextView hint = text(this, "Działa w usłudze w tle Claude Code, np. rozmowa kontynuowana z aplikacji Claude.",
+            TextView hint = text(this, "Running in the Claude Code background service, e.g. a chat continued from the Claude app.",
                     13, MUTED);
             hint.setPadding(dp(this, 22), dp(this, 6), 0, 0);
             card.addView(hint);
@@ -412,22 +412,22 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         }
         LinearLayout btns = row(this);
         if (chat != null) {
-            Button open = button(this, "Otwórz czat", false);
+            Button open = button(this, "Open chat", false);
             open.setOnClickListener(v -> openChat(chat));
             LinearLayout.LayoutParams op = new LinearLayout.LayoutParams(0, dp(this, 40), 1);
             op.rightMargin = dp(this, 8);
             btns.addView(open, op);
         }
-        Button stop = outlinedButton(this, "Zatrzymaj", ERR);
-        stop.setOnClickListener(v -> confirmSheet(this, "Zatrzymać sesję " + agent + "?",
+        Button stop = outlinedButton(this, "Stop", ERR);
+        stop.setOnClickListener(v -> confirmSheet(this, "Stop session " + agent + "?",
                 chat != null ? where
-                        : (background ? "Działa w tle, np. rozmowa kontynuowana z aplikacji Claude. "
-                        : "To może być sesja, której używasz teraz w terminalu. ")
-                        + "Może to być nawet sesja sterująca androidagent. Zatrzymanie kończy bieżącą pracę tej rozmowy.",
-                "Zatrzymaj", true, () -> {
+                        : (background ? "Running in the background, e.g. a chat continued from the Claude app. "
+                        : "This may be the session you're using in the terminal right now. ")
+                        + "This may even be the session controlling androidagent. Stopping ends the current work of this chat.",
+                "Stop", true, () -> {
                     if (chat != null) hub.stop(chat);
                     else request("kill", String.valueOf(p.optLong("pid")));
-                    Toast.makeText(this, "Zatrzymywanie…", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Stopping…", Toast.LENGTH_SHORT).show();
                 }));
         btns.addView(stop, chat != null ? new LinearLayout.LayoutParams(0, dp(this, 40), 1)
                 : new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, dp(this, 40)));
@@ -460,7 +460,7 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
         recentSignature = sig.toString();
         recent.removeAllViews();
         if (list == null || list.length() == 0) {
-            recent.addView(emptyState(this, "Brak historii", "Tu pojawią się sesje Claude Code i Codex z tego telefonu."), full());
+            recent.addView(emptyState(this, "No history", "Claude Code and Codex sessions from this phone will appear here."), full());
             return;
         }
         for (int i = 0; i < list.length(); i++) {
@@ -469,7 +469,7 @@ public class MonitorActivity extends Screen implements ChatHub.MonitorListener {
             final String backend = s.optString("agent");
             final Sessions.Session chat = hub.sessions.find(s.optString("buddy"));
             String title = s.optString("title");
-            final String t = title.isEmpty() ? "(bez wiadomości)" : title;
+            final String t = title.isEmpty() ? "(no message)" : title;
 
             LinearLayout r = listRow(this);
             r.setGravity(Gravity.CENTER_VERTICAL);

@@ -77,19 +77,19 @@ final class PermissionRegressionChecks {
         boolean battery = app.getSystemService(PowerManager.class).isIgnoringBatteryOptimizations(app.getPackageName());
         onMain(instrumentation, () -> {
             View root = screen.getWindow().getDecorView();
-            require(find(root, "Powiadomienia") != null && find(root, "Mikrofon") != null
-                            && find(root, "Sterowanie ekranem") != null && find(root, "Długie zadania i bateria") != null,
+            require(find(root, "Notifications") != null && find(root, "Microphone") != null
+                            && find(root, "Screen control") != null && find(root, "Long tasks and battery") != null,
                     "The guide omits an optional permission");
             instrumentation.callActivityOnPause(screen);
             instrumentation.callActivityOnResume(screen);
             root = screen.getWindow().getDecorView();
             PermissionGuide.State state = PermissionGuide.read(app);
-            require(find(root, state.batteryExempt ? "Bez optymalizacji baterii" : "Optymalizacja aktywna") != null,
+            require(find(root, state.batteryExempt ? "No battery optimization" : "Optimization active") != null,
                     "Returning from Android settings did not refresh battery state");
-            String accessibilityStatus = state.accessibilityConnected ? "Połączone"
-                    : state.accessibilityEnabled ? "Włączone · oczekiwanie na połączenie" : "Wyłączone · opcjonalne";
+            String accessibilityStatus = state.accessibilityConnected ? "Connected"
+                    : state.accessibilityEnabled ? "On · waiting for connection" : "Off · optional";
             require(find(root, accessibilityStatus) != null, "Returning from settings did not refresh accessibility state");
-            View accessibility = find(root, "Ustawienia ułatwień dostępu");
+            View accessibility = find(root, "Accessibility settings");
             require(accessibility instanceof Button && ((Button) accessibility).getEllipsize() == null,
                     "Accessibility settings label can be truncated at large font sizes");
         });
@@ -97,7 +97,7 @@ final class PermissionRegressionChecks {
                 new IntentFilter(Settings.ACTION_ACCESSIBILITY_SETTINGS),
                 new Instrumentation.ActivityResult(Activity.RESULT_CANCELED, null), true);
         try {
-            onMain(instrumentation, () -> find(screen.getWindow().getDecorView(), "Ustawienia ułatwień dostępu").performClick());
+            onMain(instrumentation, () -> find(screen.getWindow().getDecorView(), "Accessibility settings").performClick());
             require(monitor.getHits() == 1, "Accessibility button did not open the native settings route");
         } finally { instrumentation.removeMonitor(monitor); }
         require(java.util.Objects.equals(services, Settings.Secure.getString(app.getContentResolver(),

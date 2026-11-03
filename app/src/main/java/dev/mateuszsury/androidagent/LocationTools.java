@@ -38,8 +38,8 @@ final class LocationTools implements ToolProviders.Provider {
 
     static JSONObject locate(Context app, boolean wantFine, int timeoutS, int maxAgeS) throws Exception {
         if (!coarseGranted(app))
-            throw new SecurityException("Location permission is off. Ask the user to allow Lokalizacja in androidagent > "
-                    + "Uprawnienia. This tool never shows a permission dialog itself.");
+            throw new SecurityException("Location permission is off. Ask the user to allow Location in androidagent > "
+                    + "Permissions. This tool never shows a permission dialog itself.");
         boolean fine = wantFine && fineGranted(app);
         LocationManager lm = app.getSystemService(LocationManager.class);
         if (lm == null) throw new IllegalStateException("This phone has no location service.");
@@ -132,7 +132,7 @@ final class LocationTools implements ToolProviders.Provider {
                 + "location allowed)").put("enum", new JSONArray().put("coarse").put("fine"));
         t.put(ToolProviders.tool("get_location", "The phone's current location (latitude, longitude, accuracy, time). "
                         + "Call only when the user's request needs it. Works while androidagent is open on screen and the user "
-                        + "allowed Lokalizacja in androidagent > Uprawnienia; never shows a permission dialog.",
+                        + "allowed Location in androidagent > Permissions; never shows a permission dialog.",
                 new JSONObject().put("accuracy", accuracy)
                         .put("timeout_s", ToolProviders.prop("integer", "Seconds to wait for a fresh fix, 5-50, default 20"))
                         .put("max_age_s", ToolProviders.prop("integer", "Accept a cached fix this recent, default 60"))));

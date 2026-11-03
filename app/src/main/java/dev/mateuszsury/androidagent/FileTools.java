@@ -254,7 +254,7 @@ final class FileTools implements ToolProviders.Provider {
         if (nm == null || !nm.areNotificationsEnabled())
             throw new Problem("background", "androidagent is in the background, so Android does not let it open this "
                     + "screen, and its notifications are off. Ask the user to open androidagent, then call the tool again.");
-        nm.createNotificationChannel(new NotificationChannel(CHANNEL, "Działania agenta", NotificationManager.IMPORTANCE_HIGH));
+        nm.createNotificationChannel(new NotificationChannel(CHANNEL, "Agent actions", NotificationManager.IMPORTANCE_HIGH));
         int id = NOTICE.getAndIncrement();
         if (id > 7499) NOTICE.set(7400);
         PendingIntent open = PendingIntent.getActivity(app, id, intent,
@@ -356,7 +356,7 @@ final class FileTools implements ToolProviders.Provider {
         view.setClipData(ClipData.newRawUri(f.getName(), uri));
         if (view.resolveActivity(c.getPackageManager()) == null)
             throw new Problem("no_app", "No app on this phone can open " + type + " files. Try share_file or save_to_downloads.");
-        String how = launch(c, view, "Otwórz " + f.getName(), "Agent chce pokazać plik. Dotknij, aby otworzyć.");
+        String how = launch(c, view, "Open " + f.getName(), "The agent wants to show a file. Tap to open.");
         return new JSONObject().put("path", display(c, f)).put("mime", type).put("status", how)
                 .put("message", launched(how, f.getName()));
     }
@@ -368,10 +368,10 @@ final class FileTools implements ToolProviders.Provider {
         Intent send = new Intent(Intent.ACTION_SEND).setType(type).putExtra(Intent.EXTRA_STREAM, uri)
                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         send.setClipData(ClipData.newRawUri(f.getName(), uri));
-        Intent chooser = Intent.createChooser(send, "Udostępnij " + f.getName());
-        String how = launch(c, chooser, "Udostępnij " + f.getName(), "Agent przygotował plik do udostępnienia. Dotknij, aby wybrać aplikację.");
+        Intent chooser = Intent.createChooser(send, "Share " + f.getName());
+        String how = launch(c, chooser, "Share " + f.getName(), "The agent prepared a file to share. Tap to choose an app.");
         return new JSONObject().put("path", display(c, f)).put("mime", type).put("status", how)
-                .put("message", "notification".equals(how) ? launched(how, "Udostępnij " + f.getName())
+                .put("message", "notification".equals(how) ? launched(how, "Share " + f.getName())
                         : "The Android share sheet is open; the user picks the app. Nothing is sent until they do.");
     }
 
@@ -497,14 +497,14 @@ final class FileTools implements ToolProviders.Provider {
             throw new Problem("self", "Refusing to replace androidagent itself.");
         PackageManager pm = app.getPackageManager();
         if (!pm.canRequestPackageInstalls()) {
-            String how = launch(c, PermissionGuide.installAppsIntent(app), "Zezwól na instalowanie aplikacji",
-                    "Agent chce zainstalować " + apk.getName() + ". Dotknij, aby otworzyć ustawienia.");
+            String how = launch(c, PermissionGuide.installAppsIntent(app), "Allow installing apps",
+                    "The agent wants to install " + apk.getName() + ". Tap to open settings.");
             return out.put("status", "needs_permission").put("settings", how).put("message",
                     "Android does not yet allow androidagent to install apps. "
                             + ("notification".equals(how) ? "A notification for the 'Install unknown apps' setting was posted. "
                             : "The 'Install unknown apps' setting for androidagent is open. ")
-                            + "Ask the user to turn on 'Allow from this source' (also in androidagent > Uprawnienia > "
-                            + "Instalowanie aplikacji), then call install_apk again. Never change that setting yourself.");
+                            + "Ask the user to turn on 'Allow from this source' (also in androidagent > Permissions > "
+                            + "Install apps), then call install_apk again. Never change that setting yourself.");
         }
         ensureReceiver(app);
         PackageInstaller installer = pm.getPackageInstaller();
@@ -546,7 +546,7 @@ final class FileTools implements ToolProviders.Provider {
             case "waiting_for_user":
                 return out.put("message", ("notification".equals(r.how)
                         ? "androidagent is in the background, so Android's installer waits behind a notification "
-                        + "\"Zainstaluj aplikację\"; ask the user to tap it. "
+                        + "\"Install app\"; ask the user to tap it. "
                         : "Android's installer is open. ")
                         + "The user must tap Install/Update and confirm; never tap it yourself or claim you did. "
                         + "Then call install_status {package, wait_s: 45} (or wait_for_install when screen control is on).");
@@ -610,7 +610,7 @@ final class FileTools implements ToolProviders.Provider {
             Intent confirm = intent.getParcelableExtra(Intent.EXTRA_INTENT);
             try {
                 if (confirm == null) throw new IllegalStateException("Android returned no installer screen.");
-                r.how = launch(app, confirm, "Zainstaluj aplikację", "Agent przygotował " + r.pkg + ". Dotknij, aby otworzyć instalator.");
+                r.how = launch(app, confirm, "Install app", "The agent prepared " + r.pkg + ". Tap to open the installer.");
                 r.state = "waiting_for_user";
             } catch (RuntimeException e) {
                 r.state = "failed";
@@ -699,27 +699,27 @@ final class FileTools implements ToolProviders.Provider {
     static String polish(Exception e) {
         String code = e instanceof Problem ? ((Problem) e).code : "";
         switch (code) {
-            case "outside": return "Ten plik jest poza katalogiem ~/.buddy/work.";
-            case "missing": return "Plik już nie istnieje.";
-            case "no_app": return "Żadna aplikacja w telefonie nie otworzy tego pliku. Spróbuj Udostępnij albo Zapisz w Pobranych.";
-            case "not_apk": return "To nie jest poprawny plik APK.";
-            case "self": return "Nie można zastąpić androidagent z poziomu aplikacji.";
-            case "use_install": return "To plik APK. Użyj przycisku Zainstaluj.";
-            case "invalid": return "Nieprawidłowa nazwa pliku.";
+            case "outside": return "This file is outside the ~/.buddy/work folder.";
+            case "missing": return "The file no longer exists.";
+            case "no_app": return "No app on this phone can open this file. Try Share or Save to Downloads.";
+            case "not_apk": return "This is not a valid APK file.";
+            case "self": return "androidagent cannot be replaced from within the app.";
+            case "use_install": return "This is an APK file. Use the Install button.";
+            case "invalid": return "Invalid file name.";
             default:
                 String m = e.getMessage();
-                return m == null || m.isEmpty() ? "Nie udało się wykonać operacji." : m;
+                return m == null || m.isEmpty() ? "The operation failed." : m;
         }
     }
 
     static Map<String, String> statusLabels() {
         Map<String, String> m = new HashMap<>();
-        m.put("needs_permission", "Zezwól androidagent na instalowanie aplikacji, a potem spróbuj ponownie.");
-        m.put("waiting_for_user", "Potwierdź instalację w oknie Androida.");
-        m.put("installed", "Aplikacja zainstalowana.");
-        m.put("cancelled", "Instalacja anulowana.");
-        m.put("failed", "Android nie zainstalował aplikacji.");
-        m.put("committed", "Android przygotowuje instalator…");
+        m.put("needs_permission", "Allow androidagent to install apps, then try again.");
+        m.put("waiting_for_user", "Confirm the installation in the Android dialog.");
+        m.put("installed", "App installed.");
+        m.put("cancelled", "Installation cancelled.");
+        m.put("failed", "Android did not install the app.");
+        m.put("committed", "Android is preparing the installer…");
         return m;
     }
 }

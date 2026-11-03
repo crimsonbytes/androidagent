@@ -77,9 +77,9 @@ final class ControlIndicator {
 
     private void notifyChip() {
         NotificationManager nm = svc.getSystemService(NotificationManager.class);
-        NotificationChannel ch = new NotificationChannel(CHANNEL, "androidagent steruje telefonem",
+        NotificationChannel ch = new NotificationChannel(CHANNEL, "androidagent is controlling the phone",
                 NotificationManager.IMPORTANCE_DEFAULT);
-        ch.setDescription("Widoczne na pasku stanu, gdy agent obsługuje telefon.");
+        ch.setDescription("Shown in the status bar while the agent is operating the phone.");
         ch.setSound(null, null);
         ch.enableVibration(false);
         nm.createNotificationChannel(ch);
@@ -89,13 +89,13 @@ final class ControlIndicator {
         PendingIntent open = PendingIntent.getActivity(svc, 3,
                 new Intent(svc, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-        String hint = "Nie dotykaj ekranu, dopóki agent nie skończy, albo stuknij Zatrzymaj, by przejąć sterowanie.";
+        String hint = "Do not touch the screen until the agent finishes, or tap Stop to take control.";
         Bundle extras = new Bundle();
         // Android 16 Live Update: shows as a chip in the status bar (Notification.EXTRA_REQUEST_PROMOTED_ONGOING)
         extras.putBoolean("android.requestPromotedOngoing", true);
         Notification.Builder b = new Notification.Builder(svc, CHANNEL)
                 .setSmallIcon(R.drawable.ic_launcher_monochrome)
-                .setContentTitle("androidagent steruje telefonem")
+                .setContentTitle("androidagent is controlling the phone")
                 .setContentText(hint)
                 .setStyle(new Notification.BigTextStyle().bigText(hint))
                 .setColor(Ui.ACCENT)
@@ -104,7 +104,7 @@ final class ControlIndicator {
                 .setCategory(Notification.CATEGORY_PROGRESS)
                 .setContentIntent(open)
                 .addExtras(extras)
-                .addAction(new Notification.Action.Builder(null, "Zatrzymaj", stop).build());
+                .addAction(new Notification.Action.Builder(null, "Stop", stop).build());
         if (android.os.Build.VERSION.SDK_INT >= 36) b.setShortCriticalText("androidagent");
         try {
             nm.notify(NOTIFICATION_ID, b.build());

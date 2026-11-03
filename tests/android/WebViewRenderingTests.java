@@ -64,7 +64,7 @@ public class WebViewRenderingTests extends Instrumentation {
             test("WebView: unavailable server shows the error page", () -> {
                 stopServer();
                 runOnMainSync(() -> page.web.loadUrl("http://127.0.0.1:" + DockerVm.PREVIEW_PORT + "/missing"));
-                await("document.body&&document.body.textContent.indexOf('Aplikacja jeszcze nie odpowiada')>=0", "Missing error page");
+                await("document.body&&document.body.textContent.indexOf('The app is not responding yet')>=0", "Missing error page");
             });
             test("WebView: refresh recovers after the server returns", () -> { startServer(); click("Refresh"); ready(); });
             test("WebView: close and reopen preserve usable state", () -> {

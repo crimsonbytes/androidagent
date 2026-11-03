@@ -18,9 +18,13 @@ on:
         description: 'Also capture the README screenshots on an emulator'
         type: boolean
         default: false
+      release:
+        description: 'Publish the APK as a GitHub release with this tag (e.g. v0.5.0-en); empty = no release'
+        type: string
+        default: ''
 
 permissions:
-  contents: write   # only used to push screenshots to the ci/english-screenshots branch
+  contents: write   # pushes screenshots/lock refreshes to ci/* branches and publishes releases
 
 jobs:
   build:
@@ -78,6 +82,37 @@ jobs:
           path: build-en/androidagent-*-en.apk
           if-no-files-found: error
           compression-level: 0
+
+      - name: Publish GitHub release
+        if: inputs.release != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.release }}
+          HAS_KEY: ${{ secrets.KEYSTORE_B64 != '' }}
+        run: |
+          APK=$(ls build-en/androidagent-*-en.apk | head -1)
+          SHA=$(sha256sum "$APK" | cut -d' ' -f1)
+          CERT=$("$ANDROID_SDK_ROOT/build-tools/35.0.0/apksigner" verify --print-certs "$APK" | sed -n 's/.*certificate SHA-256 digest: //p' | head -1)
+          if [ "$HAS_KEY" = true ]; then KEY="the repository's signing key (KEYSTORE_B64 secret)"; else KEY="a one-off CI key (no KEYSTORE_B64 secret is set), so a later build signed with another key cannot install over it without uninstalling first"; fi
+          cat > notes.md <<EOF
+          androidagent 0.5.0 with the user interface translated from Polish to English.
+
+          Built by the [Build English APK](https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}) workflow from commit ${GITHUB_SHA}. The Java code, resources and helper scripts come from this repository; the prebuilt runtime assets and native libraries (Termux runtime, QEMU, Docker guest, USB) are reused from the official [androidagent v0.5.0](https://github.com/mateuszsury/androidagent/releases/tag/v0.5.0) APK.
+
+          **Install:** this APK is signed with ${KEY}. Android will not update an installed copy signed with a different key (for example the official Polish release): uninstall that first. App data is removed with it.
+
+          Known gap: a few Docker VM boot messages are still in Polish.
+
+          - SHA-256: \`${SHA}\`
+          - Signing certificate SHA-256: \`${CERT}\`
+          EOF
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$APK" --clobber
+            gh release edit "$TAG" --notes-file notes.md
+          else
+            gh release create "$TAG" "$APK" --target "$GITHUB_SHA" --title "androidagent 0.5.0 (English) $TAG" --notes-file notes.md
+          fi
+          gh release view "$TAG" --json url,assets --jq '.url, (.assets[] | "\(.name) \(.size)")'
 
       # README screenshots: on demand (workflow_dispatch input, or "[screenshots]" in the
       # pushed commit message). Same job, so the test APK shares the app's signing key.
